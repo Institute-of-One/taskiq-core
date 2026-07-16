@@ -1,0 +1,41 @@
+# Byte-compiled / build artifacts
+__pycache__/
+*.py[cod]
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environments
+.venv/
+venv/
+env/
+
+# Editors
+.vscode/
+.idea/
+.claude/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Raw data arrays (regenerate deterministically from a seed)
+*.npy
+*.npz
+
+# NOTE: examples/output/*.png are committed on purpose — they are seeded, deterministic,
+# and referenced from the README. Regenerate with `python examples/*.py`.
+
+# NEVER commit clinical data. Synthetic phantoms only.
+*.dcm
+*.DCM
+*.ima
+*.IMA
+data/
+phi/

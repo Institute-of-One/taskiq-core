@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+title: "taskiq-core: task-based image quality on synthetic phantoms"
+message: "If you use this software, please cite it as below."
+type: software
+authors:
+  - family-names: Yamamoto
+    given-names: Shuji
+    email: yamamoto@lisit.jp
+    affiliation: "Institute of One"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"   # TODO: add before release
+repository-code: "https://github.com/institute-of-one/taskiq-core"
+abstract: >-
+  taskiq-core measures physical image quality (MTF, NPS, NEQ) and task performance
+  (model-observer detectability d' and AUC) on the same synthetic phantoms, through one
+  pipeline, in order to quantify how physical metrics transfer to task performance as
+  acquisition conditions are swept. All data are synthetic and generated analytically;
+  every estimator is validated against a closed-form ground truth rather than against a
+  stored snapshot of its own output. Pure Python (numpy/scipy/scikit-image/matplotlib),
+  deterministic under a seed, no deep learning and no patient data.
+keywords:
+  - task-based image quality
+  - model observer
+  - MTF
+  - NPS
+  - NEQ
+  - detectability
+  - medical imaging
+  - synthetic phantom
+  - reproducible research
+license: MIT
+version: 0.3.0
+date-released: "2026-07-14"

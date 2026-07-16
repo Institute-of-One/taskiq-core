@@ -1,0 +1,11 @@
+# Runtime dependencies (pure Python scientific stack; no deep learning).
+numpy>=1.24
+scipy>=1.10
+scikit-image>=0.20
+matplotlib>=3.7
+
+# Optional
+# pandas>=2.0
+
+# Development
+pytest>=7.0
