@@ -3,7 +3,7 @@
   "description": "<p>taskiq-core measures physical image quality (MTF, NPS, NEQ) and task performance (model-observer detectability <em>d'</em> and AUC) on the same synthetic phantoms, through one pipeline, in order to quantify how physical metrics transfer to task performance as acquisition conditions are swept.</p><p>All data are synthetic and generated analytically. Every estimator is validated against a closed-form ground truth rather than against a stored snapshot of its own output: the slanted-edge MTF is held to exp(-2&pi;&sup2;&sigma;&sup2;f&sup2;) for an analytically Gaussian-blurred edge, and the NPS normalisation is held to the exact identity &int;NPS = &sigma;&sup2;. Pure Python (numpy, scipy, scikit-image, matplotlib), deterministic under a seed, with no deep learning and no patient data.</p>",
   "upload_type": "software",
   "license": "MIT",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "language": "eng",
   "creators": [
     {

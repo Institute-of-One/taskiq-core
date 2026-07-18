@@ -15,6 +15,12 @@ deposition.
   and a `pytest` matrix across Python 3.10, 3.11 and 3.12.
 - Author ORCID (`0000-0001-9211-1071`) in `CITATION.cff` (URL form) and
   `.zenodo.json` (16-digit form), and this `CHANGELOG.md` and `CONTRIBUTING.md`.
+- Zenodo archive: concept DOI [`10.5281/zenodo.21422924`](https://doi.org/10.5281/zenodo.21422924),
+  as a README badge and a `CITATION.cff` identifier.
+
+### Changed
+- README status, roadmap and intro corrected to reflect that `atlas.py` (NEQ, sweep,
+  transfer) is implemented as of v0.4.0 rather than a stub.
 
 ### Changed
 - Tooling configuration in `pyproject.toml`: `ruff` (line length 100, docstring and

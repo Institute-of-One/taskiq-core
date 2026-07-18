@@ -1,18 +1,21 @@
 # taskiq-core
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21422924.svg)](https://doi.org/10.5281/zenodo.21422924)
+[![CI](https://github.com/Institute-of-One/taskiq-core/actions/workflows/ci.yml/badge.svg)](https://github.com/Institute-of-One/taskiq-core/actions/workflows/ci.yml)
+
 **Task-based image quality on synthetic phantoms.** Measure physical image quality
-(MTF, NPS, and later NEQ) and task performance (model-observer *d′* / AUC) on the *same*
+(MTF, NPS, NEQ) and task performance (model-observer *d′* / AUC) on the *same*
 synthetic images, through the same pipeline, so that the transfer from **physical metrics
 to task performance** can be quantified as acquisition conditions are swept.
 
 Everything is synthetic and analytic. No DICOM, no patient data, no deep learning — the
 runtime dependencies are numpy, scipy, scikit-image and matplotlib.
 
-> **Status: increment 3 of N.** Phantoms, the physical metrics (MTF, NPS), the model
-> observers (NPWE, the ideal prewhitening observer, CHO) and the detection task itself
-> (SKE/BKE trials, *d′*, AUC, ROC, 2AFC) are implemented and validated end to end.
-> `atlas.py` (condition sweeps, NEQ, physical→task regression) is a documented stub — see
-> the roadmap below.
+> **Status: v0.4.0.** Phantoms, the physical metrics (MTF, NPS, NEQ), the model
+> observers (NPWE, the ideal prewhitening observer, CHO), the detection task itself
+> (SKE/BKE trials, *d′*, AUC, ROC, 2AFC) and `atlas.py` (condition sweeps, NEQ, and the
+> physical→task regression) are all implemented and validated end to end against analytic
+> ground truth.
 
 An interactive GUI workbench lives in a **separate repository**,
 [**taskiq-studio**](https://github.com/Institute-of-One/taskiq-studio) — see [below](#gui-workbench).
@@ -243,13 +246,16 @@ settings used.
 2. ~~`observers.py` — NPWE, the ideal prewhitening observer, and CHO, each held to a closed
    form and to Monte Carlo.~~
 3. ~~`tasks.py` — SKE/BKE trial generation, ROC and 2AFC, tested against `PC = Φ(d′/√2)`
-   and against the closed-form *d′* end to end.~~ ← **you are here**
-4. `atlas.py` — NEQ, condition sweeps, and the physical→task transfer the study is about.
+   and against the closed-form *d′* end to end.~~
+4. ~~`atlas.py` — NEQ, condition sweeps, and the physical→task transfer the study is
+   about.~~ ← **you are here**
 
 ## Citing
 
-See [`CITATION.cff`](CITATION.cff) and [`paper/paper.md`](paper/paper.md). A Zenodo DOI
-will be minted at the first tagged release.
+See [`CITATION.cff`](CITATION.cff) and [`paper/paper.md`](paper/paper.md). Archived on
+Zenodo — cite the concept DOI
+[10.5281/zenodo.21422924](https://doi.org/10.5281/zenodo.21422924), which always resolves
+to the latest version.
 
 ## License
 

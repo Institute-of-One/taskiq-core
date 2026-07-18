@@ -28,5 +28,9 @@ keywords:
   - synthetic phantom
   - reproducible research
 license: MIT
-version: 0.3.0
-date-released: "2026-07-14"
+version: 0.4.0
+date-released: "2026-07-18"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21422924"
+    description: "Concept DOI (resolves to the latest version)"
