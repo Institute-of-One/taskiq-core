@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "taskiq-core"
-version = "0.3.0"
+version = "0.4.0"
 description = "Task-based image quality on synthetic phantoms: MTF / NPS / NEQ and model-observer detectability in one pipeline."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -26,6 +26,8 @@ classifiers = [
   "License :: OSI Approved :: MIT License",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Topic :: Scientific/Engineering :: Medical Science Apps.",
   "Topic :: Scientific/Engineering :: Image Processing",
 ]
@@ -38,11 +40,17 @@ dependencies = [
 
 [project.optional-dependencies]
 pandas = ["pandas>=2.0"]
-dev = ["pytest>=7.0"]
+dev = [
+  "pytest>=7.0",
+  "pytest-cov>=4.1",
+  "ruff>=0.4",
+  "mypy>=1.8",
+]
 
 [project.urls]
-Homepage = "https://github.com/institute-of-one/taskiq-core"
-Repository = "https://github.com/institute-of-one/taskiq-core"
+Homepage = "https://github.com/Institute-of-One/taskiq-core"
+Repository = "https://github.com/Institute-of-One/taskiq-core"
+Issues = "https://github.com/Institute-of-One/taskiq-core/issues"
 
 # The GUI workbench lives in its own repository — taskiq-studio — and depends on this
 # package. It is deliberately not part of the library: deleting it changes nothing here.
@@ -52,4 +60,55 @@ include = ["taskiq_core*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-filterwarnings = ["error"]
+addopts = "-q --strict-markers"
+# Treat our own deprecations as errors to catch them early, but never fail on
+# deprecations raised inside the scientific stack, whose internals and release
+# cadence we do not control (e.g. scikit-image / numpy shape-setting deprecations).
+filterwarnings = [
+  "error::DeprecationWarning",
+  "ignore::DeprecationWarning:skimage",
+  "ignore::DeprecationWarning:numpy",
+  "ignore::DeprecationWarning:scipy",
+  "ignore::DeprecationWarning:pandas",
+  "ignore::DeprecationWarning:matplotlib",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "NPY", "D"]
+# D203/D213: mutually exclusive docstring layouts (we use D211/D212).
+# D401/D404: imperative-mood/wording checks that misfire on the descriptive
+# attribute and property docstrings this codebase favours.
+ignore = ["D203", "D213", "D401", "D404"]
+
+[tool.ruff.lint.per-file-ignores]
+# Re-exports declared in __all__ read as "unused" to F401.
+"__init__.py" = ["F401"]
+# Tests and examples don't need docstrings on every symbol.
+"tests/*" = ["D100", "D101", "D102", "D103", "D104", "D105", "D107"]
+"examples/*" = ["D100", "D103"]
+
+[tool.mypy]
+# Analyse against 3.12 so mypy can parse recent numpy type stubs, which use PEP
+# 695 `type` statements (rejected under an older target). Runtime compatibility
+# with 3.10+ is verified by the test matrix, not by mypy.
+python_version = "3.12"
+strict = true
+# numpy operations are typed as returning Any, so warn_return_any (part of
+# strict) fires on almost every array-returning function. Disable just that one
+# strict flag; the valuable checks (untyped defs, untyped calls) stay on.
+warn_return_any = false
+
+# The rest of the scientific stack ships no usable stubs; treat as untyped and
+# do not follow into their source.
+[[tool.mypy.overrides]]
+module = [
+  "scipy.*",
+  "skimage.*",
+  "matplotlib.*",
+]
+ignore_missing_imports = true
+follow_imports = "skip"

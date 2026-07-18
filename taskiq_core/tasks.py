@@ -36,7 +36,7 @@ running a forced-choice experiment. They must agree, and the test suite checks t
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 from scipy.special import ndtr, ndtri
@@ -92,6 +92,7 @@ class TrialSet:
         deviation, which is *not* ``noise_sd`` when the noise is correlated) and
         ``nps_dc_is_zero`` (always ``False`` here — an analytic NPS has real power at DC,
         unlike a measured one).
+
     """
 
     present: np.ndarray
@@ -110,7 +111,7 @@ class TrialSet:
     @property
     def shape(self) -> tuple[int, int]:
         """``(ny, nx)`` of a single trial image."""
-        return self.present.shape[1:]  # type: ignore[return-value]
+        return cast("tuple[int, int]", self.present.shape[1:])
 
 
 def ske_bke_trials(
@@ -180,6 +181,7 @@ def ske_bke_trials(
         On a non-2-D or zero signal, a non-positive ``n_trials`` or ``spacing``, negative
         noise parameters, or noise with no power at all (``noise_sd`` and ``white_floor_sd``
         both zero, which would make every score identical and ``d'`` undefined).
+
     """
     sig = np.asarray(signal, dtype=np.float64)
     if sig.ndim != 2:
@@ -246,9 +248,7 @@ def ske_bke_trials(
     absent = images[:n_trials]
     present = images[n_trials:] + sig
 
-    nps = _analytic_nps(
-        (ny, nx), spacing, noise_sd, correlation_sigma_mm, white_floor_sd
-    )
+    nps = _analytic_nps((ny, nx), spacing, noise_sd, correlation_sigma_mm, white_floor_sd)
 
     return TrialSet(
         present=present,
@@ -321,8 +321,7 @@ def d_prime_from_scores(present: np.ndarray, absent: np.ndarray) -> float:
     pooled = 0.5 * (p.var(ddof=1) + a.var(ddof=1))
     if pooled <= 0.0:
         raise ValueError(
-            "both score distributions have zero variance, so d' is undefined (noise-free "
-            "images?)"
+            "both score distributions have zero variance, so d' is undefined (noise-free images?)"
         )
     return float((p.mean() - a.mean()) / np.sqrt(pooled))
 
@@ -377,6 +376,7 @@ class ROCResult:
         integrating the sampled curve. The two agree exactly, including under ties, and the
         test suite checks that they do; but the rank statistic is the one to trust, because
         trapezoidal integration of a curve with ties depends on how the ties were broken.
+
     """
 
     fpr: np.ndarray
@@ -435,6 +435,8 @@ def two_afc(present: np.ndarray, absent: np.ndarray, *, pairing: str = "all") ->
 
     Parameters
     ----------
+    present, absent:
+        Decision-variable scores for the signal-present and signal-absent trials.
     pairing:
         ``"all"`` (default) averages over **every** present/absent pair, which makes PC exactly
         equal to the Mann-Whitney AUC — the same statistic, computed the same way, so
@@ -455,6 +457,7 @@ def two_afc(present: np.ndarray, absent: np.ndarray, *, pairing: str = "all") ->
     float
         Proportion correct, in ``[0, 1]``. For an equal-variance Gaussian statistic this must
         equal ``Phi(d'/sqrt(2))`` — see :func:`pc_from_d_prime`.
+
     """
     p = np.asarray(present, dtype=np.float64).ravel()
     a = np.asarray(absent, dtype=np.float64).ravel()

@@ -64,6 +64,7 @@ def gaussian_mtf(frequency: np.ndarray | float, sigma_mm: float) -> np.ndarray:
         Spatial frequency in cycles/mm.
     sigma_mm:
         Gaussian standard deviation in mm. ``0`` gives an all-pass MTF of 1.
+
     """
     sigma_mm = float(sigma_mm)
     if not np.isfinite(sigma_mm) or sigma_mm < 0.0:
@@ -110,6 +111,7 @@ class MTFResult:
         slanted-edge method resolves the presampled MTF beyond it.
     meta:
         Free-form record of the estimator settings.
+
     """
 
     frequency: np.ndarray
@@ -143,7 +145,9 @@ def estimate_edge_angle(image: np.ndarray, *, level_fraction: float = 0.1) -> fl
     fits a line through those positions. For a row that runs from a dark level ``lo`` to
     a bright level ``hi`` across an edge at column :math:`x_e`,
 
-    .. math::  \sum_x \left[\,\mathrm{hi} - I(x)\,\right] = (\mathrm{hi}-\mathrm{lo})\,(x_e + \tfrac12)
+    .. math::
+
+        \sum_x \left[\,\mathrm{hi} - I(x)\,\right] = (\mathrm{hi}-\mathrm{lo})\,(x_e + \tfrac12)
 
     for *any* symmetric blur, so :math:`x_e` follows from a plain sum over the row. Two
     properties matter here:
@@ -171,6 +175,7 @@ def estimate_edge_angle(image: np.ndarray, *, level_fraction: float = 0.1) -> fl
         Non-2-D image, no net contrast across the image in x, or an edge that strays into
         (or past) the level strips, in which case ``lo``/``hi`` are not edge-free and the
         estimate would be silently wrong.
+
     """
     img = np.asarray(image, dtype=np.float64)
     if img.ndim != 2:
@@ -303,6 +308,7 @@ def mtf_from_edge(
     ValueError
         Non-2-D image, non-positive spacing, ``bin_subsample < 2``, an underpopulated
         ESF bin, a zero-contrast edge, or an ESF window too narrow for the blur.
+
     """
     img = np.asarray(image, dtype=np.float64)
     if img.ndim != 2:
@@ -511,6 +517,7 @@ class NPSResult:
         reported) rather than assumed.
     spacing, n_rois, roi_shape, detrend:
         Echo of the inputs and the detrending actually applied.
+
     """
 
     nps: np.ndarray
@@ -588,6 +595,7 @@ def nps_2d(
         Wrong dimensionality, non-finite pixels, non-positive spacing, an unknown
         ``detrend`` mode, ROIs too small for ``poly2``, or a radial binning that would
         leave a bin empty.
+
     """
     arr = np.asarray(images, dtype=np.float64)
     if arr.ndim == 2:
@@ -652,12 +660,8 @@ def _detrend_poly2(arr: np.ndarray) -> np.ndarray:
     _, ny, nx = arr.shape
     if ny < 3 or nx < 3:
         raise ValueError(f"detrend='poly2' needs ROIs of at least 3x3 pixels, got ({ny}, {nx})")
-    y, x = np.meshgrid(
-        np.linspace(-1.0, 1.0, ny), np.linspace(-1.0, 1.0, nx), indexing="ij"
-    )
-    basis = np.stack(
-        [np.ones_like(x), x, y, x * x, x * y, y * y], axis=-1
-    ).reshape(ny * nx, 6)
+    y, x = np.meshgrid(np.linspace(-1.0, 1.0, ny), np.linspace(-1.0, 1.0, nx), indexing="ij")
+    basis = np.stack([np.ones_like(x), x, y, x * x, x * y, y * y], axis=-1).reshape(ny * nx, 6)
     flat = arr.reshape(arr.shape[0], ny * nx).T  # (npix, n_rois)
     coeffs, *_ = np.linalg.lstsq(basis, flat, rcond=None)
     fit = (basis @ coeffs).T.reshape(arr.shape)

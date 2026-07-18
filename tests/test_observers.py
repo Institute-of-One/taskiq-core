@@ -46,9 +46,7 @@ CORR_SIGMA = 0.3  # mm
 
 
 def _signal() -> np.ndarray:
-    disk = make_disk_signal(
-        SIZE, radius_mm=0.8, contrast=6.0, spacing=SPACING, edge_sigma_mm=0.1
-    )
+    disk = make_disk_signal(SIZE, radius_mm=0.8, contrast=6.0, spacing=SPACING, edge_sigma_mm=0.1)
     return disk.image.astype(np.float64)
 
 
@@ -68,13 +66,22 @@ def _correlated_nps(floor: float = 0.0):
 def _trials(n: int, seed: int, *, correlation_sigma_mm: float = 0.0, white_sd: float = 0.0):
     """``n`` signal-present and ``n`` signal-absent SKE/BKE images."""
     ph = make_uniform_phantom(
-        SIZE, spacing=SPACING, mean=100.0, noise_sd=SIGMA, seed=seed,
-        correlation_sigma_mm=correlation_sigma_mm, n_realizations=2 * n,
+        SIZE,
+        spacing=SPACING,
+        mean=100.0,
+        noise_sd=SIGMA,
+        seed=seed,
+        correlation_sigma_mm=correlation_sigma_mm,
+        n_realizations=2 * n,
     )
     images = ph.image.astype(np.float64)
     if white_sd > 0.0:
         extra = make_uniform_phantom(
-            SIZE, spacing=SPACING, mean=0.0, noise_sd=white_sd, seed=seed + 77_000,
+            SIZE,
+            spacing=SPACING,
+            mean=0.0,
+            noise_sd=white_sd,
+            seed=seed + 77_000,
             n_realizations=2 * n,
         )
         images = images + extra.image.astype(np.float64)
@@ -118,7 +125,7 @@ def test_ideal_equals_npw_when_the_noise_is_white():
 
 
 def test_d_prime_scales_as_contrast_over_noise():
-    """d' is linear in signal contrast and inverse in noise SD — the analytic scaling."""
+    """D' is linear in signal contrast and inverse in noise SD — the analytic scaling."""
     base = make_disk_signal(SIZE, 0.8, 6.0, SPACING).image.astype(np.float64)
     doubled = make_disk_signal(SIZE, 0.8, 12.0, SPACING).image.astype(np.float64)
 
@@ -197,9 +204,7 @@ def test_ideal_closed_form_matches_monte_carlo_with_a_noise_floor():
     result = ideal_linear(s, _correlated_nps(floor=floor), SPACING)
 
     n = 20_000
-    present, absent = _trials(
-        n, seed=23, correlation_sigma_mm=CORR_SIGMA, white_sd=white_sd
-    )
+    present, absent = _trials(n, seed=23, correlation_sigma_mm=CORR_SIGMA, white_sd=white_sd)
     empirical = d_prime_from_scores(
         score_images(present, result.template), score_images(absent, result.template)
     )
@@ -320,9 +325,7 @@ def _cho_analytic_d_prime(channels: np.ndarray, signal: np.ndarray, sigma: float
 def test_cho_matches_its_closed_form_in_white_noise(n_channels):
     """The estimated CHO d' converges on the analytic (Us)^T (sigma^2 UU^T)^-1 (Us)."""
     s = _signal()
-    channels = laguerre_gauss_channels(
-        (SIZE, SIZE), SPACING, n_channels=n_channels, width_mm=1.0
-    )
+    channels = laguerre_gauss_channels((SIZE, SIZE), SPACING, n_channels=n_channels, width_mm=1.0)
     exact = _cho_analytic_d_prime(channels, s, SIGMA)
 
     present, absent = _trials(2000, seed=5)
@@ -382,7 +385,6 @@ def test_cho_bias_directions_bracket_the_truth():
 
 def test_cho_internal_noise_lowers_detectability():
     """Internal noise is what makes a model observer able to under-perform the maths."""
-    s = _signal()
     channels = laguerre_gauss_channels((SIZE, SIZE), SPACING, n_channels=6, width_mm=1.0)
     present, absent = _trials(2000, seed=3)
 
@@ -395,7 +397,6 @@ def test_cho_internal_noise_lowers_detectability():
 
 
 def test_cho_is_reproducible_and_refuses_unseeded_internal_noise():
-    s = _signal()
     channels = laguerre_gauss_channels((SIZE, SIZE), SPACING, n_channels=6, width_mm=1.0)
     present, absent = _trials(500, seed=8)
 
@@ -410,7 +411,6 @@ def test_cho_is_reproducible_and_refuses_unseeded_internal_noise():
 
 def test_cho_refuses_too_few_samples_for_the_channel_count():
     """An unestimable covariance is an error, not a number."""
-    s = _signal()
     channels = laguerre_gauss_channels((SIZE, SIZE), SPACING, n_channels=8, width_mm=1.0)
     present, absent = _trials(6, seed=2)
     with pytest.raises(ValueError, match="images per class"):

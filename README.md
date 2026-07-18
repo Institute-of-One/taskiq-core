@@ -15,7 +15,7 @@ runtime dependencies are numpy, scipy, scikit-image and matplotlib.
 > the roadmap below.
 
 An interactive GUI workbench lives in a **separate repository**,
-[**taskiq-studio**](https://github.com/institute-of-one/taskiq-studio) — see [below](#gui-workbench).
+[**taskiq-studio**](https://github.com/Institute-of-One/taskiq-studio) — see [below](#gui-workbench).
 
 ---
 
@@ -99,7 +99,7 @@ All six are now covered by tests that fail if the fix is removed.
 ## Install
 
 ```bash
-git clone https://github.com/institute-of-one/taskiq-core
+git clone https://github.com/Institute-of-One/taskiq-core
 cd taskiq-core
 pip install -e .          # or: pip install -r requirements.txt
 ```
@@ -190,7 +190,7 @@ python examples/detection.py  # -> examples/output/detection.png
 
 An interactive companion app, **taskiq-studio**, lives in its own repository:
 
-> **https://github.com/institute-of-one/taskiq-studio**
+> **https://github.com/Institute-of-One/taskiq-studio**
 
 It lets you explore all of this with the parameters under your fingers — the measured MTF/NPS
 beside their analytic truth, each observer's predicted *d′* beside its measured one, and

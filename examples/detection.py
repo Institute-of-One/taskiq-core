@@ -65,8 +65,13 @@ def signal_of(contrast: float) -> np.ndarray:
 
 def experiment(contrast: float, seed: int):
     return ske_bke_trials(
-        signal_of(contrast), N_TRIALS, SPACING, NOISE_SD, seed=seed,
-        correlation_sigma_mm=CORR_SIGMA, white_floor_sd=WHITE_FLOOR_SD,
+        signal_of(contrast),
+        N_TRIALS,
+        SPACING,
+        NOISE_SD,
+        seed=seed,
+        correlation_sigma_mm=CORR_SIGMA,
+        white_floor_sd=WHITE_FLOOR_SD,
     )
 
 
@@ -130,9 +135,7 @@ def main() -> Path:
         ("signal present", present, "tab:red"),
     ):
         ax.hist(scores, bins=70, density=True, alpha=0.45, color=colour, label=label)
-        gauss = np.exp(-0.5 * ((grid - scores.mean()) / scale) ** 2) / (
-            scale * np.sqrt(2 * np.pi)
-        )
+        gauss = np.exp(-0.5 * ((grid - scores.mean()) / scale) ** 2) / (scale * np.sqrt(2 * np.pi))
         ax.plot(grid, gauss, color=colour, lw=1.5)
     ax.set_xlabel("observer score λ")
     ax.set_ylabel("density")
@@ -150,7 +153,11 @@ def main() -> Path:
         r = next(x for x in rows if x["contrast"] == c and x["observer"] == "NPWE")
         roc = roc_curve(r["present"], r["absent"])
         ax.plot(
-            roc.fpr, roc.tpr, style, color="tab:orange", lw=1.8,
+            roc.fpr,
+            roc.tpr,
+            style,
+            color="tab:orange",
+            lw=1.8,
             label=f"contrast {c:g}:  AUC {roc.auc:.4f}  (predicted {r['pc_predicted']:.4f})",
         )
     ax.plot([0, 1], [0, 1], color="0.7", lw=1, zorder=0)
@@ -164,8 +171,13 @@ def main() -> Path:
     ax = axes[1, 0]
     for name in ("NPW", "NPWE", "ideal"):
         ax.plot(
-            pick(name, "d_predicted"), pick(name, "d_measured"), "o", ms=6,
-            color=colors[name], mfc="none", label=f"{name}: d' measured vs predicted",
+            pick(name, "d_predicted"),
+            pick(name, "d_measured"),
+            "o",
+            ms=6,
+            color=colors[name],
+            mfc="none",
+            label=f"{name}: d' measured vs predicted",
         )
     lim = [0.0, 1.05 * max(r["d_predicted"] for r in rows)]
     ax.plot(lim, lim, "k--", lw=1.2, label="y = x (they must coincide)")
@@ -189,11 +201,15 @@ def main() -> Path:
         for name, result in predict(signal_of(float(c)), nps).items():
             curves[name].append(float(pc_from_d_prime(result.d_prime)))
     for name in ("NPW", "NPWE", "ideal"):
-        ax.plot(fine, curves[name], "-", color=colors[name], lw=1.6,
-                label=f"{name} (closed form)")
+        ax.plot(fine, curves[name], "-", color=colors[name], lw=1.6, label=f"{name} (closed form)")
         ax.plot(
-            pick(name, "contrast"), pick(name, "pc_measured"), "o", ms=6,
-            color=colors[name], mfc="none", label=f"{name} (2AFC experiment)",
+            pick(name, "contrast"),
+            pick(name, "pc_measured"),
+            "o",
+            ms=6,
+            color=colors[name],
+            mfc="none",
+            label=f"{name} (2AFC experiment)",
         )
     ax.axhline(0.5, color="0.7", lw=1, zorder=0)
     ax.set_xlabel("signal contrast")
@@ -219,8 +235,10 @@ def main() -> Path:
     for name in ("NPW", "NPWE", "ideal"):
         d_err = np.abs(pick(name, "d_measured") / pick(name, "d_predicted") - 1.0)
         pc_err = np.abs(pick(name, "pc_measured") - pick(name, "pc_predicted"))
-        print(f"  {name:5s}: worst |Δd'| = {d_err.max():.2%} relative, "
-              f"worst |ΔPC| = {pc_err.max():.4f} absolute")
+        print(
+            f"  {name:5s}: worst |Δd'| = {d_err.max():.2%} relative, "
+            f"worst |ΔPC| = {pc_err.max():.4f} absolute"
+        )
     print(f"wrote {out_path}")
     return out_path
 

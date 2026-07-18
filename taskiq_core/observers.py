@@ -129,6 +129,7 @@ class ObserverResult:
         a surprising ``d'`` can be traced to whichever of the two moved.
     spacing, meta:
         Echo of the inputs and settings.
+
     """
 
     name: str
@@ -172,6 +173,7 @@ class CHOResult:
         a number that only looks like an answer.
     method, n_channels, n_present, n_absent, internal_noise, meta:
         Provenance of the estimate.
+
     """
 
     d_prime: float
@@ -319,6 +321,7 @@ def burgess_eye_filter(
         the caller.
     exponent:
         The exponent ``n``; 1.3 is the usual value.
+
     """
     f_peak = float(peak_cycles_per_mm)
     n = float(exponent)
@@ -560,11 +563,17 @@ def npwe(
         before this raises. Set it to 1.0 only if the images you will score are detrended the
         same way the NPS was — in which case they genuinely have no noise power there and the
         zeroed bins are correct.
+
     """
     name = "npwe" if eye_filter is not None else "npw"
     return _linear_observer(
-        name, signal, nps, spacing,
-        eye_filter=eye_filter, prewhiten=False, nps_layout=nps_layout,
+        name,
+        signal,
+        nps,
+        spacing,
+        eye_filter=eye_filter,
+        prewhiten=False,
+        nps_layout=nps_layout,
         zero_nps_tolerance=zero_nps_tolerance,
     )
 
@@ -611,13 +620,28 @@ def ideal_linear(
 
     Parameters
     ----------
+    signal:
+        The signal to be detected — the signal-present minus signal-absent difference image.
+    nps:
+        Noise power spectrum: an :class:`~taskiq_core.physical.NPSResult`, a scalar (white
+        noise, ``sigma^2 * dx * dy``), a callable of radial frequency, or a 2-D array.
+    spacing:
+        Pixel pitch in mm.
+    nps_layout:
+        ``"centered"`` (default: DC in the middle) or ``"fft"`` for a raw ``np.fft.fft2`` array.
     noise_floor:
         If given, the NPS is clamped from below at ``noise_floor * max(NPS)``. A fraction in
         ``(0, 1)``. Recorded in ``meta`` so the assumption travels with the result.
+
     """
     return _linear_observer(
-        "ideal_linear", signal, nps, spacing,
-        eye_filter=None, prewhiten=True, nps_layout=nps_layout,
+        "ideal_linear",
+        signal,
+        nps,
+        spacing,
+        eye_filter=None,
+        prewhiten=True,
+        nps_layout=nps_layout,
         noise_floor=noise_floor,
     )
 
@@ -641,6 +665,7 @@ def score_images(images: np.ndarray, template: np.ndarray) -> np.ndarray:
     -------
     np.ndarray
         Scores, shape ``(n,)`` — a stack of one for a single image.
+
     """
     imgs = np.asarray(images, dtype=np.float64)
     tmpl = np.asarray(template, dtype=np.float64)
@@ -733,6 +758,7 @@ def laguerre_gauss_channels(
     -------
     np.ndarray
         ``(n_channels, ny, nx)``.
+
     """
     _validate_channel_args(shape, spacing, n_channels)
     a = float(width_mm)
@@ -787,9 +813,14 @@ def dense_dog_channels(
 
     Parameters
     ----------
+    shape:
+        ``(ny, nx)`` shape of the image the channels are built for.
+    spacing:
+        Pixel pitch in mm.
     n_channels, f0_cycles_per_mm, alpha, q:
         The number of bands, the lowest band's width in cycles/mm, the geometric spacing
         between bands, and the width ratio of the two Gaussians (``q > 1``).
+
     """
     _validate_channel_args(shape, spacing, n_channels)
     f0, alpha, q = float(f0_cycles_per_mm), float(alpha), float(q)
@@ -937,6 +968,7 @@ def cho(
     Returns
     -------
     CHOResult
+
     """
     p = np.asarray(present, dtype=np.float64)
     a = np.asarray(absent, dtype=np.float64)
@@ -1003,11 +1035,7 @@ def cho(
 
     delta_v = v_p_train.mean(axis=0) - v_a_train.mean(axis=0)
     k_matrix = np.atleast_2d(
-        0.5
-        * (
-            np.cov(v_p_train, rowvar=False, ddof=1)
-            + np.cov(v_a_train, rowvar=False, ddof=1)
-        )
+        0.5 * (np.cov(v_p_train, rowvar=False, ddof=1) + np.cov(v_a_train, rowvar=False, ddof=1))
     )
 
     condition = float(np.linalg.cond(k_matrix))

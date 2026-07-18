@@ -7,8 +7,8 @@ authors:
     given-names: Shuji
     email: yamamoto@lisit.jp
     affiliation: "Institute of One"
-    # orcid: "https://orcid.org/0000-0000-0000-0000"   # TODO: add before release
-repository-code: "https://github.com/institute-of-one/taskiq-core"
+    orcid: "https://orcid.org/0000-0001-9211-1071"
+repository-code: "https://github.com/Institute-of-One/taskiq-core"
 abstract: >-
   taskiq-core measures physical image quality (MTF, NPS, NEQ) and task performance
   (model-observer detectability d' and AUC) on the same synthetic phantoms, through one

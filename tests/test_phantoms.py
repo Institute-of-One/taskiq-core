@@ -1,4 +1,4 @@
-"""Phantoms: do they draw what they claim to draw?
+"""Phantoms: do they draw what they claim to draw.
 
 Each phantom is checked against the closed form it is supposed to realise — the erf
 profile of a Gaussian-blurred step, the variance of a white field, the area of a disk —
@@ -12,7 +12,6 @@ import pytest
 from scipy.special import erf
 
 from taskiq_core import make_disk_signal, make_edge_phantom, make_uniform_phantom
-
 
 # --------------------------------------------------------------------------------------
 # edge
@@ -63,7 +62,7 @@ def test_edge_phantom_is_the_exact_erf_profile(angle_deg, sigma):
 
 
 def test_edge_phantom_oversample_averages_the_pixel_aperture():
-    """oversample > 1 area-averages, so it softens a hard step and flags the extra sinc."""
+    """Oversample > 1 area-averages, so it softens a hard step and flags the extra sinc."""
     sharp = make_edge_phantom(64, angle_deg=5.0, contrast=1000.0, oversample=1)
     soft = make_edge_phantom(64, angle_deg=5.0, contrast=1000.0, oversample=8)
     # Point sampling of a hard step gives only the two levels; area averaging gives
@@ -76,11 +75,20 @@ def test_edge_phantom_oversample_averages_the_pixel_aperture():
 
 def test_edge_phantom_noise_has_the_requested_sd():
     ph = make_edge_phantom(
-        512, spacing=0.1, contrast=1000.0, angle_deg=5.0, blur_sigma_mm=0.25,
-        noise_sd=7.0, seed=11,
+        512,
+        spacing=0.1,
+        contrast=1000.0,
+        angle_deg=5.0,
+        blur_sigma_mm=0.25,
+        noise_sd=7.0,
+        seed=11,
     )
     clean = make_edge_phantom(
-        512, spacing=0.1, contrast=1000.0, angle_deg=5.0, blur_sigma_mm=0.25,
+        512,
+        spacing=0.1,
+        contrast=1000.0,
+        angle_deg=5.0,
+        blur_sigma_mm=0.25,
     )
     residual = ph.image.astype(np.float64) - clean.image.astype(np.float64)
     assert residual.std() == pytest.approx(7.0, rel=0.02)
@@ -131,9 +139,7 @@ def test_uniform_phantom_stack_shape():
 
 def test_uniform_phantom_correlated_is_smoother_and_reports_it():
     """Correlated noise really is smoother, and ground_truth says so instead of hiding it."""
-    ph = make_uniform_phantom(
-        256, spacing=0.1, noise_sd=20.0, seed=5, correlation_sigma_mm=0.3
-    )
+    ph = make_uniform_phantom(256, spacing=0.1, noise_sd=20.0, seed=5, correlation_sigma_mm=0.3)
     assert ph.ground_truth["nps_kind"] == "gaussian_correlated"
     # The filter is not renormalised, so the pixel SD drops below the white-field SD;
     # the phantom predicts the new SD in closed form rather than pretending it is 20.

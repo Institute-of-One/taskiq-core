@@ -107,7 +107,7 @@ deterministic — but they are recorded here for completeness.
 ### taskiq-core
 
 ```bash
-git clone https://github.com/institute-of-one/taskiq-core
+git clone https://github.com/Institute-of-One/taskiq-core
 cd taskiq-core
 python -m pip install -e .
 
@@ -129,7 +129,7 @@ without opening the PNGs.
 The GUI is a **separate repository** that depends on this one:
 
 ```bash
-git clone https://github.com/institute-of-one/taskiq-studio
+git clone https://github.com/Institute-of-One/taskiq-studio
 cd taskiq-studio
 python -m pip install -e ../taskiq-core      # the dependency, first
 python -m pip install -e .

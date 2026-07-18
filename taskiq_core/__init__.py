@@ -17,16 +17,19 @@ Modules
 ``physical``   MTF from a slanted edge; 2-D and radial NPS
 ``tasks``      SKE/BKE trial generation; d', AUC, ROC, 2AFC
 ``observers``  model observers: NPWE, the ideal linear (prewhitening) observer, and CHO
-``atlas``      condition sweeps and physical-to-task regression — planned
+``atlas``      NEQ, condition sweeps, and the physical-to-task regression
 """
 
 from __future__ import annotations
 
-from taskiq_core.phantoms import (
-    Phantom,
-    make_disk_signal,
-    make_edge_phantom,
-    make_uniform_phantom,
+from taskiq_core.atlas import (
+    AtlasConfig,
+    AtlasTable,
+    NEQResult,
+    RegressionResult,
+    fit_transfer,
+    neq,
+    sweep,
 )
 from taskiq_core.observers import (
     CHOResult,
@@ -41,6 +44,12 @@ from taskiq_core.observers import (
     laguerre_gauss_channels,
     npwe,
     score_images,
+)
+from taskiq_core.phantoms import (
+    Phantom,
+    make_disk_signal,
+    make_edge_phantom,
+    make_uniform_phantom,
 )
 from taskiq_core.physical import (
     MTFResult,
@@ -60,7 +69,7 @@ from taskiq_core.tasks import (
     two_afc,
 )
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 __all__ = [
     "__version__",
@@ -97,4 +106,12 @@ __all__ = [
     "two_afc",
     "pc_from_d_prime",
     "d_prime_from_pc",
+    # atlas
+    "NEQResult",
+    "AtlasConfig",
+    "AtlasTable",
+    "RegressionResult",
+    "neq",
+    "sweep",
+    "fit_transfer",
 ]

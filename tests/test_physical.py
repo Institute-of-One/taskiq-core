@@ -227,8 +227,13 @@ def test_nps_integral_equals_variance(seed, correlation_sigma_mm):
     wrong by the same factor.
     """
     ph = make_uniform_phantom(
-        64, spacing=SPACING, mean=100.0, noise_sd=20.0, seed=seed,
-        correlation_sigma_mm=correlation_sigma_mm, n_realizations=16,
+        64,
+        spacing=SPACING,
+        mean=100.0,
+        noise_sd=20.0,
+        seed=seed,
+        correlation_sigma_mm=correlation_sigma_mm,
+        n_realizations=16,
     )
     res = nps_2d(ph.image, ph.spacing)
     assert res.integral == pytest.approx(res.variance, rel=1e-10)
@@ -274,8 +279,12 @@ def test_nps_correlated_matches_the_analytic_gaussian_spectrum(seed):
     """
     sigma_c, noise_sd, n_rois = 0.3, 20.0, 128
     ph = make_uniform_phantom(
-        128, spacing=SPACING, noise_sd=noise_sd, seed=seed,
-        correlation_sigma_mm=sigma_c, n_realizations=n_rois,
+        128,
+        spacing=SPACING,
+        noise_sd=noise_sd,
+        seed=seed,
+        correlation_sigma_mm=sigma_c,
+        n_realizations=n_rois,
     )
     res = nps_2d(ph.image, ph.spacing)
 

@@ -34,7 +34,7 @@ Conventions
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Any, cast
 
 import numpy as np
 from scipy.special import erf
@@ -67,6 +67,7 @@ class Phantom:
         deterministic (no noise realisation).
     kind:
         Which factory produced this phantom: ``"edge"``, ``"uniform"`` or ``"disk"``.
+
     """
 
     image: np.ndarray
@@ -78,7 +79,7 @@ class Phantom:
     @property
     def shape(self) -> tuple[int, int]:
         """``(ny, nx)`` of :attr:`image`."""
-        return self.image.shape  # type: ignore[return-value]
+        return cast("tuple[int, int]", self.image.shape)
 
     @property
     def extent_mm(self) -> tuple[float, float]:
@@ -180,7 +181,9 @@ def make_edge_phantom(
     step convolved with an isotropic Gaussian of width :math:`\sigma`, the exact
     continuous image is
 
-    .. math::  I(u) = b + \frac{c}{2}\left[1 + \operatorname{erf}\!\left(\frac{u}{\sigma\sqrt 2}\right)\right]
+    .. math::
+
+        I(u) = b + \frac{c}{2}\left[1 + \operatorname{erf}\left(\frac{u}{\sigma\sqrt2}\right)\right]
 
     where :math:`u` is the signed distance from the edge line in mm. Sampling *that*
     function at the pixel centres avoids every discretisation and boundary artefact a
@@ -236,6 +239,7 @@ def make_edge_phantom(
     ValueError
         On a degenerate size, non-positive spacing, axis-aligned edge, negative blur or
         noise, ``oversample < 1``, or noise requested without a seed.
+
     """
     ny, nx = _as_shape(size)
     spacing = _check_spacing(spacing)
@@ -381,6 +385,7 @@ def make_uniform_phantom(
     ValueError
         On a degenerate size/spacing, negative ``noise_sd`` or ``correlation_sigma_mm``,
         ``n_realizations < 1``, or noise requested without a seed.
+
     """
     ny, nx = _as_shape(size)
     spacing = _check_spacing(spacing)
@@ -496,6 +501,7 @@ def make_disk_signal(
     ValueError
         On a degenerate size/spacing, non-positive radius, negative ``edge_sigma_mm``,
         ``oversample < 1``, or a disk that does not fit inside the image.
+
     """
     ny, nx = _as_shape(size)
     spacing = _check_spacing(spacing)

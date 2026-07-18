@@ -27,8 +27,12 @@ def _identical(a: np.ndarray, b: np.ndarray) -> bool:
 
 def test_edge_phantom_is_bit_reproducible():
     kwargs = dict(
-        size=128, spacing=0.1, contrast=1000.0, angle_deg=5.0,
-        blur_sigma_mm=0.25, noise_sd=8.0,
+        size=128,
+        spacing=0.1,
+        contrast=1000.0,
+        angle_deg=5.0,
+        blur_sigma_mm=0.25,
+        noise_sd=8.0,
     )
     a = make_edge_phantom(seed=1234, **kwargs)
     b = make_edge_phantom(seed=1234, **kwargs)
@@ -78,12 +82,22 @@ def test_phantoms_are_float32():
 def test_estimators_are_deterministic_end_to_end():
     """The measured MTF and NPS are themselves reproducible bit-for-bit from the seed."""
     edge = make_edge_phantom(
-        256, spacing=0.1, contrast=1000.0, angle_deg=5.0,
-        blur_sigma_mm=0.25, noise_sd=5.0, seed=2024,
+        256,
+        spacing=0.1,
+        contrast=1000.0,
+        angle_deg=5.0,
+        blur_sigma_mm=0.25,
+        noise_sd=5.0,
+        seed=2024,
     )
     edge_again = make_edge_phantom(
-        256, spacing=0.1, contrast=1000.0, angle_deg=5.0,
-        blur_sigma_mm=0.25, noise_sd=5.0, seed=2024,
+        256,
+        spacing=0.1,
+        contrast=1000.0,
+        angle_deg=5.0,
+        blur_sigma_mm=0.25,
+        noise_sd=5.0,
+        seed=2024,
     )
     m1 = mtf_from_edge(edge.image, edge.spacing)
     m2 = mtf_from_edge(edge_again.image, edge_again.spacing)

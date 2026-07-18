@@ -201,8 +201,12 @@ def test_ske_bke_trials_are_what_they_claim_to_be():
 def test_ske_bke_trials_are_bit_reproducible():
     signal = _signal()
     kwargs = dict(
-        n_trials=20, spacing=SPACING, noise_sd=NOISE_SD, seed=1234,
-        correlation_sigma_mm=0.3, white_floor_sd=5.0,
+        n_trials=20,
+        spacing=SPACING,
+        noise_sd=NOISE_SD,
+        seed=1234,
+        correlation_sigma_mm=0.3,
+        white_floor_sd=5.0,
     )
     a = ske_bke_trials(signal, **kwargs)
     b = ske_bke_trials(signal, **kwargs)
@@ -260,8 +264,12 @@ def test_correlated_noise_reports_its_true_pixel_sd_not_the_prefilter_one():
 )
 def test_ske_bke_trials_rejects_bad_arguments(kwargs, message):
     args = {
-        "signal": _signal(), "n_trials": 10, "spacing": SPACING,
-        "noise_sd": NOISE_SD, "seed": 0, **kwargs,
+        "signal": _signal(),
+        "n_trials": 10,
+        "spacing": SPACING,
+        "noise_sd": NOISE_SD,
+        "seed": 0,
+        **kwargs,
     }
     with pytest.raises(ValueError, match=message):
         ske_bke_trials(**args)
@@ -298,16 +306,19 @@ def test_end_to_end_closed_form_d_prime_predicts_the_forced_choice_experiment(
     """
     signal = _signal()
     trials = ske_bke_trials(
-        signal, 20_000, SPACING, NOISE_SD, seed=17,
-        correlation_sigma_mm=correlation, white_floor_sd=floor,
+        signal,
+        20_000,
+        SPACING,
+        NOISE_SD,
+        seed=17,
+        correlation_sigma_mm=correlation,
+        white_floor_sd=floor,
     )
 
     if observer == "npw":
         result = npwe(trials.signal, trials.nps, trials.spacing)
     elif observer == "npwe":
-        result = npwe(
-            trials.signal, trials.nps, trials.spacing, eye_filter=burgess_eye_filter(1.0)
-        )
+        result = npwe(trials.signal, trials.nps, trials.spacing, eye_filter=burgess_eye_filter(1.0))
     else:
         result = ideal_linear(trials.signal, trials.nps, trials.spacing)
 

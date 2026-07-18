@@ -95,11 +95,20 @@ def nps_model(correlation_sigma_mm: float):
 def trials(n: int, signal: np.ndarray, seed: int, correlation_sigma_mm: float):
     """``n`` signal-present and ``n`` signal-absent images with the matching noise."""
     coloured = make_uniform_phantom(
-        SIZE, spacing=SPACING, mean=100.0, noise_sd=prefilter_sd(correlation_sigma_mm),
-        seed=seed, correlation_sigma_mm=correlation_sigma_mm, n_realizations=2 * n,
+        SIZE,
+        spacing=SPACING,
+        mean=100.0,
+        noise_sd=prefilter_sd(correlation_sigma_mm),
+        seed=seed,
+        correlation_sigma_mm=correlation_sigma_mm,
+        n_realizations=2 * n,
     ).image.astype(np.float64)
     white = make_uniform_phantom(
-        SIZE, spacing=SPACING, mean=0.0, noise_sd=WHITE_FLOOR_SD, seed=seed + 77_000,
+        SIZE,
+        spacing=SPACING,
+        mean=0.0,
+        noise_sd=WHITE_FLOOR_SD,
+        seed=seed + 77_000,
         n_realizations=2 * n,
     ).image.astype(np.float64)
     images = coloured + white
@@ -188,12 +197,32 @@ def main() -> Path:
     ax = fig.add_subplot(gs[1, 0:2])
     colors = {"npw": "tab:blue", "npwe": "tab:orange", "ideal": "tab:green", "cho": "tab:red"}
     for label in ("ideal", "npw", "npwe"):
-        ax.plot(corr_lengths, by_corr[label], "-", color=colors[label], lw=2,
-                label=f"{label.upper()} (closed form)")
-        ax.plot(corr_lengths, mc_corr[label], "o", color=colors[label], ms=6, mfc="none",
-                label=f"{label.upper()} (Monte Carlo, {N_TRIALS} trials)")
-    ax.plot(corr_lengths, by_corr["cho"], "--d", color=colors["cho"], lw=1.5, ms=5,
-            label="CHO (6 Laguerre-Gauss channels, split)")
+        ax.plot(
+            corr_lengths,
+            by_corr[label],
+            "-",
+            color=colors[label],
+            lw=2,
+            label=f"{label.upper()} (closed form)",
+        )
+        ax.plot(
+            corr_lengths,
+            mc_corr[label],
+            "o",
+            color=colors[label],
+            ms=6,
+            mfc="none",
+            label=f"{label.upper()} (Monte Carlo, {N_TRIALS} trials)",
+        )
+    ax.plot(
+        corr_lengths,
+        by_corr["cho"],
+        "--d",
+        color=colors["cho"],
+        lw=1.5,
+        ms=5,
+        label="CHO (6 Laguerre-Gauss channels, split)",
+    )
     ax.set_xlabel("noise correlation length σ_c [mm]   (total noise variance held fixed)")
     ax.set_ylabel("d'")
     ax.set_title(
@@ -228,8 +257,10 @@ def main() -> Path:
 
     print("d' at σ_c = 0 (white noise):")
     exact = float(np.linalg.norm(signal) / np.hypot(SIGMA, WHITE_FLOOR_SD))
-    print(f"  NPW closed form {by_corr['npw'][0]:.4f} | ||s||/σ_total = {exact:.4f} "
-          f"(exact identity, rel. diff {abs(by_corr['npw'][0] / exact - 1):.1e})")
+    print(
+        f"  NPW closed form {by_corr['npw'][0]:.4f} | ||s||/σ_total = {exact:.4f} "
+        f"(exact identity, rel. diff {abs(by_corr['npw'][0] / exact - 1):.1e})"
+    )
     print("closed form vs Monte Carlo, worst disagreement over the correlation sweep:")
     for key in ("npw", "npwe", "ideal"):
         err = np.abs(np.array(by_corr[key]) - np.array(mc_corr[key]))
