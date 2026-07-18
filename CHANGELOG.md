@@ -17,6 +17,10 @@ deposition.
   `.zenodo.json` (16-digit form), and this `CHANGELOG.md` and `CONTRIBUTING.md`.
 - Zenodo archive: concept DOI [`10.5281/zenodo.21422924`](https://doi.org/10.5281/zenodo.21422924),
   as a README badge and a `CITATION.cff` identifier.
+- Preprint package in `paper/` (arXiv, eess.IV): the canonical manuscript
+  `taskiq-core_arxiv.md`, a deterministic figure/number generator `make_figures.py`
+  (writes `figures/results.json` so text and figures cannot diverge), a no-pandoc PDF
+  renderer `build_pdf.py`, and an `arxiv_submission_kit.md`.
 
 ### Changed
 - README status, roadmap and intro corrected to reflect that `atlas.py` (NEQ, sweep,

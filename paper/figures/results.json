@@ -1,0 +1,35 @@
+{
+  "physical": {
+    "mtf_n_combinations": 15,
+    "mtf_max_rel_error_pct": 0.004,
+    "nps_noise_sd": 20.0,
+    "nps_white_level": 4.0,
+    "nps_variance_recovered": 399.886,
+    "nps_sample_variance": 399.913,
+    "nps_identity_residual": 6.677829927135591e-05,
+    "nps_n_realizations": 128,
+    "nps_population_rel_error_pct": 0.029
+  },
+  "bridge": {
+    "n_conditions": 9,
+    "contrasts": [
+      3.0,
+      6.0,
+      9.0
+    ],
+    "blur_sigmas_mm": [
+      0.1,
+      0.15,
+      0.2
+    ],
+    "max_rel_error": 4.440892098500626e-16
+  },
+  "transfer": {
+    "contrast_r_squared": 1.0,
+    "contrast_slope": 0.395472,
+    "dose_r_squared": 1.0,
+    "dose_slope": 5694.8002,
+    "npwe_efficiency_mean": 0.4665,
+    "npwe_efficiency_spread": 3.4038821761228633e-09
+  }
+}
