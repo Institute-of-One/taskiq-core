@@ -11,10 +11,10 @@ tags:
   - detectability
 authors:
   - name: Shuji Yamamoto
-    orcid: 0000-0000-0000-0000   # TODO: replace with the author's real ORCID before submission
+    orcid: 0000-0001-9211-1071
     affiliation: 1
 affiliations:
-  - name: Institute of One
+  - name: Institute of One, LISIT Co., Ltd., Tokyo, Japan
     index: 1
 date: 16 July 2026
 bibliography: paper.bib

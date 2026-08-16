@@ -23,7 +23,7 @@ Manuscript file to upload: **`taskiq-core_arxiv.pdf`** (figures embedded).
 > uploading. This is the one gating step to check first.
 
 ## Title
-An Open, Closed-Form-Validated Framework for Task-Based Image Quality on Synthetic Phantoms: from MTF and NPS to Model-Observer Detectability through NEQ
+An Open, Closed-Form-Validated Framework for Task-Based Image Quality on Synthetic Phantoms: From MTF and NPS to Model-Observer Detectability Through NEQ
 
 ## Authors
 Shuji Yamamoto (Institute of One, LISIT Co., Ltd., Tokyo, Japan)
@@ -45,7 +45,7 @@ task-based image quality; model observer; MTF; NPS; NEQ; detectability; syntheti
 
 ## Abstract (plain text, arXiv-length ~200 words)
 
-Task-based assessment evaluates an imaging system by how well a specified observer performs a specified detection task, and its ingredients — MTF, NPS, NEQ, and model observers — are individually standardised and theoretically mature. Assembling them correctly is nonetheless error-prone: the estimators are subtle and their mistakes are quiet, producing plausible but wrong numbers that a self-consistent regression test will certify as correct. We present taskiq-core, an open, pure-Python framework that measures physical image quality (MTF, NPS, NEQ) and task performance (model-observer detectability d' and AUC) on the same synthetic phantoms, through one pipeline. Every estimator is held to a closed-form analytic answer rather than to a snapshot of its own output: the slanted-edge MTF reproduces exp(-2 pi^2 sigma^2 f^2) to 0.004% over fifteen blur-by-angle combinations, and the ideal-observer detectability computed from NEQ against an object's power spectrum agrees with an independent prewhitening observer to 4.4e-16. On swept data the framework recovers the exact transfer laws — d'^2 linear in contrast^2 and in inverse noise variance (R^2 = 1.000 each). All data are synthetic; the code (185 tests, CI on Python 3.10-3.12) is MIT-licensed and archived on Zenodo. The contribution is a transparent, patient-data-free reference implementation of the physical-to-task chain, made exact rather than approximate.
+Task-based assessment evaluates an imaging system by how well a specified observer performs a specified detection task, and its ingredients — MTF, NPS, NEQ, and model observers — are individually standardised and theoretically mature. Assembling them correctly is nonetheless error-prone: the estimators are subtle and their mistakes are quiet, producing plausible but wrong numbers that a self-consistent regression test will certify as correct. We present taskiq-core, an open, pure-Python framework that measures physical image quality (MTF, NPS, NEQ) and task performance (model-observer detectability d' and AUC) on the same synthetic phantoms, through one pipeline. Every estimator is held to a closed-form analytic answer rather than to a snapshot of its own output: the slanted-edge MTF reproduces exp(-2 pi^2 sigma^2 f^2) to 0.004% over fifteen blur-by-angle combinations, and the ideal-observer detectability computed from the unnormalised NEQ = MTF^2/NPS against an object's power spectrum agrees with an independently computed prewhitening observer to 4.4e-16. On swept data the framework recovers the transfer laws that theory fixes — d'^2 linear in contrast^2 and in inverse noise variance (coefficient of determination numerically equal to 1 in each). All data are synthetic; the code (185 tests, CI on Python 3.10-3.12) is MIT-licensed and archived on Zenodo. The contribution is a transparent, patient-data-free reference implementation of the physical-to-task chain, made exact rather than approximate.
 
 *(~205 words. arXiv abstract limit is generous; keep under ~1920 characters.)*
 
@@ -66,7 +66,7 @@ Task-based assessment evaluates an imaging system by how well a specified observ
 ---
 
 ## Verify before submitting
-- [ ] **References**: `paper/paper.bib` flags that DOIs / exact editions of the standards (ISO 12233, IEC 62220-1) and the two JOSA A papers should be verified against primary sources. Confirm before submission.
+- [x] **References**: the manuscript's eight references were verified against primary sources during the final review — the JOSA A, PNAS, and Theranostics DOIs are confirmed; ISO 12233 is cited at its 2017 edition (electronic still-picture imaging, not medical); IEC 62220-1 is cited at the current 62220-1-1:2015 edition (the 2003 first edition is withdrawn). Note: `paper/paper.bib` (the separate JOSS paper's bibliography) still carries the pre-verification notes and can be updated from these values.
 - [ ] Regenerate figures and numbers: `python paper/make_figures.py` → `paper/figures/results.json`.
 - [ ] Rebuild the PDF: `python paper/build_pdf.py` → `paper/taskiq-core_arxiv.pdf`.
 - [ ] Confirm eess.IV endorsement status for the author.
