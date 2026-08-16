@@ -1,5 +1,5 @@
 ---
-title: "Silent failure in task-based image quality assessment: which checks catch injected defects, and which need a known truth"
+title: "Error injection in a task-based image quality pipeline: what self-consistency testing misses and what closed-form checks catch"
 author:
   - Shuji Yamamoto, PhD
 geometry: margin=1in
@@ -22,7 +22,7 @@ Correspondence: yamamoto@lisit.jp · ORCID 0000-0001-9211-1071
 
 **Abstract**
 
-**Purpose:** Task-based assessment is the accepted framework for evaluating medical imaging systems, but the chain that implements it — the modulation transfer function (MTF), the noise power spectrum (NPS), the noise-equivalent quanta (NEQ), and model observers — fails quietly. Its characteristic error is not a crash or an implausible number but a plausible one, and the test most implementations carry, a regression test against the code's own stored output, cannot distinguish a plausible right answer from a plausible wrong one. We ask which checks can, at what defect severity they fire, and what they cost.
+**Purpose:** Task-based assessment is the accepted framework for evaluating medical imaging systems, but the chain that implements it — the modulation transfer function (MTF), the noise power spectrum (NPS), the noise-equivalent quanta (NEQ), and model observers — has a characteristic failure mode that returns a plausible wrong number rather than an error, and the test most implementations carry, a regression test against the code's own stored output, cannot distinguish a plausible right answer from a plausible wrong one. We ask which checks can, at what defect severity they fire, and what they cost.
 
 **Approach:** Six defects were injected into a working pipeline through a severity dial that recovers the correct pipeline exactly at zero. Three had been found in this pipeline during development; three are standard ways the same chain is got wrong. Against them stood a self-consistency regression test, four *internal identities* that hold for algebraic reasons and need no ground truth, and two *closed-form references* that compare an estimate to the analytic answer for a phantom whose truth is known. Detection severity was compared with the severity at which the reported detectability index $d'$ first became wrong by more than 5%. The same chain was then run unmodified on measured ACR phantom projections from a clinical scanner, sweeping the reconstruction kernel across seven settings.
 
@@ -50,7 +50,7 @@ Three concrete examples, all found in the pipeline studied here during its devel
 
 * A slanted-edge MTF routine locates each edge-profile sample in the bin it falls into, but uses the bin *centre* as its position. The mean sample position inside a bin is not the bin centre, and the resulting position jitter biases the estimate. The bias depends on the edge angle, so it is invisible to anyone who tests at one angle.
 * A prewhitening observer weights by $1/\mathrm{NPS}$. Handed a noise model whose power decays below floating-point underflow, it returns a detectability of order $10^{29}$, assembled entirely from frequency bins where the "signal" is rounding error.
-* A soft-edged disk phantom, blurred by applying a one-dimensional edge profile radially rather than by an exact two-dimensional convolution, gains $\pi\sigma^2$ of area. The detectable signal energy then depends silently on the blur, so every conclusion drawn about resolution is contaminated by a change in the signal itself.
+* A soft-edged disk phantom, blurred by applying a one-dimensional edge profile radially rather than by an exact two-dimensional convolution, gains $\pi\sigma^2$ of area. The detectable signal energy then depends on the blur without any indication that it does, so every conclusion drawn about resolution is contaminated by a change in the signal itself.
 
 None of these announce themselves. Each produces a number a reviewer would accept.
 
@@ -273,7 +273,7 @@ Finally, the study validates a pipeline against identities that the same author 
 
 ## 5. Conclusion
 
-A task-based image quality pipeline that passes its own regression suite has demonstrated stability, not correctness, and for the class of defect studied here the distinction is total: self-consistency caught none of six injected defects, while closed-form and identity-based checks caught all six, in every case at or before the point where the reported detectability became materially wrong. The two families of check are complementary and neither suffices alone. Half the defects are detectable using identities that need no ground truth and therefore travel to patient data; the other half are invisible without a phantom whose answer is known in closed form. A workflow that discards the phantom once it moves to real images does not lose a little sensitivity — it loses an entire class of error, permanently and silently.
+A task-based image quality pipeline that passes its own regression suite has demonstrated stability, not correctness, and for the class of defect studied here the distinction is total: self-consistency caught none of six injected defects, while closed-form and identity-based checks caught all six, in every case at or before the point where the reported detectability became materially wrong. The two families of check are complementary and neither suffices alone. Half the defects are detectable using identities that need no ground truth and therefore travel to patient data; the other half are invisible without a phantom whose answer is known in closed form. A workflow that discards the phantom once it moves to real images does not lose a little sensitivity — it loses an entire class of error, permanently and without indication.
 
 ## 6. AI-Use Disclosure
 
