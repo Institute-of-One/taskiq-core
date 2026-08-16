@@ -1,0 +1,995 @@
+{
+  "n_defects": 6,
+  "n_caught": 6,
+  "n_caught_before_material_error": 6,
+  "n_caught_by_self_consistency": 0,
+  "n_catchable_without_ground_truth": 3,
+  "n_requiring_a_known_truth_phantom": 3,
+  "material_threshold": 0.05,
+  "reference": {
+    "d_prime_pw": 3.574511800923356,
+    "d_prime_neq": 3.571925329233969,
+    "bridge_residual": 0.0
+  },
+  "checks": [
+    {
+      "key": "parseval",
+      "label": "integral of NPS = pixel variance",
+      "kind": "identity",
+      "tolerance": 1e-09,
+      "why": "The NPS normalisation is an exact identity, whatever the noise model is."
+    },
+    {
+      "key": "bridge",
+      "label": "NEQ integral = prewhitening d'",
+      "kind": "identity",
+      "tolerance": 1e-09,
+      "why": "Two algebraically identical routes to one number, sharing no code path."
+    },
+    {
+      "key": "signal_area",
+      "label": "signal area = contrast x pi r^2",
+      "kind": "identity",
+      "tolerance": 1e-06,
+      "why": "Blurring conserves area; the signal integral cannot depend on the blur."
+    },
+    {
+      "key": "dynamic_range",
+      "label": "NPS dynamic range < 1e6 (DC excluded)",
+      "kind": "identity",
+      "tolerance": 0.0,
+      "why": "1/NPS is meaningless where the noise power has decayed into rounding error."
+    },
+    {
+      "key": "mtf_closed_form",
+      "label": "MTF = exp(-2 pi^2 sigma^2 f^2)",
+      "kind": "closed form",
+      "tolerance": 5e-05,
+      "why": "The edge is an analytically blurred step, so its presampled MTF is known."
+    },
+    {
+      "key": "nps_closed_form",
+      "label": "NPS = sigma^2 dx dy",
+      "kind": "closed form",
+      "tolerance": 0.25,
+      "why": "White noise of known variance has a known flat spectrum."
+    }
+  ],
+  "defects": [
+    {
+      "key": "sinc",
+      "label": "MTF: bin-average and central-difference transfer left in",
+      "origin": "standard failure mode",
+      "severity_label": "fraction of the deconvolution omitted",
+      "alpha_first_detection": 0.1,
+      "alpha_material_error": null,
+      "checks_that_fired": [
+        "mtf_closed_form"
+      ],
+      "per_check_alpha": {
+        "parseval": null,
+        "bridge": null,
+        "signal_area": null,
+        "dynamic_range": null,
+        "mtf_closed_form": 0.1,
+        "nps_closed_form": null
+      },
+      "max_reported_error": 0.0005823822944580614,
+      "self_consistency_max_disagreement": 0.0,
+      "curve": [
+        {
+          "severity": 0.0,
+          "reported_error": 0.0,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 1.1067658446620166e-05,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.1,
+          "reported_error": 5.830726543909481e-05,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.00042836676041929644,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.2,
+          "reported_error": 0.00011659915633066564,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.0008529125423105133,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.30000000000000004,
+          "reported_error": 0.000174875685162168,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.0012776381681126603,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.4,
+          "reported_error": 0.00023313686440273873,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.0017018957849190275,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.5,
+          "reported_error": 0.00029138270650364007,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.0021256859084329838,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.6000000000000001,
+          "reported_error": 0.0003496132238979266,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.002549009053789686,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.7000000000000001,
+          "reported_error": 0.0004078284290016665,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.0029718657355564115,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.8,
+          "reported_error": 0.00046602833421260925,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.003394256467733725,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.9,
+          "reported_error": 0.0005242129519105188,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.003816181763755644,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 1.0,
+          "reported_error": 0.0005823822944580614,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.0042376421364903605,
+            "nps_closed_form": 0.03612875678179983
+          }
+        }
+      ]
+    },
+    {
+      "key": "jitter",
+      "label": "MTF: bin-centre correction omitted",
+      "origin": "found in this pipeline",
+      "severity_label": "edge angle, 3 to 15 degrees",
+      "alpha_first_detection": 0.1,
+      "alpha_material_error": null,
+      "checks_that_fired": [
+        "mtf_closed_form"
+      ],
+      "per_check_alpha": {
+        "parseval": null,
+        "bridge": null,
+        "signal_area": null,
+        "dynamic_range": null,
+        "mtf_closed_form": 0.1,
+        "nps_closed_form": null
+      },
+      "max_reported_error": 2.198788532536966e-05,
+      "self_consistency_max_disagreement": 0.0,
+      "curve": [
+        {
+          "severity": 0.0,
+          "reported_error": 0.0,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.1,
+          "reported_error": 4.6024710815828485e-06,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 8.357831771971247e-05,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.2,
+          "reported_error": 5.80240697767298e-06,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.00026308486924625507,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.30000000000000004,
+          "reported_error": 2.0629095935920105e-06,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.00030655890047088033,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.4,
+          "reported_error": 4.799758015483491e-07,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.0003151353168934501,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.5,
+          "reported_error": 1.1719464799497814e-05,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.00022285961806577104,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.6000000000000001,
+          "reported_error": 2.5282704707585424e-07,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.00015859438686126326,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.7000000000000001,
+          "reported_error": 5.405646212874871e-07,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.0001657469553096591,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.8,
+          "reported_error": 2.198788532536966e-05,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.0004371886391169172,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.9,
+          "reported_error": 6.670108283923781e-06,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 6.527816119589192e-05,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 1.0,
+          "reported_error": 8.333158068585256e-06,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 0.000359728747063727,
+            "nps_closed_form": 0.03612875678179983
+          }
+        }
+      ]
+    },
+    {
+      "key": "nps_area",
+      "label": "NPS: pixel-area factor omitted",
+      "origin": "standard failure mode",
+      "severity_label": "fraction of the (dx dy) factor dropped",
+      "alpha_first_detection": 0.1,
+      "alpha_material_error": 0.1,
+      "checks_that_fired": [
+        "parseval",
+        "nps_closed_form"
+      ],
+      "per_check_alpha": {
+        "parseval": 0.1,
+        "bridge": null,
+        "signal_area": null,
+        "dynamic_range": null,
+        "mtf_closed_form": null,
+        "nps_closed_form": 0.1
+      },
+      "max_reported_error": 0.9,
+      "self_consistency_max_disagreement": 0.0,
+      "curve": [
+        {
+          "severity": 0.0,
+          "reported_error": 0.0,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.1,
+          "reported_error": 0.2056717652757185,
+          "refused": null,
+          "violations": {
+            "parseval": 0.584893192461114,
+            "bridge": 3.3306690738754696e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.6307169144607481
+          }
+        },
+        {
+          "severity": 0.2,
+          "reported_error": 0.36904265551980664,
+          "refused": null,
+          "violations": {
+            "parseval": 1.511886431509581,
+            "bridge": 2.220446049250313e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 1.5845121365600314
+          }
+        },
+        {
+          "severity": 0.30000000000000004,
+          "reported_error": 0.49881276637272776,
+          "refused": null,
+          "violations": {
+            "parseval": 2.981071705534974,
+            "bridge": 1.1102230246251565e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 3.0961756910671223
+          }
+        },
+        {
+          "severity": 0.4,
+          "reported_error": 0.6018928294465028,
+          "refused": null,
+          "violations": {
+            "parseval": 5.309573444801935,
+            "bridge": 2.220446049250313e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 5.492000967896978
+          }
+        },
+        {
+          "severity": 0.5,
+          "reported_error": 0.683772233983162,
+          "refused": null,
+          "violations": {
+            "parseval": 9.0,
+            "bridge": 2.220446049250313e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 9.28912813947088
+          }
+        },
+        {
+          "severity": 0.6000000000000001,
+          "reported_error": 0.748811356849042,
+          "refused": null,
+          "violations": {
+            "parseval": 14.848931924611144,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 15.307169144607485
+          }
+        },
+        {
+          "severity": 0.7000000000000001,
+          "reported_error": 0.800473768503112,
+          "refused": null,
+          "violations": {
+            "parseval": 24.118864315095813,
+            "bridge": 1.1102230246251565e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 24.845121365600317
+          }
+        },
+        {
+          "severity": 0.8,
+          "reported_error": 0.8415106807538887,
+          "refused": null,
+          "violations": {
+            "parseval": 38.81071705534974,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 39.96175691067122
+          }
+        },
+        {
+          "severity": 0.9,
+          "reported_error": 0.8741074588205833,
+          "refused": null,
+          "violations": {
+            "parseval": 62.09573444801934,
+            "bridge": 1.1102230246251565e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 63.92000967896978
+          }
+        },
+        {
+          "severity": 1.0,
+          "reported_error": 0.9,
+          "refused": null,
+          "violations": {
+            "parseval": 99.0,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 101.89128139470878
+          }
+        }
+      ]
+    },
+    {
+      "key": "detrend",
+      "label": "NPS: detrending off under a background ramp",
+      "origin": "standard failure mode",
+      "severity_label": "ramp amplitude, 0 to 60 units",
+      "alpha_first_detection": 0.1,
+      "alpha_material_error": 0.2,
+      "checks_that_fired": [
+        "nps_closed_form"
+      ],
+      "per_check_alpha": {
+        "parseval": null,
+        "bridge": null,
+        "signal_area": null,
+        "dynamic_range": null,
+        "mtf_closed_form": null,
+        "nps_closed_form": 0.1
+      },
+      "max_reported_error": 0.6939560627002844,
+      "self_consistency_max_disagreement": 0.0,
+      "curve": [
+        {
+          "severity": 0.0,
+          "reported_error": 0.0,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.1,
+          "reported_error": 0.04726164647423914,
+          "refused": null,
+          "violations": {
+            "parseval": 4.440892098500626e-16,
+            "bridge": 1.1102230246251565e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 2.500643857783682
+          }
+        },
+        {
+          "severity": 0.2,
+          "reported_error": 0.15357128875783332,
+          "refused": null,
+          "violations": {
+            "parseval": 4.440892098500626e-16,
+            "bridge": 1.1102230246251565e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 9.824893503750078
+          }
+        },
+        {
+          "severity": 0.30000000000000004,
+          "reported_error": 0.27112904495132506,
+          "refused": null,
+          "violations": {
+            "parseval": 4.440892098500626e-16,
+            "bridge": 2.220446049250313e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 21.971289903973485
+          }
+        },
+        {
+          "severity": 0.4,
+          "reported_error": 0.3751634570162101,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 38.939833058453864
+          }
+        },
+        {
+          "severity": 0.5,
+          "reported_error": 0.4602692461785952,
+          "refused": null,
+          "violations": {
+            "parseval": 4.440892098500626e-16,
+            "bridge": 1.1102230246251565e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 60.73052296719126
+          }
+        },
+        {
+          "severity": 0.6000000000000001,
+          "reported_error": 0.5284202780183236,
+          "refused": null,
+          "violations": {
+            "parseval": 4.440892098500626e-16,
+            "bridge": 1.1102230246251565e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 87.3433596301857
+          }
+        },
+        {
+          "severity": 0.7000000000000001,
+          "reported_error": 0.5830791052916223,
+          "refused": null,
+          "violations": {
+            "parseval": 4.440892098500626e-16,
+            "bridge": 1.1102230246251565e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 118.77834304743708
+          }
+        },
+        {
+          "severity": 0.8,
+          "reported_error": 0.6273670115883332,
+          "refused": null,
+          "violations": {
+            "parseval": 4.440892098500626e-16,
+            "bridge": 2.220446049250313e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 155.03547321894547
+          }
+        },
+        {
+          "severity": 0.9,
+          "reported_error": 0.6637195659052351,
+          "refused": null,
+          "violations": {
+            "parseval": 4.440892098500626e-16,
+            "bridge": 2.220446049250313e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 196.1147501447107
+          }
+        },
+        {
+          "severity": 1.0,
+          "reported_error": 0.6939560627002844,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 242.0161738247332
+          }
+        }
+      ]
+    },
+    {
+      "key": "disk",
+      "label": "signal: 1-D edge profile applied radially",
+      "origin": "found in this pipeline",
+      "severity_label": "fraction of the wrong construction",
+      "alpha_first_detection": 0.1,
+      "alpha_material_error": null,
+      "checks_that_fired": [
+        "signal_area"
+      ],
+      "per_check_alpha": {
+        "parseval": null,
+        "bridge": null,
+        "signal_area": 0.1,
+        "dynamic_range": null,
+        "mtf_closed_form": null,
+        "nps_closed_form": null
+      },
+      "max_reported_error": 0.02355889257009558,
+      "self_consistency_max_disagreement": 0.0,
+      "curve": [
+        {
+          "severity": 0.0,
+          "reported_error": 0.0,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.1,
+          "reported_error": 0.002335607839404119,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 0.003515625417511492,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.2,
+          "reported_error": 0.00467580692571179,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 1.1102230246251565e-16,
+            "signal_area": 0.007031250355894025,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.30000000000000004,
+          "reported_error": 0.007020565250345889,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 1.1102230246251565e-16,
+            "signal_area": 0.010546875294276559,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.4,
+          "reported_error": 0.0093698510400817,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 2.220446049250313e-16,
+            "signal_area": 0.014062500232659092,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.5,
+          "reported_error": 0.011723632755745061,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 0.017578125171041847,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.6000000000000001,
+          "reported_error": 0.01408187909090497,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 0.02109375010942416,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.7000000000000001,
+          "reported_error": 0.016444558970559076,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 1.1102230246251565e-16,
+            "signal_area": 0.024609375047806914,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.8,
+          "reported_error": 0.01881164154981163,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 2.220446049250313e-16,
+            "signal_area": 0.02812499998618967,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.9,
+          "reported_error": 0.021183096212547214,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 1.1102230246251565e-16,
+            "signal_area": 0.031640624924572425,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 1.0,
+          "reported_error": 0.02355889257009558,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 1.1102230246251565e-16,
+            "signal_area": 0.03515624986295496,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        }
+      ]
+    },
+    {
+      "key": "no_floor",
+      "label": "observer: no noise floor on a decaying spectrum",
+      "origin": "found in this pipeline",
+      "severity_label": "noise correlation, 0 to 0.5 mm",
+      "alpha_first_detection": 0.1,
+      "alpha_material_error": 0.1,
+      "checks_that_fired": [
+        "dynamic_range",
+        "nps_closed_form"
+      ],
+      "per_check_alpha": {
+        "parseval": null,
+        "bridge": null,
+        "signal_area": null,
+        "dynamic_range": 0.2,
+        "mtf_closed_form": null,
+        "nps_closed_form": 0.1
+      },
+      "max_reported_error": 0.3700553444527517,
+      "self_consistency_max_disagreement": 0.0,
+      "curve": [
+        {
+          "severity": 0.0,
+          "reported_error": 0.0,
+          "refused": null,
+          "violations": {
+            "parseval": 2.220446049250313e-16,
+            "bridge": 0.0,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.03612875678179983
+          }
+        },
+        {
+          "severity": 0.1,
+          "reported_error": 0.3700553444527517,
+          "refused": null,
+          "violations": {
+            "parseval": 4.440892098500626e-16,
+            "bridge": 2.220446049250313e-16,
+            "signal_area": 4.791285146410473e-10,
+            "dynamic_range": 0.0,
+            "mtf_closed_form": 4.942885359883464e-06,
+            "nps_closed_form": 0.9153992023179056
+          }
+        },
+        {
+          "severity": 0.2,
+          "reported_error": null,
+          "refused": "ValueError",
+          "violations": {}
+        },
+        {
+          "severity": 0.30000000000000004,
+          "reported_error": null,
+          "refused": "ValueError",
+          "violations": {}
+        },
+        {
+          "severity": 0.4,
+          "reported_error": null,
+          "refused": "ValueError",
+          "violations": {}
+        },
+        {
+          "severity": 0.5,
+          "reported_error": null,
+          "refused": "ValueError",
+          "violations": {}
+        },
+        {
+          "severity": 0.6000000000000001,
+          "reported_error": null,
+          "refused": "ValueError",
+          "violations": {}
+        },
+        {
+          "severity": 0.7000000000000001,
+          "reported_error": null,
+          "refused": "ValueError",
+          "violations": {}
+        },
+        {
+          "severity": 0.8,
+          "reported_error": null,
+          "refused": "ValueError",
+          "violations": {}
+        },
+        {
+          "severity": 0.9,
+          "reported_error": null,
+          "refused": "ValueError",
+          "violations": {}
+        },
+        {
+          "severity": 1.0,
+          "reported_error": null,
+          "refused": "ValueError",
+          "violations": {}
+        }
+      ]
+    }
+  ]
+}
