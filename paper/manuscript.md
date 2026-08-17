@@ -335,5 +335,5 @@ to publish the results.
 6. Burgess AE. Statistically defined backgrounds: performance of a modified nonprewhitening observer model. *J Opt Soc Am A.* 1994;11(4):1237–1242. doi:10.1364/JOSAA.11.001237.
 7. Barrett HH, Yao J, Rolland JP, Myers KJ. Model observers for assessment of image quality. *Proc Natl Acad Sci USA.* 1993;90(21):9758–9765. doi:10.1073/pnas.90.21.9758.
 8. He X, Park S. Model observers in medical imaging research. *Theranostics.* 2013;3(10):774–786. doi:10.7150/thno.5138.
-9. Samei E, Bakalyar D, Boedeker KL, et al. Performance evaluation of computed tomography systems: Summary of AAPM Task Group 233. *Med Phys.* 2019;46(11):e735–e756. doi:10.1002/mp.13763.
+9. Samei E, Bakalyar D, Boedeker K, et al. Performance evaluation of computed tomography systems: Summary of AAPM Task Group 233. *Med Phys.* 2019;46(11). doi:10.1002/mp.13763.
 10. Moen TR, Chen B, Holmes DR III, et al. Low-dose CT image and projection dataset. *Med Phys.* 2021;48(2):902–911. doi:10.1002/mp.14594.

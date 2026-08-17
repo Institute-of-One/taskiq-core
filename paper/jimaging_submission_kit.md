@@ -65,10 +65,13 @@ error injection; implementation error; quality assurance; closed-form validation
 
 ## Before sending — open items
 
-- [ ] **References 9 and 10 are unverified.** AAPM TG-233 (Samei et al., *Med Phys* 2019)
-      and LDCT-and-Projection-data (Moen et al., *Med Phys* 2021) were added during the
-      rewrite from secondary sources. Check volume, pages and DOI against the publisher
-      or Crossref record before submitting. References 1–8 are unchanged from the JMI
+- [x] **References 9 and 10 verified against Crossref.** Reference 10
+      (Moen et al., *Med Phys* 2021;48(2):902–911, doi:10.1002/mp.14594) matches the
+      Crossref record exactly. Reference 9 (Samei et al., AAPM TG-233,
+      *Med Phys* 2019;46(11), doi:10.1002/mp.13763) is confirmed for authors, title,
+      journal, volume, issue and year; Crossref carries **no page range and no article
+      number** for it, so the page range that had been written from a secondary source
+      was removed rather than left unverified. References 1–8 are unchanged from the JMI
       submission and were verified then.
 - [ ] **Preprint status.** `paper/taskiq-core_arxiv.md` and `paper/arxiv_submission_kit.md`
       exist, but no arXiv identifier is recorded anywhere in the repository. If the
