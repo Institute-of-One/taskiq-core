@@ -1,7 +1,8 @@
 ---
 title: "Error injection in task-based image quality pipelines: what self-consistency testing misses and what closed-form checks catch"
 author:
-  - Shuji Yamamoto, PhD
+  - Shuji Yamamoto
+date: "2026"
 geometry: margin=1in
 fontsize: 11pt
 linkcolor: blue
@@ -14,17 +15,34 @@ header-includes:
   - \pagestyle{plain}
 ---
 
-Institute of One, LISIT Co., Ltd., Tokyo, Japan
+<!--
+Prepared for submission to *Journal of Imaging* (MDPI, ISSN 2313-433X).
+Article type: Article. Structure follows the MDPI Instructions for Authors
+(Introduction / Materials and Methods / Results / Discussion / Conclusions,
+followed by the required MDPI back-matter declarations).
+At submission, paste into the official MDPI Word template (jimaging-template.dot)
+or submit as free-format (all required sections are present).
+-->
 
-Correspondence: yamamoto@lisit.jp · ORCID 0000-0001-9211-1071
+**Type:** Article
+
+**Title:** Error injection in task-based image quality pipelines: what self-consistency testing misses and what closed-form checks catch
+
+**Author:** Shuji Yamamoto $^{1,*}$
+
+$^{1}$ Institute of One, LISIT Co., Ltd., Tokyo, Japan; yamamoto@lisit.jp; ORCID 0000-0001-9211-1071
+
+$^{*}$ Correspondence: yamamoto@lisit.jp
 
 ---
 
-**Abstract**
+## Abstract
 
 Task-based image quality assessment — the modulation transfer function, the noise power spectrum, the noise-equivalent quanta and model observers — fails by returning a plausible wrong number rather than an error, and the regression test most implementations carry cannot tell a plausible right answer from a plausible wrong one, because the stored reference was recorded from the defective code. We injected six defects into a validated implementation of that chain through a severity dial that recovers the correct pipeline exactly at zero. A self-consistency regression test detected none of the six. Four internal identities, which need no ground truth, and two closed-form references, which need a phantom whose answer is known, together detected all six, in every case at or before the severity at which the reported detectability index $d'$ became wrong by more than 5%. Neither family sufficed alone: each detected three of six, and peak errors in a reported $d'$ reached 90%. Run unmodified on measured ACR phantom projections across seven reconstruction kernels, the identities transferred intact — Parseval held to $4\times10^{-16}$ — but their tolerances did not, and the strongest apodisation drove the noise dynamic range to within 0.6% of the threshold beyond which a prewhitening observer must refuse to answer.
 
-**Keywords:** task-based image quality; model observer; MTF; NPS; NEQ; detectability; error injection; implementation error; quality assurance; closed-form validation
+## Keywords
+
+ task-based image quality; model observer; MTF; NPS; NEQ; detectability; error injection; implementation error; quality assurance; closed-form validation
 
 ---
 
@@ -133,11 +151,17 @@ figures, equations and claims against the code. No AI system is an author.
 
 Before injecting anything, the estimators were held to their analytic answers. The slanted-edge MTF matched $\exp(-2\pi^2\sigma^2f^2)$ to a maximum relative error of **0.004%** (Figure 1) across fifteen blur-by-angle combinations (blur 0.15–0.35 mm, angles 3–15°). Integrating the estimated two-dimensional NPS over the frequency plane recovered the input variance to **0.029%** over 128 realisations — a sampling error, not a bias — with the underlying Parseval identity verified to $6.7\times10^{-5}$ in absolute residual and to $10^{-10}$ relative in the test suite. The NEQ route and the prewhitening observer agreed to $4.4\times10^{-16}$ across nine contrast-by-blur conditions (Figure 2). On swept data (Figure 3), $d'^2$ was linear in contrast$^2$ and in inverse noise variance with coefficients of determination numerically equal to 1, and the NPWE observer's efficiency relative to the ideal observer was constant across contrast to a spread of $3.4\times10^{-9}$.
 
-![**Figure 1.** The physical estimators held to their closed forms. Left: the slanted-edge MTF estimate (points) against the analytic Gaussian $\exp(-2\pi^2\sigma^2f^2)$ (line) for an edge of blur 0.2 mm. Right: the radially averaged NPS estimate (points) against the analytic white level $\sigma^2\,\Delta x\,\Delta y$ (line) for noise of standard deviation 20 units.](figures/fig1_physical.png)
+![The physical estimators held to their closed forms. Left: the slanted-edge MTF estimate (points) against the analytic Gaussian $\exp(-2\pi^2\sigma^2f^2)$ (line) for an edge of blur 0.2 mm. Right: the radially averaged NPS estimate (points) against the analytic white level $\sigma^2\,\Delta x\,\Delta y$ (line) for noise of standard deviation 20 units.](figures/fig1_physical.png){width=90%}
 
-![**Figure 2.** The physics-to-task bridge. Left: the $\mathrm{NEQ} = \mathrm{MTF}^2/\mathrm{NPS}$ of the system. Right: $d'^2$ from the prewhitening observer (horizontal) against $d'^2$ from integrating NEQ against the object power spectrum (vertical), over nine contrast-by-blur conditions; the points lie on the identity line to machine precision.](figures/fig2_bridge.png)
+**Figure 1.** The physical estimators against their closed forms: the slanted-edge MTF against the analytic Gaussian, and the radially averaged NPS against the analytic white level.
 
-![**Figure 3.** The transfer laws recovered from swept data. Left: ideal-observer $d'^2$ against contrast$^2$. Right: $d'^2$ against inverse noise variance. Both through-origin fits return a coefficient of determination indistinguishable from 1.](figures/fig3_transfer.png)
+![The physics-to-task bridge. Left: the $\mathrm{NEQ} = \mathrm{MTF}^2/\mathrm{NPS}$ of the system. Right: $d'^2$ from the prewhitening observer (horizontal) against $d'^2$ from integrating NEQ against the object power spectrum (vertical), over nine contrast-by-blur conditions; the points lie on the identity line to machine precision.](figures/fig2_bridge.png){width=90%}
+
+**Figure 2.** The physics-to-task bridge: $d'^2$ from the prewhitening observer against $d'^2$ from integrating NEQ, over nine contrast-by-blur conditions.
+
+![The transfer laws recovered from swept data. Left: ideal-observer $d'^2$ against contrast$^2$. Right: $d'^2$ against inverse noise variance. Both through-origin fits return a coefficient of determination indistinguishable from 1.](figures/fig3_transfer.png){width=90%}
+
+**Figure 3.** The transfer laws recovered from swept data: ideal-observer $d'^2$ against contrast$^2$ and against inverse noise variance.
 
 These establish that the pipeline is correct in the region a closed form can reach. They are the precondition for the injection study, not its result.
 
@@ -157,7 +181,9 @@ Table 1 and Figure 4 give the outcome. No check fires at $\alpha = 0$ for any de
 | `no_floor` | found here | **NPS dynamic range**, NPS closed form | 0.1 | 0.1 | 37.0% |
 | | | *self-consistency* | *never* | | |
 
-![**Figure 4.** What each check sees. Left: the injected severity at which each check first fires, grey where it never does; the rightmost column is the self-consistency regression test, grey for every defect. The white rules separate internal identities (left) from closed-form references (centre) and from the regression control (right). Right: the relative error each defect produces in a reported $d'$, against the 5% materiality threshold (dashed).](figures/fig4_injection.png)
+![What each check sees. Left: the injected severity at which each check first fires, grey where it never does; the rightmost column is the self-consistency regression test, grey for every defect. The white rules separate internal identities (left) from closed-form references (centre) and from the regression control (right). Right: the relative error each defect produces in a reported $d'$, against the 5% materiality threshold (dashed).](figures/fig4_injection.png){width=100%}
+
+**Figure 4.** The severity at which each check first fires, and the error each defect produces in a reported $d'$.
 
 Every defect was caught, and every defect was caught at or before the severity at which it corrupted the answer. Three of the six never made $d'$ materially wrong at any severity tried, and were nonetheless detected at the first severity step — which is the desired asymmetry: the checks are more sensitive than the endpoint they protect.
 
@@ -212,7 +238,9 @@ Run without modification on measured ACR phantom projections, the chain behaved 
 | Hann 0.35 | 0.112 | 2.65 | 0.00389 | 2.252 | 0.266 |
 | Hann 0.25 | 0.092 | 1.61 | 0.00534 | 2.572 | 0.331 |
 
-![**Figure 5.** The same chain on measured ACR phantom projections, with the reconstruction kernel swept from a bare ramp through Hann apodisation at cutoffs 1.00 to 0.25. Nothing about the acquisition is simulated; the same projections are reconstructed seven ways.](figures/fig5_acr_atlas.png)
+![The same chain on measured ACR phantom projections, with the reconstruction kernel swept from a bare ramp through Hann apodisation at cutoffs 1.00 to 0.25. Nothing about the acquisition is simulated; the same projections are reconstructed seven ways.](figures/fig5_acr_atlas.png){width=95%}
+
+**Figure 5.** MTF, NPS, NEQ and detectability measured on real ACR phantom projections across seven reconstruction kernels.
 
 Strengthening the apodisation reduces resolution and noise together, as it must. Ideal-observer detectability rises monotonically from 1.87 to 2.57 across the sweep: for this low-contrast task the noise reduction outweighs the resolution loss throughout the range tested. The efficiency of the non-prewhitening eye-filter observer relative to the ideal observer rises threefold over the same sweep, from 0.111 to 0.331 — the inefficient observer benefits from smoothing far more than the efficient one does, because smoothing performs part of the noise-weighting the inefficient observer cannot perform for itself.
 

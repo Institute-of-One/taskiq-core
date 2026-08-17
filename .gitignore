@@ -41,3 +41,6 @@ data/
 phi/
 RESUME.md
 paper/*.bak
+
+# built submission artefacts: regenerate with pandoc
+paper/manuscript.docx

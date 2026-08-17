@@ -647,13 +647,29 @@ def _figure(rows: list[dict]) -> None:
         ]
         if pts:
             axR.plot(*zip(*pts, strict=True), marker="o", ms=3, lw=1.3, label=row["key"])
-    axR.axhline(MATERIAL, color="#d62728", ls="--", lw=1.0)
-    axR.text(0.02, MATERIAL * 1.2, "5 % error in a reported $d'$", color="#d62728", fontsize=7)
+    # The threshold goes in the legend, not floating over the axes: a text label
+    # positioned in data coordinates overflows whenever the data range shifts.
+    axR.axhline(MATERIAL, color="#d62728", ls="--", lw=1.1, label="5 % error in a reported $d'$")
     axR.set_yscale("log")
+    # Open room below the data for the legend; otherwise it lands on the jitter curve,
+    # whose errors are the smallest and so occupy exactly the corner a legend wants.
+    lo, hi = axR.get_ylim()
+    axR.set_ylim(lo / 60.0, hi)
     axR.set_xlabel("injected severity")
     axR.set_ylabel("relative error in a reported $d'$")
     axR.set_title("what the defect does to the answer", fontsize=8.5)
-    axR.legend(frameon=False, fontsize=7, ncol=2)
+    handles, labels = axR.get_legend_handles_labels()
+    order = [labels.index("5 % error in a reported $d'$")] + [
+        i for i, lab in enumerate(labels) if lab != "5 % error in a reported $d'$"
+    ]
+    axR.legend(
+        [handles[i] for i in order],
+        [labels[i] for i in order],
+        frameon=False,
+        fontsize=7,
+        ncol=2,
+        loc="lower right",
+    )
     axR.spines[["top", "right"]].set_visible(False)
 
     fig.tight_layout()

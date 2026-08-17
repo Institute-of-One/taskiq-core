@@ -2,7 +2,18 @@
 
 Target journal: **Journal of Imaging** (MDPI), ISSN 2313-433X. Article type: **Article**.
 Submission portal: <https://susy.mdpi.com/user/manuscripts/upload?journal=jimaging>
-Manuscript source: **`paper/manuscript.md`**. Figures in `paper/figures/` (≥600 dpi PNG).
+Manuscript source: **`paper/manuscript.md`**. Upload **`paper/manuscript.docx`**,
+built with pandoc. Figures in `paper/figures/`.
+
+```bash
+python paper/make_figures.py && python paper/make_injection_study.py
+python -c "import pypandoc,os; os.chdir('paper'); "\n  "pypandoc.convert_file('manuscript.md','docx',outputfile='manuscript.docx',"\n  "extra_args=['--resource-path=.'])"
+```
+
+**Do not submit a `build_pdf.py` render.** That script states in its own docstring that
+it works "without pandoc/LaTeX", which means it cannot typeset `$...$`: every equation
+comes out as literal source. pandoc turns them into 143 Word equation objects and
+embeds all five figures. The near-accepted IORN-002 submission went the same way.
 
 ## Why this venue
 
@@ -87,8 +98,10 @@ error injection; implementation error; quality assurance; closed-form validation
       the *software*, not a preprint of this manuscript. The cover letter therefore
       discloses the Zenodo software archive only, which is correct as written.
 - [ ] Confirm the APC and the free-format policy are unchanged since July 2026.
-- [ ] Figures exported at ≥600 dpi: `fig1_physical.png`, `fig2_bridge.png`,
-      `fig3_transfer.png`, `fig4_injection.png`, and the ACR atlas figure.
+- [x] Five figures embedded in the .docx: `fig1_physical`, `fig2_bridge`,
+      `fig3_transfer`, `fig4_injection`, `fig5_acr_atlas`. Figure 4's threshold label
+      moved into the legend (it overflowed the axes) and Figure 5 relaid from a 4.2:1
+      strip to a 1.2:1 grid (it was unreadable at page width).
 - [ ] Regenerate before sending: `python paper/make_figures.py` and
       `python paper/make_injection_study.py`, then confirm the numbers in the text still
       match `paper/figures/injection.json`.
