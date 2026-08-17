@@ -9,6 +9,7 @@ regenerable from the manuscript in any environment. When pandoc is available,
 
 from __future__ import annotations
 
+import argparse
 import re
 import struct
 from pathlib import Path
@@ -20,8 +21,10 @@ from reportlab.lib.units import inch
 from reportlab.platypus import Image, Paragraph, SimpleDocTemplate, Spacer
 
 HERE = Path(__file__).resolve().parent
-MD = HERE / "taskiq-core_arxiv.md"
-OUT = HERE / "taskiq-core_arxiv.pdf"
+# The submission manuscript. The older ``taskiq-core_arxiv.md`` is the pre-rewrite
+# version kept for the record; pass --source to render that or anything else.
+MD = HERE / "manuscript.md"
+OUT = HERE / "manuscript.pdf"
 
 
 def png_size(path: Path) -> tuple[int, int]:
@@ -70,7 +73,7 @@ def inline(text: str) -> str:
     return text
 
 
-def main() -> None:
+def main(md: Path = MD, out: Path = OUT) -> None:
     styles = getSampleStyleSheet()
     body = ParagraphStyle(
         "body",
@@ -125,7 +128,7 @@ def main() -> None:
         spaceAfter=3,
     )
 
-    meta, bodytext = parse_frontmatter(MD.read_text(encoding="utf-8"))
+    meta, bodytext = parse_frontmatter(md.read_text(encoding="utf-8"))
     story: list = []
     story.append(Paragraph(meta.get("title", ""), title))
     story.append(
@@ -213,7 +216,7 @@ def main() -> None:
     flush()
 
     doc = SimpleDocTemplate(
-        str(OUT),
+        str(out),
         pagesize=A4,
         leftMargin=inch,
         rightMargin=inch,
@@ -223,8 +226,16 @@ def main() -> None:
         author=meta.get("author", ""),
     )
     doc.build(story)
-    print("Wrote", OUT, f"({OUT.stat().st_size // 1024} KB)")
+    print("Wrote", out, f"({out.stat().st_size // 1024} KB)")
+
+
+def _cli() -> tuple[Path, Path]:
+    ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument("--source", type=Path, default=MD, help="Markdown manuscript to render")
+    ap.add_argument("--output", type=Path, default=None, help="PDF to write")
+    a = ap.parse_args()
+    return a.source, (a.output or a.source.with_suffix(".pdf"))
 
 
 if __name__ == "__main__":
-    main()
+    main(*_cli())
