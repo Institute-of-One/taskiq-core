@@ -78,12 +78,14 @@ error injection; implementation error; quality assurance; closed-form validation
       number** for it, so the page range that had been written from a secondary source
       was removed rather than left unverified. References 1–8 are unchanged from the JMI
       submission and were verified then.
-- [ ] **Preprint status.** `paper/taskiq-core_arxiv.md` and `paper/arxiv_submission_kit.md`
-      exist, but no arXiv identifier is recorded anywhere in the repository. If the
-      preprint was posted, disclose it in the cover letter and give the identifier; if it
-      was only prepared, delete the disclosure sentence. **Do not send until this is
-      settled** — an undisclosed preprint is a real problem, and a disclosed one that does
-      not exist is worse.
+- [x] **No preprint exists, and none can be posted.** `paper/taskiq-core_arxiv.md` and
+      `paper/arxiv_submission_kit.md` were prepared and could not be submitted: arXiv
+      requires an endorser in these categories and the author has none, and medRxiv
+      refused the submission because Institute of One / LISIT Co., Ltd. is not recognised
+      as a research institution. Only servers that gate on neither an endorser nor an
+      institutional affiliation are open to him; Zenodo is the one in use, and it holds
+      the *software*, not a preprint of this manuscript. The cover letter therefore
+      discloses the Zenodo software archive only, which is correct as written.
 - [ ] Confirm the APC and the free-format policy are unchanged since July 2026.
 - [ ] Figures exported at ≥600 dpi: `fig1_physical.png`, `fig2_bridge.png`,
       `fig3_transfer.png`, `fig4_injection.png`, and the ACR atlas figure.
