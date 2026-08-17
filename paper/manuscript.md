@@ -22,13 +22,7 @@ Correspondence: yamamoto@lisit.jp · ORCID 0000-0001-9211-1071
 
 **Abstract**
 
-**Purpose:** Task-based assessment is the accepted framework for evaluating medical imaging systems, but the chain that implements it — the modulation transfer function (MTF), the noise power spectrum (NPS), the noise-equivalent quanta (NEQ), and model observers — has a characteristic failure mode that returns a plausible wrong number rather than an error, and the test most implementations carry, a regression test against the code's own stored output, cannot distinguish a plausible right answer from a plausible wrong one. We ask which checks can, at what defect severity they fire, and what they cost.
-
-**Approach:** Six defects were injected into a validated implementation of the MTF → NPS → NEQ → observer chain, through a severity dial that recovers the correct pipeline exactly at zero. Three of the six had been found in that implementation during development; three are standard ways the same chain is got wrong elsewhere. The defects are properties of the chain rather than of any one codebase: each is a step the standard formulation requires and that an implementation can omit. Against them stood a self-consistency regression test, four *internal identities* that hold for algebraic reasons and need no ground truth, and two *closed-form references* that compare an estimate to the analytic answer for a phantom whose truth is known. Detection severity was compared with the severity at which the reported detectability index $d'$ first became wrong by more than 5%. The same chain was then run unmodified on measured ACR phantom projections from a clinical scanner, sweeping the reconstruction kernel across seven settings.
-
-**Results:** The self-consistency regression test caught **0 of 6** defects; the checks caught **6 of 6**, in every case at or before the severity at which $d'$ became materially wrong. The two check families were complementary and neither was sufficient: internal identities caught 3 of 6 and closed-form references caught 3 of 6. Peak errors in a reported $d'$ reached 90.0% (NPS pixel-area factor), 69.4% (detrending disabled) and 37.0% (no noise floor on a decaying spectrum). Two magnitudes were measured that revise earlier reports: the bin-centre jitter bias is not smooth in edge angle but spikes — 0.008% at 4.5°, 0.32% at 5.0°, 0.028% at 5.5° — and the size of an omitted sinc deconvolution is set by the ESF bin width, ranging from 0.18% at a bin of $\Delta x/20$ to 16.7% at $\Delta x/2$. On measured projections the chain behaved as theory requires across all seven kernels, ideal-observer $d'$ rising from 1.87 to 2.57 and non-prewhitening efficiency from 0.111 to 0.331 as apodisation was strengthened. The internal identities transferred to those data unchanged — Parseval held to $4.4\times10^{-16}$ — but their tolerances did not, the signal-area residual being four orders of magnitude looser than on synthetic data. The strongest apodisation tested drove the measured NPS dynamic range to $9.9\times10^{5}$, within 0.6% of the threshold beyond which a prewhitening observer must refuse to return a number at all.
-
-**Conclusions:** A task-based pipeline that passes its own regression suite has established only that it is stable, not that it is right. Detecting the defects that matter requires two distinct kinds of check; half of these defects cannot be detected without a phantom whose answer is known in closed form, which is an argument for keeping such a phantom in the loop even when the object of study is patient data. Identities transfer from phantom to scanner but their tolerances must be re-derived, and on a clinically ordinary reconstruction the margin protecting a prewhitening observer from a meaningless answer is narrower than it is comfortable to assume.
+Task-based image quality assessment — the modulation transfer function, the noise power spectrum, the noise-equivalent quanta and model observers — fails by returning a plausible wrong number rather than an error, and the regression test most implementations carry cannot tell a plausible right answer from a plausible wrong one, because the stored reference was recorded from the defective code. We injected six defects into a validated implementation of that chain through a severity dial that recovers the correct pipeline exactly at zero. A self-consistency regression test detected none of the six. Four internal identities, which need no ground truth, and two closed-form references, which need a phantom whose answer is known, together detected all six, in every case at or before the severity at which the reported detectability index $d'$ became wrong by more than 5%. Neither family sufficed alone: each detected three of six, and peak errors in a reported $d'$ reached 90%. Run unmodified on measured ACR phantom projections across seven reconstruction kernels, the identities transferred intact — Parseval held to $4	imes10^{-16}$ — but their tolerances did not, and the strongest apodisation drove the noise dynamic range to within 0.6% of the threshold beyond which a prewhitening observer must refuse to answer.
 
 **Keywords:** task-based image quality; model observer; MTF; NPS; NEQ; detectability; error injection; implementation error; quality assurance; closed-form validation
 
@@ -72,7 +66,7 @@ Whether the second kind is worth its cost — whether a synthetic phantom earns 
 3. Two **corrected magnitudes** for defects previously reported only qualitatively: the angular structure of the bin-centre jitter bias, and the dependence of the omitted-sinc bias on a free implementation parameter.
 4. A demonstration that the same chain, unmodified, reproduces the required behaviour on **measured projections from a clinical scanner** across a seven-point reconstruction-kernel sweep.
 
-## 2. Methods
+## 2. Materials and Methods
 
 ### 2.1 The pipeline under test
 
@@ -125,6 +119,13 @@ A check that fires only after the answer is already wrong is not a guard, so the
 ### 2.6 The real-scanner arm
 
 To establish that the chain behaves as required outside a synthetic model, the same code was run on measured ACR phantom projections from LDCT-and-Projection-data [10] (The Cancer Imaging Archive, CC BY 4.0). Nothing about the acquisition is simulated: one set of measured projections was reconstructed seven times with progressively stronger apodisation — a bare ramp, then Hann windows at cutoffs 1.00, 0.80, 0.60, 0.45, 0.35 and 0.25 — which moves the MTF and the NPS together exactly as changing a scanner's reconstruction kernel does. The MTF, NPS, NEQ and model-observer detectabilities were then read off with the same estimators used throughout.
+
+### 2.7 Use of generative AI
+
+Code scaffolding and refactoring, test drafting, figure and script generation, and
+manuscript drafting were assisted by a large language model (Claude, Anthropic). The
+author independently re-executed every numerical result reported here and verified all
+figures, equations and claims against the code. No AI system is an author.
 
 ## 3. Results
 
@@ -273,21 +274,56 @@ Finally, the study validates a pipeline against identities that the same author 
 
 A task-based image quality pipeline that passes its own regression suite has demonstrated stability, not correctness, and for the class of defect studied here the distinction is total: self-consistency caught none of six injected defects, while closed-form and identity-based checks caught all six, in every case at or before the point where the reported detectability became materially wrong. The two families of check are complementary and neither suffices alone. Half the defects are detectable using identities that need no ground truth and therefore travel to patient data; the other half are invisible without a phantom whose answer is known in closed form. A workflow that discards the phantom once it moves to real images does not lose a little sensitivity — it loses an entire class of error, permanently and without indication.
 
-## 6. AI-Use Disclosure
+## Author Contributions
 
-This manuscript and the associated software were produced by a human author (S. Yamamoto), who is solely accountable for their content. AI agents were used as tools: code scaffolding and refactoring, test drafting, figure and script generation, and manuscript drafting were assisted by a large language model (Claude, Anthropic). The author independently re-executed every numerical result reported here and verified all figures, equations, and claims against the code. No AI system is an author. This disclosure follows ICMJE and COPE guidance: AI is reported as a tool, not credited with authorship.
+S.Y. is the sole author and is responsible for conceptualization, methodology, software,
+validation, formal analysis, investigation, data curation, visualization, and writing —
+original draft and review and editing. The author has read and agreed to the published
+version of the manuscript.
 
-## Declarations
+## Funding
 
-**Data and code availability.** All code, the phantom generators, the physical and observer estimators, the injection study (`paper/make_injection_study.py`) and the test suite are openly available at <https://github.com/Institute-of-One/taskiq-core> under the MIT licence, archived on Zenodo (concept DOI [10.5281/zenodo.21422924](https://doi.org/10.5281/zenodo.21422924)). Every number in this article is written to `paper/figures/injection.json` and `paper/results/acr_atlas.json` by the scripts that produce the figures, so text and figures cannot diverge. The real-scanner projections are the ACR_Phantom series of LDCT-and-Projection-data [10], available from The Cancer Imaging Archive under CC BY 4.0.
+This research received no external funding. Computing resources and author time were
+supported in kind by LISIT Co., Ltd. and TexelCraft OU.
 
-**Ethics.** Not applicable. This study involved no human participants, animal subjects, or identifiable patient data; the only measured data are of a physical quality-assurance phantom, obtained from a public archive under an open licence.
+## Institutional Review Board Statement
 
-**Competing interests.** S.Y. is the Representative Director (CEO) of LISIT Co., Ltd. and Chief Executive Officer of TexelCraft OÜ. Institute of One is the open-research initiative of LISIT Co., Ltd. These commercial relationships are disclosed as potential competing interests. The work used no client or patient data and presents openly licensed research software. The author declares no other competing interests.
+Not applicable. This study involved no human participants and no animal subjects. The
+only measured data are of a physical quality-assurance phantom, obtained from a public
+archive under an open licence.
 
-**Funding.** This work received no external grant funding. Computing resources and author time were supported in kind by LISIT Co., Ltd. and TexelCraft OÜ.
+## Informed Consent Statement
 
-**Author contributions.** S.Y. is the sole author and is responsible for conceptualization, methodology, software, validation, formal analysis, visualization, and writing. AI tools were used as disclosed in Section 6.
+Not applicable.
+
+## Data Availability Statement
+
+All code — the phantom generators, the physical and observer estimators, the injection
+study (`paper/make_injection_study.py`) and the test suite — is openly available at
+<https://github.com/Institute-of-One/taskiq-core> under the MIT licence and archived on
+Zenodo (concept DOI [10.5281/zenodo.21422924](https://doi.org/10.5281/zenodo.21422924)).
+Every number in this article is written to `paper/figures/injection.json` and
+`paper/results/acr_atlas.json` by the scripts that produce the figures, so the text and
+the figures cannot diverge. The real-scanner projections are the ACR_Phantom series of
+LDCT-and-Projection-data [10], available from The Cancer Imaging Archive under CC BY 4.0.
+
+## Acknowledgments
+
+Generative AI (Claude, Anthropic) was used as a tool for code scaffolding, test drafting,
+figure generation and manuscript drafting, as disclosed in Section 2.7. The author is
+solely accountable for the content and independently verified every result. No AI system
+is an author. This disclosure follows ICMJE and COPE guidance.
+
+## Conflicts of Interest
+
+S.Y. is the Representative Director (CEO) of LISIT Co., Ltd. and Chief Executive Officer
+of TexelCraft OU. Institute of One is the open-research initiative of LISIT Co., Ltd.,
+which provides institutional oversight for this work. These commercial relationships are
+disclosed as potential competing interests. The work used no client or patient data and
+presents openly licensed research software. The author declares no other conflict of
+interest. The funders had no role in the design of the study; in the collection,
+analyses, or interpretation of data; in the writing of the manuscript; or in the decision
+to publish the results.
 
 ## References
 
