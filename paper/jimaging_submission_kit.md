@@ -12,9 +12,14 @@ turned on classification and perceived novelty, never on correctness — JMI's l
 Technical Note category into which a validation paper can be moved: Medical Physics,
 Physics in Medicine and Biology, Physica Medica, JACMP (where it happened), PESM. MDPI's
 imaging journals do not use that category in practice; **Article** is the default. This
-venue removes the failure mode that has stopped this work three times, and the author has
-an acceptance here (IORN-002, after two rounds of review), so the editorial process is a
-known quantity.
+venue removes the failure mode that has stopped this work three times.
+
+**The author does not have an acceptance here.** IORN-002 (`jimaging-4486384`, submitted
+2026-07-23) has been through two rounds of review and is at *Pending editor decision*; the
+companion IORN-006 (`tomography-4516935`, submitted 2026-08-06) is *Under review*. Two
+rounds without rejection says the journal engages seriously with this author's work, which
+is worth something, but it is not evidence of acceptance and must not be quoted as such.
+If IORN-002 is rejected, revisit this choice before sending anything further.
 
 ## Key facts about the venue (verified for IORN-002, 2026-07; re-verify before sending)
 
