@@ -51,7 +51,7 @@ from taskiq_core import (  # noqa: E402
 
 OUT = Path(__file__).resolve().parent / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
-plt.rcParams.update({"font.size": 9, "axes.titlesize": 9, "figure.dpi": 200})
+plt.rcParams.update({"font.size": 11, "axes.titlesize": 11, "figure.dpi": 300})
 
 SPACING = 0.1  # mm
 SIZE = 64  # signal / noise ROI, pixels
@@ -621,23 +621,25 @@ def _figure(rows: list[dict]) -> None:
             matrix[r, c] = np.nan if a is None else a
         matrix[r, -1] = np.nan  # never fires, by construction
 
-    fig, (axL, axR) = plt.subplots(1, 2, figsize=(9.6, 3.6))
+    fig, (axL, axR) = plt.subplots(2, 1, figsize=(7.2, 8.8))
 
     cmap = plt.get_cmap("viridis_r").copy()
     cmap.set_bad("#eeeeee")
     im = axL.imshow(np.ma.masked_invalid(matrix), cmap=cmap, vmin=0, vmax=1, aspect="auto")
     axL.set_xticks(range(len(labels)))
-    axL.set_xticklabels(labels, rotation=40, ha="right", fontsize=7)
+    axL.set_xticklabels(labels, rotation=30, ha="right", fontsize=9.5)
     axL.set_yticks(range(len(rows)))
-    axL.set_yticklabels([r["key"] for r in rows], fontsize=7.5)
+    axL.set_yticklabels([r["key"] for r in rows], fontsize=9.5)
     for r in range(len(rows)):
         for c in range(len(cols)):
             if np.isnan(matrix[r, c]):
-                axL.text(c, r, "-", ha="center", va="center", fontsize=8, color="#aaa")
+                axL.text(c, r, "-", ha="center", va="center", fontsize=10, color="#aaa")
     axL.axvline(3.5, color="white", lw=2)
     axL.axvline(5.5, color="white", lw=2)
-    axL.set_title("severity at first detection (grey: never)", fontsize=8.5)
-    fig.colorbar(im, ax=axL, fraction=0.046, label="severity")
+    axL.set_title("severity at first detection (grey: never)", fontsize=10)
+    cb = fig.colorbar(im, ax=axL, fraction=0.030, pad=0.02)
+    cb.set_label("severity", fontsize=10)
+    cb.ax.tick_params(labelsize=9)
 
     for row in rows:
         pts = [
@@ -655,9 +657,9 @@ def _figure(rows: list[dict]) -> None:
     # whose errors are the smallest and so occupy exactly the corner a legend wants.
     lo, hi = axR.get_ylim()
     axR.set_ylim(lo / 60.0, hi)
-    axR.set_xlabel("injected severity")
-    axR.set_ylabel("relative error in a reported $d'$")
-    axR.set_title("what the defect does to the answer", fontsize=8.5)
+    axR.set_xlabel("injected severity", fontsize=11)
+    axR.set_ylabel("relative error in a reported $d'$", fontsize=11)
+    axR.set_title("what the defect does to the answer", fontsize=10)
     handles, labels = axR.get_legend_handles_labels()
     order = [labels.index("5 % error in a reported $d'$")] + [
         i for i, lab in enumerate(labels) if lab != "5 % error in a reported $d'$"
@@ -666,10 +668,11 @@ def _figure(rows: list[dict]) -> None:
         [handles[i] for i in order],
         [labels[i] for i in order],
         frameon=False,
-        fontsize=7,
+        fontsize=8.5,
         ncol=2,
-        loc="lower right",
+        loc="lower center",
     )
+    axR.tick_params(labelsize=10)
     axR.spines[["top", "right"]].set_visible(False)
 
     fig.tight_layout()

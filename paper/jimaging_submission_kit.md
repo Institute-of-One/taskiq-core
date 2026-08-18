@@ -110,10 +110,19 @@ error injection; implementation error; quality assurance; closed-form validation
       the *software*, not a preprint of this manuscript. The cover letter therefore
       discloses the Zenodo software archive only, which is correct as written.
 - [ ] Confirm the APC and the free-format policy are unchanged since July 2026.
-- [x] Five figures embedded in the .docx: `fig1_physical`, `fig2_bridge`,
-      `fig3_transfer`, `fig4_injection`, `fig5_acr_atlas`. Figure 4's threshold label
-      moved into the legend (it overflowed the axes) and Figure 5 relaid from a 4.2:1
-      strip to a 1.2:1 grid (it was unreadable at page width).
+- [x] **Five figures embedded, and legible after reduction.** Both multi-panel figures
+      were drawn far wider than the column they print into, so their type shrank by a
+      third to a half on the page. Figure 4 is now stacked rather than side by side and
+      its type set explicitly; Figure 5 is 2x2 at 7.8 in rather than 1x4 at 19 in. Judge
+      figures at printed size, not on screen: every collision in both -- the threshold
+      label running off the axes, a legend on top of the smallest curve, seven
+      annotations overlapping each other, and two end labels pushed outside the frame --
+      became visible only once the type was large enough to read.
+- [x] **One caption per figure and per table.** Each figure briefly carried two: pandoc
+      renders an image's alt text as a caption of its own, so alt text plus a numbered
+      paragraph printed every description twice, in two wordings. The alt text is now
+      empty and the numbered paragraph carries the fuller text. Verified in the built
+      .docx: five figure captions and three table captions, one occurrence each.
 - [ ] Regenerate before sending: `python paper/make_figures.py` and
       `python paper/make_injection_study.py`, then confirm the numbers in the text still
       match `paper/figures/injection.json`.
