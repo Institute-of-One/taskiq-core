@@ -43,7 +43,7 @@ If IORN-002 is rejected, revisit this choice before sending anything further.
   references in any consistent style. The MDPI Word template (`jimaging-template.dot`) is
   required only at the revision stage.
 - Abstract ≈ 200 words (**ours: 205**). Keywords 3–10 (**ours: 10**). SI units. Numbered
-  references in square brackets [1], MDPI/ACS style (**ours: 10 references, already in
+  references in square brackets [1], MDPI/ACS style (**ours: 17 references, already in
   that form**).
 - GenAI use must be disclosed in **Materials and Methods** (done, §2.7) **and**
   **Acknowledgments** (done).
@@ -81,7 +81,19 @@ error injection; implementation error; quality assurance; closed-form validation
 
 ## Before sending — open items
 
-- [x] **References 9 and 10 verified against Crossref.** Reference 10
+- [x] **All seventeen references verified.** 1-8 are unchanged from the JMI submission
+      and were verified then; 9-17 were each checked against the Crossref record, and
+      the list was measured against this author's own manuscripts before being
+      extended: 10 references over 6214 words was 1.6 per 1000, the lowest of his five
+      papers, against 3.2 for the near-accepted IORN-002 and 2.7 for ctdose-core. It is
+      now 17 over 6498 words, 2.6 per 1000. Every added reference is cited where the
+      text argues rather than appended to the list: the reproducibility and
+      software-defect literature under the regression-test argument, the CT task-based
+      review where Section 4.1 makes a claim about published practice, the ACR phantom
+      MTF/NPS method beside the real-scanner arm, and mutation testing where Section
+      4.3 named it without citing it. No reference is listed that the text does not
+      use, and none is cited that is not listed.
+- [x] **Detail on the two that needed care.** Reference 10
       (Moen et al., *Med Phys* 2021;48(2):902–911, doi:10.1002/mp.14594) matches the
       Crossref record exactly. Reference 9 (Samei et al., AAPM TG-233,
       *Med Phys* 2019;46(11), doi:10.1002/mp.13763) is confirmed for authors, title,

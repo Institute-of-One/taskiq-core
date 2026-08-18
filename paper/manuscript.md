@@ -42,13 +42,13 @@ Task-based image quality assessment — the modulation transfer function, the no
 
 ## Keywords
 
- task-based image quality; model observer; MTF; NPS; NEQ; detectability; error injection; implementation error; quality assurance; closed-form validation
+task-based image quality; model observer; MTF; NPS; NEQ; detectability; error injection; implementation error; quality assurance; closed-form validation
 
 ---
 
 ## 1. Introduction
 
-Task-based assessment — judging an imaging system by how well a specified observer performs a specified detection or discrimination task, rather than by a generic fidelity metric — is the accepted framework for evaluating medical imaging systems [1,2]. Its physical ingredients are individually standardised: the modulation transfer function (MTF), classically measured from a slanted edge by the presampled-MTF method formalised in ISO 12233 [3], and the noise power spectrum (NPS) and detective-quantum-efficiency formalism standardised for digital X-ray detectors in IEC 62220-1 [4]. Its observer theory is mature [1,5,7,8], and its use in computed tomography has been consolidated in AAPM Task Group 233 [9]. The quantity tying the physics to the task is the noise-equivalent quanta, $\mathrm{NEQ} = \mathrm{MTF}^2/\mathrm{NPS}$, because the ideal-observer detectability of a known signal imaged through a linear system is exactly an integral of NEQ against the signal's power spectrum.
+Task-based assessment — judging an imaging system by how well a specified observer performs a specified detection or discrimination task, rather than by a generic fidelity metric — is the accepted framework for evaluating medical imaging systems [1,2]. Its physical ingredients are individually standardised: the modulation transfer function (MTF), classically measured from a slanted edge by the presampled-MTF method formalised in ISO 12233 [3], and the noise power spectrum (NPS) and detective-quantum-efficiency formalism standardised for digital X-ray detectors in IEC 62220-1 [4]. Its observer theory is mature [1,5,7,8], its relation to dose and patient risk has been set out in detail [11], its practice from physical measurement through to model observers has been reviewed for CT [12], and its use in computed tomography has been consolidated in AAPM Task Group 233 [9]. The quantity tying the physics to the task is the noise-equivalent quanta, $\mathrm{NEQ} = \mathrm{MTF}^2/\mathrm{NPS}$, because the ideal-observer detectability of a known signal imaged through a linear system is exactly an integral of NEQ against the signal's power spectrum.
 
 The theory is settled. The implementations are not, and this paper is about the gap between them. The object of study is therefore the chain itself — any implementation of it — rather than a particular program: each defect examined below is a step the standard formulation requires, applied to one instance so that its cost can be measured, and the checks proposed against them are stated so that they can be asserted inside any implementation.
 
@@ -68,7 +68,7 @@ None of these announce themselves. Each produces a number a reviewer would accep
 
 The standard defence is a regression test: run the pipeline, store the output, and fail the build if the output ever changes. This is a genuinely useful discipline — it catches accidental change, and it makes refactoring safe. It also cannot, in principle, catch any of the three defects above.
 
-The reason is structural rather than incidental. If a defect was present when the reference output was recorded — which is the normal case for a defect that was never noticed — then the stored value *is* the defective value. The pipeline is deterministic, so it reproduces that value exactly, and the test passes. A regression test establishes that the code is stable. Stability and correctness are different properties, and the literature's reproducibility crisis is largely a crisis of the first being mistaken for the second.
+The reason is structural rather than incidental. If a defect was present when the reference output was recorded — which is the normal case for a defect that was never noticed — then the stored value *is* the defective value. The pipeline is deterministic, so it reproduces that value exactly, and the test passes. A regression test establishes that the code is stable. Stability and correctness are different properties, and the reproducibility apparatus of computational science largely certifies the first [13]: an analysis that re-runs to the same answer has been shown to be deterministic, not to be right. That software defects reach published results, and are rarely found by the practices meant to prevent them, is documented across fields [14,15].
 
 What can catch such defects is a check whose reference comes from outside the code. Two kinds are available, and the distinction between them turns out to matter:
 
@@ -136,7 +136,7 @@ A check that fires only after the answer is already wrong is not a guard, so the
 
 ### 2.6 The real-scanner arm
 
-To establish that the chain behaves as required outside a synthetic model, the same code was run on measured ACR phantom projections from LDCT-and-Projection-data [10] (The Cancer Imaging Archive, CC BY 4.0). Nothing about the acquisition is simulated: one set of measured projections was reconstructed seven times with progressively stronger apodisation — a bare ramp, then Hann windows at cutoffs 1.00, 0.80, 0.60, 0.45, 0.35 and 0.25 — which moves the MTF and the NPS together exactly as changing a scanner's reconstruction kernel does. The MTF, NPS, NEQ and model-observer detectabilities were then read off with the same estimators used throughout.
+To establish that the chain behaves as required outside a synthetic model, the same code was run on measured ACR phantom projections from LDCT-and-Projection-data [10]. The ACR accreditation phantom is an established vehicle for measuring MTF and NPS on a clinical scanner [16], which is why it was chosen (The Cancer Imaging Archive, CC BY 4.0). Nothing about the acquisition is simulated: one set of measured projections was reconstructed seven times with progressively stronger apodisation — a bare ramp, then Hann windows at cutoffs 1.00, 0.80, 0.60, 0.45, 0.35 and 0.25 — which moves the MTF and the NPS together exactly as changing a scanner's reconstruction kernel does. The MTF, NPS, NEQ and model-observer detectabilities were then read off with the same estimators used throughout.
 
 ### 2.7 Use of generative AI
 
@@ -151,17 +151,17 @@ figures, equations and claims against the code. No AI system is an author.
 
 Before injecting anything, the estimators were held to their analytic answers. The slanted-edge MTF matched $\exp(-2\pi^2\sigma^2f^2)$ to a maximum relative error of **0.004%** (Figure 1) across fifteen blur-by-angle combinations (blur 0.15–0.35 mm, angles 3–15°). Integrating the estimated two-dimensional NPS over the frequency plane recovered the input variance to **0.029%** over 128 realisations — a sampling error, not a bias — with the underlying Parseval identity verified to $6.7\times10^{-5}$ in absolute residual and to $10^{-10}$ relative in the test suite. The NEQ route and the prewhitening observer agreed to $4.4\times10^{-16}$ across nine contrast-by-blur conditions (Figure 2). On swept data (Figure 3), $d'^2$ was linear in contrast$^2$ and in inverse noise variance with coefficients of determination numerically equal to 1, and the NPWE observer's efficiency relative to the ideal observer was constant across contrast to a spread of $3.4\times10^{-9}$.
 
-![The physical estimators held to their closed forms. Left: the slanted-edge MTF estimate (points) against the analytic Gaussian $\exp(-2\pi^2\sigma^2f^2)$ (line) for an edge of blur 0.2 mm. Right: the radially averaged NPS estimate (points) against the analytic white level $\sigma^2\,\Delta x\,\Delta y$ (line) for noise of standard deviation 20 units.](figures/fig1_physical.png){width=90%}
+![](figures/fig1_physical.png){width=90%}
 
-**Figure 1.** The physical estimators against their closed forms: the slanted-edge MTF against the analytic Gaussian, and the radially averaged NPS against the analytic white level.
+**Figure 1.** The physical estimators held to their closed forms. Left: the slanted-edge MTF estimate (points) against the analytic Gaussian $\exp(-2\pi^2\sigma^2f^2)$ (line) for an edge of blur 0.2 mm. Right: the radially averaged NPS estimate (points) against the analytic white level $\sigma^2\,\Delta x\,\Delta y$ (line) for noise of standard deviation 20 units.
 
-![The physics-to-task bridge. Left: the $\mathrm{NEQ} = \mathrm{MTF}^2/\mathrm{NPS}$ of the system. Right: $d'^2$ from the prewhitening observer (horizontal) against $d'^2$ from integrating NEQ against the object power spectrum (vertical), over nine contrast-by-blur conditions; the points lie on the identity line to machine precision.](figures/fig2_bridge.png){width=90%}
+![](figures/fig2_bridge.png){width=90%}
 
-**Figure 2.** The physics-to-task bridge: $d'^2$ from the prewhitening observer against $d'^2$ from integrating NEQ, over nine contrast-by-blur conditions.
+**Figure 2.** The physics-to-task bridge. Left: the $\mathrm{NEQ} = \mathrm{MTF}^2/\mathrm{NPS}$ of the system. Right: $d'^2$ from the prewhitening observer (horizontal) against $d'^2$ from integrating NEQ against the object power spectrum (vertical), over nine contrast-by-blur conditions; the points lie on the identity line to machine precision.
 
-![The transfer laws recovered from swept data. Left: ideal-observer $d'^2$ against contrast$^2$. Right: $d'^2$ against inverse noise variance. Both through-origin fits return a coefficient of determination indistinguishable from 1.](figures/fig3_transfer.png){width=90%}
+![](figures/fig3_transfer.png){width=90%}
 
-**Figure 3.** The transfer laws recovered from swept data: ideal-observer $d'^2$ against contrast$^2$ and against inverse noise variance.
+**Figure 3.** The transfer laws recovered from swept data. Left: ideal-observer $d'^2$ against contrast$^2$. Right: $d'^2$ against inverse noise variance. Both through-origin fits return a coefficient of determination indistinguishable from 1.
 
 These establish that the pipeline is correct in the region a closed form can reach. They are the precondition for the injection study, not its result.
 
@@ -181,9 +181,9 @@ Table 1 and Figure 4 give the outcome. No check fires at $\alpha = 0$ for any de
 | `no_floor` | found here | **NPS dynamic range**, NPS closed form | 0.1 | 0.1 | 37.0% |
 | | | *self-consistency* | *never* | | |
 
-![What each check sees. Left: the injected severity at which each check first fires, grey where it never does; the rightmost column is the self-consistency regression test, grey for every defect. The white rules separate internal identities (left) from closed-form references (centre) and from the regression control (right). Right: the relative error each defect produces in a reported $d'$, against the 5% materiality threshold (dashed).](figures/fig4_injection.png){width=100%}
+![](figures/fig4_injection.png){width=100%}
 
-**Figure 4.** The severity at which each check first fires, and the error each defect produces in a reported $d'$.
+**Figure 4.** What each check sees. Left: the injected severity at which each check first fires, grey where it never does; the rightmost column is the self-consistency regression test, grey for every defect. The white rules separate internal identities (left) from closed-form references (centre) and from the regression control (right). Right: the relative error each defect produces in a reported $d'$, against the 5% materiality threshold (dashed).
 
 Every defect was caught, and every defect was caught at or before the severity at which it corrupted the answer. Three of the six never made $d'$ materially wrong at any severity tried, and were nonetheless detected at the first severity step — which is the desired asymmetry: the checks are more sensitive than the endpoint they protect.
 
@@ -238,9 +238,9 @@ Run without modification on measured ACR phantom projections, the chain behaved 
 | Hann 0.35 | 0.112 | 2.65 | 0.00389 | 2.252 | 0.266 |
 | Hann 0.25 | 0.092 | 1.61 | 0.00534 | 2.572 | 0.331 |
 
-![The same chain on measured ACR phantom projections, with the reconstruction kernel swept from a bare ramp through Hann apodisation at cutoffs 1.00 to 0.25. Nothing about the acquisition is simulated; the same projections are reconstructed seven ways.](figures/fig5_acr_atlas.png){width=95%}
+![](figures/fig5_acr_atlas.png){width=95%}
 
-**Figure 5.** MTF, NPS, NEQ and detectability measured on real ACR phantom projections across seven reconstruction kernels.
+**Figure 5.** The same chain on measured ACR phantom projections, with the reconstruction kernel swept from a bare ramp through Hann apodisation at cutoffs 1.00 to 0.25. Nothing about the acquisition is simulated; the same projections are reconstructed seven ways.
 
 Strengthening the apodisation reduces resolution and noise together, as it must. Ideal-observer detectability rises monotonically from 1.87 to 2.57 across the sweep: for this low-contrast task the noise reduction outweighs the resolution loss throughout the range tested. The efficiency of the non-prewhitening eye-filter observer relative to the ideal observer rises threefold over the same sweep, from 0.111 to 0.331 — the inefficient observer benefits from smoothing far more than the efficient one does, because smoothing performs part of the noise-weighting the inefficient observer cannot perform for itself.
 
@@ -274,7 +274,7 @@ Three things follow, and the third was not anticipated.
 
 ### 4.1 What this implies for reported studies
 
-The uncomfortable corollary of Section 3.3 is that a large fraction of published model-observer work carries no evidence bearing on the class of defect studied here. The usual reproducibility apparatus — a fixed seed, a pinned environment, a stored expected output, code released on request — establishes that a result can be regenerated. None of it establishes that the result was right the first time. A defect present at first publication is reproduced faithfully by every subsequent re-run, and released code makes the reproduction easier rather than the error more visible.
+The uncomfortable corollary of Section 3.3 is that a large fraction of published model-observer work carries no evidence bearing on the class of defect studied here. Reviews of task-based practice in CT describe the estimators and the observers in detail and say little about how an implementation of them is shown to be correct [12], and the wider evidence on software defects in published science suggests that silence is not because the problem is absent [14,15]. The usual reproducibility apparatus — a fixed seed, a pinned environment, a stored expected output, code released on request — establishes that a result can be regenerated. None of it establishes that the result was right the first time. A defect present at first publication is reproduced faithfully by every subsequent re-run, and released code makes the reproduction easier rather than the error more visible.
 
 We do not claim that published detectability values are commonly wrong; we have not surveyed them and this study cannot support such a claim. What it does support is narrower and still uncomfortable: for six defects of a kind that occur in practice, the standard apparatus provides zero detection power, and the errors they produce in a reported $d'$ reach 90%.
 
@@ -298,7 +298,7 @@ The injection study adds two methodological items to these six. Check 5 must be 
 
 Standards documents [3,4] and task-group reports [9] specify what to measure and how, and are the appropriate reference for the definitions used here. They do not, and are not intended to, specify how an implementation should establish that it has implemented them correctly. Model-observer methodology reviews [8] treat the estimation of observer performance from data, largely under the assumption that the physical inputs are correct. The present study concerns the layer between: the correctness of the implementation itself, treated as an empirical question with a measurable answer.
 
-The closest methodological relatives are outside imaging — mutation testing in software engineering, which measures a test suite by injecting faults and counting those it detects. The adaptation here is that the "tests" are physical identities rather than assertions about program state, and that the endpoint is a physical quantity ($d'$) rather than test-suite coverage, so that detection can be dated against the point at which the science, not the code, goes wrong.
+The closest methodological relatives are outside imaging — mutation testing in software engineering, which measures a test suite by injecting faults and counting those it detects [17]. The adaptation here is that the "tests" are physical identities rather than assertions about program state, and that the endpoint is a physical quantity ($d'$) rather than test-suite coverage, so that detection can be dated against the point at which the science, not the code, goes wrong.
 
 ### 4.4 Limitations
 
@@ -375,3 +375,10 @@ to publish the results.
 8. He X, Park S. Model observers in medical imaging research. *Theranostics.* 2013;3(10):774–786. doi:10.7150/thno.5138.
 9. Samei E, Bakalyar D, Boedeker K, et al. Performance evaluation of computed tomography systems: Summary of AAPM Task Group 233. *Med Phys.* 2019;46(11). doi:10.1002/mp.13763.
 10. Moen TR, Chen B, Holmes DR III, et al. Low-dose CT image and projection dataset. *Med Phys.* 2021;48(2):902–911. doi:10.1002/mp.14594.
+11. Barrett HH, Myers KJ, Hoeschen C, Kupinski MA, Little MP. Task-based measures of image quality and their relation to radiation dose and patient risk. *Phys Med Biol.* 2015;60(2):R1–R75. doi:10.1088/0031-9155/60/2/R1.
+12. Verdun FR, Racine D, Ott JG, et al. Image quality in CT: From physical measurements to model observers. *Phys Med.* 2015;31(8):823–843. doi:10.1016/j.ejmp.2015.08.007.
+13. Peng RD. Reproducible research in computational science. *Science.* 2011;334(6060):1226–1227. doi:10.1126/science.1213847.
+14. Soergel DAW. Rampant software errors may undermine scientific results. *F1000Research.* 2015;3:303. doi:10.12688/f1000research.5930.2.
+15. Merali Z. Computational science: ...Error. *Nature.* 2010;467(7317):775–777. doi:10.1038/467775a.
+16. Friedman SN, Fung GSK, Siewerdsen JH, et al. A simple approach to measure computed tomography (CT) modulation transfer function (MTF) and noise-power spectrum (NPS) using the American College of Radiology (ACR) accreditation phantom. *Med Phys.* 2013;40(5):051907. doi:10.1118/1.4800795.
+17. Jia Y, Harman M. An analysis and survey of the development of mutation testing. *IEEE Trans Softw Eng.* 2011;37(5):649–678. doi:10.1109/TSE.2010.62.
