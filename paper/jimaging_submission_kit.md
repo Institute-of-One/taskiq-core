@@ -130,6 +130,40 @@ error injection; implementation error; quality assurance; closed-form validation
       `python paper/make_injection_study.py`, then confirm the numbers in the text still
       match `paper/figures/injection.json`.
 
+## Suggested reviewers
+
+Submitted for IORN-003. **These addresses were looked up by the author from published
+records, not generated.** Never invent a reviewer name or address: a suggestion that
+routes to a wrong real person, or to nothing, is the mechanism of a known peer-review
+fraud and it is the author's integrity record that carries the damage.
+
+| # | Reviewer | Affiliation | Email | Source / verification |
+|---|---|---|---|---|
+| 1 | Damien Racine | Institute of Radiation Physics, Lausanne University Hospital (CHUV), Switzerland | damien.racine@chuv.ch | Author: PubMed + a Medical Physics paper. Independently confirmed active at CHUV on task-based detectability, 2024-2025, and `@chuv.ch` is the institute's convention |
+| 2 | Jeffrey H. Siewerdsen | Johns Hopkins University, USA | jeff.siewerdsen@jhu.edu | Author: the Johns Hopkins official page. PubMed could not confirm the affiliation independently; the institutional page is the better source and settles it |
+| 3 | Mats Persson | KTH Royal Institute of Technology, Physics of Medical Imaging, Sweden | mats.persson@mi.physics.kth.se | Author: corresponding-author details of a Medical Physics paper. Independently confirmed at KTH, 2026 |
+
+**Reserve.** Pascal Monnin, Institute of Radiation Physics (IRA), CHUV --
+`pascal.monnin@chuv.ch`, taken directly from the PubMed record of "Assessment of
+temporal resolution and detectability of moving objects in CT: a task-based image
+quality study", *Physica Medica* 2024, where he is corresponding author. Same
+institute as Racine, so use as a replacement rather than an addition.
+
+Racine is a co-author of reference 12 (Verdun, Racine, Ott), whose silence on
+establishing implementation correctness Section 4.1 comments on. That is ordinary
+scholarly exchange, not a conflict, but it should be a knowing choice.
+
+Excluded reviewers: **none**. Exclusion lists are for real conflicts. Listing the JMI
+editor who desk-rejected earlier work would not be a conflict and would only point at
+a rejection nobody asked about.
+
+**Where to find addresses without guessing.** The journal's own Reviewer Board and
+Editorial Board (linked from the submission form) list people who have already agreed
+to review for it. PubMed publishes the corresponding author's address inside the
+`<Affiliation>` field for many records -- query by title through the E-utilities API
+and read it off, but check the affiliation, because a title search can match the wrong
+paper. Institutional directory pages are the most current source of all.
+
 ## Cover letter (paste into the portal)
 
 The submission form asks specifically that the letter explain how the work is linked
