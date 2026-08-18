@@ -132,48 +132,67 @@ error injection; implementation error; quality assurance; closed-form validation
 
 ## Cover letter (paste into the portal)
 
+The submission form asks specifically that the letter explain how the work is linked
+to *Journal of Imaging*; the fourth paragraph does that and should not be cut. Delete
+the Special Issue sentence if the Special Issue field is left empty.
+
 ```text
 Dear Editors of the Journal of Imaging,
 
 Please consider our manuscript, "Error Injection in Task-Based Image Quality
-Pipelines: What Regression Testing Cannot Catch, and Why Neither Internal
-Identities nor Closed-Form References Suffice Alone," as an Article.
+Pipelines: What Regression Testing Cannot Catch, and Why Neither Internal Identities
+nor Closed-Form References Suffice Alone," as an Article.
 
-Task-based assessment is the accepted framework for evaluating medical imaging systems,
-but the chain that implements it — MTF, NPS, NEQ and model observers — fails by returning
-a plausible wrong number rather than an error. The test most implementations carry, a
-regression test against the code's own stored output, cannot detect this: if the defect
-was present when the reference was recorded, the deterministic pipeline reproduces it and
-the test passes. We therefore injected six defects into a validated implementation of the
-chain, each through a severity dial that recovers the correct pipeline exactly at zero,
-and measured which checks detect them and at what severity.
+Task-based assessment is the accepted framework for evaluating medical imaging
+systems, but the chain that implements it - the modulation transfer function, the
+noise power spectrum, the noise-equivalent quanta and model observers - fails by
+returning a plausible wrong number rather than an error. The test most
+implementations carry, a regression test against the code's own stored output, cannot
+detect this: if the defect was present when the reference was recorded, the
+deterministic pipeline reproduces it and the test passes. We therefore injected six
+defects into a validated implementation of that chain, each through a severity dial
+that recovers the correct pipeline exactly at zero, and measured which checks detect
+them and at what severity.
 
-The self-consistency regression test detected none of the six. Internal identities, which
-need no ground truth, and closed-form references, which need a phantom whose answer is
-known, together detected all six, in every case at or before the severity at which the
-reported detectability index became wrong by more than 5 per cent — but neither family
-sufficed alone, each detecting three of six. Half of these defects are therefore
-undetectable without a phantom of known truth, which is an argument for keeping one in a
-workflow whose object is real images. Run unmodified on measured ACR phantom projections
-across seven reconstruction kernels, the identities transferred intact while their
-tolerances did not, and the strongest apodisation drove the measured noise dynamic range
-to within 0.6 per cent of the point at which a prewhitening observer must refuse to return
-a number at all.
+The self-consistency regression test detected none of the six. Internal identities,
+which need no ground truth, and closed-form references, which need a phantom whose
+answer is known, together detected all six, in every case at or before the severity
+at which the reported detectability index became wrong by more than 5 per cent. But
+neither family sufficed alone, each detecting three of six: half of these defects are
+undetectable without a phantom of known truth, which is an argument for keeping one
+in a workflow whose object is real images. Run unmodified on measured ACR phantom
+projections across seven reconstruction kernels, the identities transferred intact
+while their tolerances did not, and the strongest apodisation drove the measured noise
+dynamic range to within 0.6 per cent of the point at which a prewhitening observer
+must refuse to return a number at all.
 
-The work involves no human participants, no animal subjects and no patient data; the only
-measured data are of a physical quality-assurance phantom obtained from The Cancer Imaging
-Archive under CC BY 4.0, so no ethics approval or informed consent applies.
+We believe the work belongs in the Journal of Imaging for three reasons. First, its
+subject is how image quality is measured rather than any one imaging application: the
+MTF-NPS-NEQ-observer chain underpins a large share of the quantitative imaging
+research the journal publishes, and this study is about whether an implementation of
+it can be trusted. Second, the deliverable is portable - six checks, four of which
+need no ground truth and therefore survive the move to patient data, stated so that a
+reader can assert them inside their own pipeline. Third, the finding bears directly on
+reproducibility in imaging research, a concern that cuts across the journal's scope:
+we show that the reproducibility apparatus in common use certifies that a result can
+be regenerated, not that it was right. The manuscript is submitted to the Special
+Issue "Medical Image Analysis: New Opportunities and Challenges", where it addresses a
+challenge upstream of analysis itself - that the measurement pipelines analysis is
+judged against can fail without any indication that they have.
 
-Disclosure: the software is archived on Zenodo (concept DOI 10.5281/zenodo.21422924). The
-manuscript is not under consideration elsewhere. Generative AI was used as a tool and is
-disclosed in Section 2.7 and the Acknowledgments; no AI system is an author.
+The work involves no human participants, no animal subjects and no patient data; the
+only measured data are of a physical quality-assurance phantom obtained from The
+Cancer Imaging Archive under CC BY 4.0, so no ethics approval or informed consent
+applies.
 
-The author declares the competing interests stated in the manuscript. We believe the work
-fits the scope of the Journal of Imaging and will interest its readership in medical
-imaging, image quality assessment and reproducible imaging research.
+Disclosure: the software is archived on Zenodo (concept DOI 10.5281/zenodo.21422924).
+There is no preprint of this manuscript. It is not under consideration elsewhere.
+Generative AI was used as a tool and is disclosed in Section 2.7 and the
+Acknowledgments; no AI system is an author. The author declares the competing
+interests stated in the manuscript.
 
 Yours sincerely,
 Shuji Yamamoto, PhD
 Institute of One, LISIT Co., Ltd., Tokyo, Japan
-yamamoto@lisit.jp · ORCID 0000-0001-9211-1071
+yamamoto@lisit.jp - ORCID 0000-0001-9211-1071
 ```
