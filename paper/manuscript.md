@@ -96,7 +96,9 @@ Unless stated otherwise the reference configuration is: pixel pitch $\Delta x = 
 
 ### 2.2 The checks
 
-Six checks were implemented, four internal identities and two closed-form references. Each returns a scalar violation magnitude; a check *fires* when that magnitude exceeds its tolerance.
+Six checks were implemented, four internal identities and two closed-form references (Table 1). Each returns a scalar violation magnitude; a check *fires* when that magnitude exceeds its tolerance.
+
+**Table 1.** The six checks, their family, and the tolerance each is held to. Tolerances are set from the estimator's measured reproducibility on a correct pipeline, with an order of magnitude of margin.
 
 | key | check | family | tolerance |
 |---|---|---|---|
@@ -167,9 +169,9 @@ These establish that the pipeline is correct in the region a closed form can rea
 
 ### 3.2 Which check catches which defect
 
-Table 1 and Figure 4 give the outcome. No check fires at $\alpha = 0$ for any defect.
+Table 2 and Figure 4 give the outcome. No check fires at $\alpha = 0$ for any defect.
 
-**Table 1.** Six injected defects against seven checks. Detection severity is the smallest $\alpha$ at which a check fires; material severity is the smallest at which the reported $d'$ is wrong by more than 5%.
+**Table 2.** Six injected defects against seven checks. Detection severity is the smallest $\alpha$ at which a check fires; material severity is the smallest at which the reported $d'$ is wrong by more than 5%. The seventh check, the self-consistency regression test, fired on none of the six and so appears nowhere in the *caught by* column.
 
 | defect | origin | caught by | detection $\alpha$ | material $\alpha$ | worst error in $d'$ |
 |---|---|---|---|---|---|
@@ -179,7 +181,6 @@ Table 1 and Figure 4 give the outcome. No check fires at $\alpha = 0$ for any de
 | `detrend` | standard | NPS closed form | 0.1 | 0.2 | 69.4% |
 | `disk` | found here | **signal area** | 0.1 | never | 2.4% |
 | `no_floor` | found here | **NPS dynamic range**, NPS closed form | 0.1 | 0.1 | 37.0% |
-| | | *self-consistency* | *never* | | |
 
 ![](figures/fig4_injection.png){width=100%}
 
@@ -224,9 +225,9 @@ These are recorded because they are the same class of failure the paper is about
 
 ### 3.7 The same chain on a real scanner
 
-Run without modification on measured ACR phantom projections, the chain behaved as the theory requires across all seven reconstruction kernels (Table 2, Figure 5).
+Run without modification on measured ACR phantom projections, the chain behaved as the theory requires across all seven reconstruction kernels (Table 3, Figure 5).
 
-**Table 2.** MTF → NPS → NEQ → detectability on measured projections, sweeping apodisation. Nothing is simulated; the same projections are reconstructed seven ways.
+**Table 3.** MTF → NPS → NEQ → detectability on measured projections, sweeping apodisation. Nothing is simulated; the same projections are reconstructed seven ways.
 
 | kernel | MTF$_{50}$ (mm$^{-1}$) | noise SD | NEQ peak | $d'$ ideal | NPWE efficiency |
 |---|---|---|---|---|---|
@@ -248,9 +249,9 @@ The regression of $d'^2_{\text{ideal}}$ on the NEQ integral returns $R^2 = 0.84$
 
 ### 3.8 Which checks survive the move to measured data
 
-The three internal identities that can be evaluated without ground truth were run on all seven real-scanner reconstructions (Table 3).
+The three internal identities that can be evaluated without ground truth were run on all seven real-scanner reconstructions (Table 4).
 
-**Table 3.** Internal identities evaluated on measured ACR phantom data. The two closed-form references cannot appear here: neither the true MTF nor the true NPS of a clinical scanner is known analytically.
+**Table 4.** Internal identities evaluated on measured ACR phantom data. The two closed-form references cannot appear here: neither the true MTF nor the true NPS of a clinical scanner is known analytically.
 
 | kernel | Parseval residual | NPS dynamic range | signal-area residual |
 |---|---|---|---|

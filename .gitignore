@@ -44,3 +44,4 @@ paper/*.bak
 
 # built submission artefacts: regenerate with pandoc
 paper/manuscript.docx
+paper/manuscript.new.docx
