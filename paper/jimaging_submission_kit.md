@@ -50,8 +50,9 @@ If IORN-002 is rejected, revisit this choice before sending anything further.
 
 ## Form fields (copy–paste)
 
-**Title:** Error injection in task-based image quality pipelines: what self-consistency
-testing misses and what closed-form checks catch
+**Title:** Error Injection in Task-Based Image Quality Pipelines: What Regression
+Testing Cannot Catch, and Why Neither Internal Identities nor Closed-Form
+References Suffice Alone
 
 **Article type:** Article
 
@@ -132,8 +133,9 @@ error injection; implementation error; quality assurance; closed-form validation
 ```text
 Dear Editors of the Journal of Imaging,
 
-Please consider our manuscript, "Error injection in task-based image quality pipelines:
-what self-consistency testing misses and what closed-form checks catch," as an Article.
+Please consider our manuscript, "Error Injection in Task-Based Image Quality
+Pipelines: What Regression Testing Cannot Catch, and Why Neither Internal
+Identities nor Closed-Form References Suffice Alone," as an Article.
 
 Task-based assessment is the accepted framework for evaluating medical imaging systems,
 but the chain that implements it — MTF, NPS, NEQ and model observers — fails by returning

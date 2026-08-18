@@ -1,5 +1,5 @@
 ---
-title: "Error injection in task-based image quality pipelines: what self-consistency testing misses and what closed-form checks catch"
+title: "Error Injection in Task-Based Image Quality Pipelines: What Regression Testing Cannot Catch, and Why Neither Internal Identities nor Closed-Form References Suffice Alone"
 author:
   - Shuji Yamamoto
 date: "2026"
@@ -26,7 +26,7 @@ or submit as free-format (all required sections are present).
 
 **Type:** Article
 
-**Title:** Error injection in task-based image quality pipelines: what self-consistency testing misses and what closed-form checks catch
+**Title:** Error Injection in Task-Based Image Quality Pipelines: What Regression Testing Cannot Catch, and Why Neither Internal Identities nor Closed-Form References Suffice Alone
 
 **Author:** Shuji Yamamoto $^{1,*}$
 
