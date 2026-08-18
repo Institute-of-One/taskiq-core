@@ -2,12 +2,14 @@
 
 Target journal: **Journal of Imaging** (MDPI), ISSN 2313-433X. Article type: **Article**.
 Submission portal: <https://susy.mdpi.com/user/manuscripts/upload?journal=jimaging>
-Manuscript source: **`paper/manuscript.md`**. Upload **`paper/manuscript.docx`**,
-built with pandoc. Figures in `paper/figures/`.
+Manuscript source: **`paper/manuscript.md`**. Upload **`paper/taskiq-core_jimaging.docx`**,
+built with pandoc. Build it fresh before uploading and delete any other .docx in the
+directory: a stale build with a plausible name sitting beside the current one is the
+easiest way to submit the wrong file. Figures in `paper/figures/`.
 
 ```bash
 python paper/make_figures.py && python paper/make_injection_study.py
-python -c "import pypandoc,os; os.chdir('paper'); "\n  "pypandoc.convert_file('manuscript.md','docx',outputfile='manuscript.docx',"\n  "extra_args=['--resource-path=.'])"
+python -c "import pypandoc,os; os.chdir('paper'); "\n  "pypandoc.convert_file('manuscript.md','docx',outputfile='taskiq-core_jimaging.docx',"\n  "extra_args=['--resource-path=.'])"
 ```
 
 **Do not submit a `build_pdf.py` render.** That script states in its own docstring that

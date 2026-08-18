@@ -43,5 +43,4 @@ RESUME.md
 paper/*.bak
 
 # built submission artefacts: regenerate with pandoc
-paper/manuscript.docx
-paper/manuscript.new.docx
+paper/taskiq-core_jimaging.docx
