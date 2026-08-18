@@ -17,6 +17,30 @@ it works "without pandoc/LaTeX", which means it cannot typeset `$...$`: every eq
 comes out as literal source. pandoc turns them into 143 Word equation objects and
 embeds all five figures. The near-accepted IORN-002 submission went the same way.
 
+## Submitted
+
+Sent to *Journal of Imaging* on **2026-08-18**, article type **Article**, to the Special
+Issue *Medical Image Analysis: New Opportunities and Challenges*. Manuscript ID: _to be
+recorded when the acknowledgement arrives._
+
+Answers given on the Statements step, for the record and for the next submission:
+
+| Field | Answer |
+|---|---|
+| Potential conflicts of interest | Yes - financial (LISIT / TexelCraft), plus two declared on the subject: the author wrote the pipeline he assesses, and the paper argues for open validation while his initiative is founded on it |
+| Use of GenAI | Yes - Claude via Claude Code, for code, tests, figure scripts and prose; no numerical result from the model; every reference checked against Crossref |
+| Published materials | **No** - there is no conference paper, preprint or thesis. Answering Yes forces a publication-source choice and none of the four options is true; the Zenodo software deposit is disclosed under Data Availability instead, which is where it belongs |
+| Recruiting Reviewers | Yes |
+| Open Peer-Review | author's decision |
+| Funding | No |
+| Alternative Journals | Tomography (transfer fires only on an out-of-scope rejection) |
+| Language and Figures | Yes |
+| Original data generated | Yes |
+| Publicly available repository | Yes - Zenodo 10.5281/zenodo.21422924; TCIA 10.7937/9npb-2637 for the measured projections |
+
+Suggested reviewers: Racine (CHUV), Siewerdsen (Johns Hopkins), Persson (KTH).
+Excluded: none.
+
 ## Why this venue
 
 The two JMI decisions and the JACMP reclassification of the companion dose paper all

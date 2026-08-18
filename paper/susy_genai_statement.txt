@@ -1,0 +1,7 @@
+Tool: Claude (Anthropic), used through the Claude Code CLI.
+
+How and why: the work is single-author and the software is substantial, so the model assisted with scaffolding and refactoring the released code, drafting unit tests, writing the figure and analysis scripts, and drafting and revising manuscript prose. The assistance was in writing and organising code and text, not in deciding what to study or what to conclude.
+
+No numerical result came from the model. Every number, table and figure is emitted by executed code and written to machine-readable results files, from which the text is checked; the test suite fails if the manuscript and those files disagree. Every reference was checked against its Crossref record before being cited, and one page range that could not be verified there was removed rather than retained.
+
+The author designed the study, re-executed every result, and verified all figures, equations and claims against the code. He is solely accountable for the content. No AI system is an author. The same disclosure appears in Section 2.7 and in the Acknowledgments, following ICMJE and COPE guidance.

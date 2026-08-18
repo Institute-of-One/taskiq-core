@@ -1,0 +1,5 @@
+S.Y. is the Representative Director (CEO) of LISIT Co., Ltd. and Chief Executive Officer of TexelCraft OU. Institute of One is the open-research initiative of LISIT Co., Ltd., which provides institutional oversight for this work. These commercial relationships are disclosed as potential competing interests. Neither company sells or licenses any product related to the subject of the manuscript, and the work used no client or patient data.
+
+Two further interests are declared because they bear on the subject rather than on finance. The pipeline whose defects are injected and measured here was written by the author, so the author is both the implementer being assessed and the assessor; the manuscript states this in its Limitations, and the checks are set out so that a reader can apply them independently. And the manuscript argues for open, externally referenced validation, while the author's research initiative is founded on releasing code and data openly - an ideological position related to the subject, declared as such.
+
+The author declares no other conflict of interest. There were no funders.
