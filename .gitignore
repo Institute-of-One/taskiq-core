@@ -44,3 +44,4 @@ paper/*.bak
 
 # built submission artefacts: regenerate with pandoc
 paper/taskiq-core_jimaging.docx
+paper/susy_step2_fields.txt
