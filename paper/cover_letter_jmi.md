@@ -23,7 +23,7 @@ Please consider our manuscript, "An Open, Closed-Form-Validated Framework for Ta
 
 **Why this journal.** The manuscript is a transparent, patient-data-free reference implementation of the physical-to-task chain — precisely the imaging-physics and observer-performance methodology at the core of JMI's scope.
 
-**Declarations.** The study involves no human participants, no animal subjects, and no patient or third-party data; only synthetic data are analysed, so no ethics approval or informed consent applies. A draft has been archived on Zenodo (version DOI 10.5281/zenodo.21422924, v0.3.0); this is not a peer-reviewed publication and the manuscript is not under consideration elsewhere. Generative AI was used as a tool and is disclosed in the manuscript; no AI system is an author. The author declares the competing interests stated in the manuscript (LISIT Co., Ltd. and TexelCraft OU).
+**Declarations.** The study involves no human participants, no animal subjects, and no patient or third-party data; only synthetic data are analysed, so no ethics approval or informed consent applies. A draft has been archived on Zenodo (version DOI 10.5281/zenodo.21422924, v0.4.0); this is not a peer-reviewed publication and the manuscript is not under consideration elsewhere. Generative AI was used as a tool and is disclosed in the manuscript; no AI system is an author. The author declares the competing interests stated in the manuscript (LISIT Co., Ltd. and TexelCraft OU).
 
 Thank you for your consideration.
 

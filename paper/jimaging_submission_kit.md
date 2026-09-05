@@ -100,7 +100,7 @@ error injection; implementation error; quality assurance; closed-form validation
 - **Institutional Review Board Statement** — not applicable; no human or animal subjects;
   the only measured data are of a physical quality-assurance phantom from a public archive.
 - **Informed Consent Statement** — not applicable.
-- **Data Availability Statement** — GitHub + Zenodo version DOI 10.5281/zenodo.21422924 (v0.3.0; concept 10.5281/zenodo.21422923);
+- **Data Availability Statement** — GitHub + Zenodo version DOI 10.5281/zenodo.21422924 (v0.4.0; concept 10.5281/zenodo.21422923);
   ACR_Phantom series of LDCT-and-Projection-data (TCIA, CC BY 4.0, DOI 10.7937/9npb-2637).
 - **Acknowledgments** — GenAI (Claude, Anthropic) disclosure.
 - **Conflicts of Interest** — LISIT Co., Ltd. / TexelCraft OÜ; oversight relationship
@@ -243,7 +243,7 @@ only measured data are of a physical quality-assurance phantom obtained from The
 Cancer Imaging Archive under CC BY 4.0, so no ethics approval or informed consent
 applies.
 
-Disclosure: the software is archived on Zenodo (version DOI 10.5281/zenodo.21422924, v0.3.0).
+Disclosure: the software is archived on Zenodo (version DOI 10.5281/zenodo.21422924, v0.4.0).
 There is no preprint of this manuscript. It is not under consideration elsewhere.
 Generative AI was used as a tool and is disclosed in Section 2.7 and the
 Acknowledgments; no AI system is an author. The author declares the competing

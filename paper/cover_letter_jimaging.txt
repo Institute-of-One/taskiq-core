@@ -46,7 +46,7 @@ only measured data are of a physical quality-assurance phantom obtained from The
 Cancer Imaging Archive under CC BY 4.0, so no ethics approval or informed consent
 applies.
 
-Disclosure: the software is archived on Zenodo (version DOI 10.5281/zenodo.21422924, v0.3.0).
+Disclosure: the software is archived on Zenodo (version DOI 10.5281/zenodo.21422924, v0.4.0).
 There is no preprint of this manuscript. It is not under consideration elsewhere.
 Generative AI was used as a tool and is disclosed in Section 2.7 and the
 Acknowledgments; no AI system is an author. The author declares the competing
