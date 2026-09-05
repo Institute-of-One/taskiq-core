@@ -32,7 +32,7 @@ Correspondence: yamamoto@lisit.jp · ORCID 0000-0001-9211-1071
 
 **Keywords:** task-based image quality; model observer; MTF; NPS; NEQ; detectability; synthetic phantom; reproducible research; open source
 
-**Code and data:** `taskiq-core` v0.4.0 (MIT). Code: <https://github.com/Institute-of-One/taskiq-core>. Archive DOI: [10.5281/zenodo.21422924](https://doi.org/10.5281/zenodo.21422924) (all versions).
+**Code and data:** `taskiq-core` v0.4.0 (MIT). Code: <https://github.com/Institute-of-One/taskiq-core>. Archive DOI: [10.5281/zenodo.21422924](https://doi.org/10.5281/zenodo.21422924) (version DOI, v0.3.0; concept DOI 10.5281/zenodo.21422923 for all versions).
 ---
 
 ## 1. Background and Motivation
@@ -111,7 +111,7 @@ The framework is a linear-systems, synthetic-data idealisation. It assumes shift
 
 ## Declarations
 
-**Data and code availability.** All code, the phantom generators, the physical and observer estimators, the atlas, and the test suite are openly available at <https://github.com/Institute-of-One/taskiq-core> under the MIT license, archived on Zenodo (concept DOI [10.5281/zenodo.21422924](https://doi.org/10.5281/zenodo.21422924), all versions). No patient, clinical, or client data were used; all data in this study are synthetic and produced by the included reproducible generators.
+**Data and code availability.** All code, the phantom generators, the physical and observer estimators, the atlas, and the test suite are openly available at <https://github.com/Institute-of-One/taskiq-core> under the MIT license, archived on Zenodo (version DOI [10.5281/zenodo.21422924](https://doi.org/10.5281/zenodo.21422924) for v0.3.0; concept DOI 10.5281/zenodo.21422923 for all versions). No patient, clinical, or client data were used; all data in this study are synthetic and produced by the included reproducible generators.
 
 **Ethics.** Not applicable. This study involved no human participants, animal subjects, or patient data; only synthetic data were analyzed.
 

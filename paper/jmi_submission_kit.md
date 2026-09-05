@@ -36,7 +36,7 @@ Manuscript to upload (initial submission): **`taskiq-core_jmi.pdf`** — single 
 - **Conflict of interest:** The author is Representative Director (CEO) of LISIT Co., Ltd. and Chief Executive Officer of TexelCraft OU. Institute of One is the open-research initiative of LISIT Co., Ltd., which provides institutional oversight and accountability for this work. These commercial relationships are disclosed as potential competing interests. The work used no client or patient data and presents openly licensed research software. The author declares no other competing interests.
 - **Human/animal subjects:** None. Synthetic data only; no IRB or informed consent applies.
 - **Funding:** No external grant funding; author time and computing supported in kind by LISIT Co., Ltd. and TexelCraft OU.
-- **Data & code availability:** Openly available at https://github.com/Institute-of-One/taskiq-core (MIT), archived on Zenodo, concept DOI 10.5281/zenodo.21422924 (all versions).
+- **Data & code availability:** Openly available at https://github.com/Institute-of-One/taskiq-core (MIT), archived on Zenodo, version DOI 10.5281/zenodo.21422924 (v0.3.0); concept DOI 10.5281/zenodo.21422923 for all versions.
 - **AI use:** Disclosed in the manuscript (Section 6, AI-Use Disclosure): a large language model (Claude, Anthropic) assisted with code scaffolding/refactoring, test drafting, figure/script generation, and manuscript drafting; the author re-executed and verified every result; no AI system is an author.
 
 ## Suggested reviewers (independent; get each email from their university/ORCID page — do not fabricate)
@@ -72,7 +72,7 @@ is MIT-licensed and archived on Zenodo.
 
 The study involves no human participants, no animal subjects, and no patient or third-party
 data; only synthetic data are analysed, so no ethics approval or informed consent applies.
-A draft has been archived on Zenodo (concept DOI 10.5281/zenodo.21422924); this is not a
+A draft has been archived on Zenodo (version DOI 10.5281/zenodo.21422924, v0.3.0); this is not a
 peer-reviewed publication and the manuscript is not under consideration elsewhere.
 Generative AI was used as a tool and is disclosed in the manuscript; no AI system is an
 author. The author declares the competing interests stated in the manuscript.

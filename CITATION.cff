@@ -32,5 +32,8 @@ version: 0.4.0
 date-released: "2026-07-18"
 identifiers:
   - type: doi
-    value: "10.5281/zenodo.21422924"
+    value: "10.5281/zenodo.21422923"
     description: "Concept DOI (resolves to the latest version)"
+  - type: doi
+    value: "10.5281/zenodo.21422924"
+    description: "Version DOI for the v0.3.0 archived snapshot"

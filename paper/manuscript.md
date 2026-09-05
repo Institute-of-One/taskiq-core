@@ -340,7 +340,7 @@ Not applicable.
 All code — the phantom generators, the physical and observer estimators, the injection
 study (`paper/make_injection_study.py`) and the test suite — is openly available at
 <https://github.com/Institute-of-One/taskiq-core> under the MIT licence and archived on
-Zenodo (concept DOI [10.5281/zenodo.21422924](https://doi.org/10.5281/zenodo.21422924)).
+Zenodo (version DOI [10.5281/zenodo.21422924](https://doi.org/10.5281/zenodo.21422924) for v0.3.0, the archived snapshot behind every number here; concept DOI 10.5281/zenodo.21422923 resolves to the latest version).
 Every number in this article is written to `paper/figures/injection.json` and
 `paper/results/acr_atlas.json` by the scripts that produce the figures, so the text and
 the figures cannot diverge. The real-scanner projections are the ACR_Phantom series of

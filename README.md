@@ -254,7 +254,7 @@ settings used.
 
 See [`CITATION.cff`](CITATION.cff) and [`paper/paper.md`](paper/paper.md). Archived on
 Zenodo — cite the concept DOI
-[10.5281/zenodo.21422924](https://doi.org/10.5281/zenodo.21422924), which always resolves
+[10.5281/zenodo.21422923](https://doi.org/10.5281/zenodo.21422923), which always resolves
 to the latest version.
 
 ## License

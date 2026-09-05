@@ -33,7 +33,7 @@ Shuji Yamamoto (Institute of One, LISIT Co., Ltd., Tokyo, Japan)
 - ORCID: 0000-0001-9211-1071
 
 ## Comments field
-6 pages, 3 figures. Software (MIT): https://github.com/Institute-of-One/taskiq-core — archived on Zenodo, concept DOI 10.5281/zenodo.21422924.
+6 pages, 3 figures. Software (MIT): https://github.com/Institute-of-One/taskiq-core — archived on Zenodo, version DOI 10.5281/zenodo.21422924 (v0.3.0); concept DOI 10.5281/zenodo.21422923.
 
 ## ACM/MSC class (optional)
 ACM: I.4.0 (Image Processing and Computer Vision — General); J.3 (Life and Medical Sciences).
