@@ -6,7 +6,7 @@ authors:
   - family-names: Yamamoto
     given-names: Shuji
     email: yamamoto@lisit.jp
-    affiliation: "Institute of One, LISIT Co., Ltd., Tokyo, Japan"
+    affiliation: "Institute of One, LISIT Co., Ltd., Tokyo 150-0044, Japan"
     orcid: "https://orcid.org/0000-0001-9211-1071"
 repository-code: "https://github.com/Institute-of-One/taskiq-core"
 abstract: >-
