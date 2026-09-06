@@ -43,7 +43,11 @@ pandas = ["pandas>=2.0"]
 dev = [
   "pytest>=7.0",
   "pytest-cov>=4.1",
-  "ruff>=0.4",
+  # Pinned, not floored. An unpinned linter is a gate that changes without a
+  # commit: ruff 0.16 began formatting the Python inside Markdown, and CI went
+  # red on a repository nobody had touched -- red for a day, during which the
+  # type-check step behind it never ran at all. Bump this deliberately.
+  "ruff==0.16.6",
   "mypy>=1.8",
 ]
 
@@ -76,6 +80,15 @@ filterwarnings = [
 [tool.ruff]
 line-length = 100
 target-version = "py310"
+
+[tool.ruff.format]
+# Prose is not source. The README and docs/REPRODUCE.md set their example output
+# in a column so a reader can scan predicted against measured; the formatter
+# collapses that alignment, and it only started reaching these files at all when
+# ruff 0.16 added Markdown support. Nothing is lost by excluding them: `ruff
+# check` reads no Markdown either way, so these blocks were never linted, and
+# what the formatter offered was a layout decision, not a correctness one.
+exclude = ["*.md"]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B", "NPY", "D"]
