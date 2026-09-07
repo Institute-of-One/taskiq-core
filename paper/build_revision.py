@@ -17,9 +17,14 @@ from __future__ import annotations
 import difflib
 import re
 import subprocess
+import sys
 from pathlib import Path
 
 import pypandoc
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from docx_tables import keep_rows_whole, verify
 
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parent
@@ -121,8 +126,18 @@ def main() -> int:
             outputfile=str(destination),
             extra_args=["--resource-path", str(HERE), "--wrap=none"],
         )
+        # Pandoc lets Word split a table anywhere, and it split Table 2 through the middle
+        # of a cell with no header above the continuation.
+        keep_rows_whole(destination)
+        state = verify(destination)
         size = destination.stat().st_size / 1000
         print(f"  {label:12} {destination.name}  ({size:.0f} kB)")
+        print(
+            f"               {state['rows_protected']}/{state['rows']} rows kept whole, "
+            f"{state['headers_repeated']}/{state['tables']} headers set to repeat"
+        )
+        assert state["double_trPr"] == 0, "a second row-properties element was appended"
+        assert state["rows_protected"] == state["rows"], "some rows can still split"
 
     # The response letter goes as its own document.
     letter = OUT / "response_to_reviewers.md"
