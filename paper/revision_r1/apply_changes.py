@@ -37,6 +37,7 @@ from __future__ import annotations
 import difflib
 import re
 import subprocess
+import sys
 import zipfile
 from pathlib import Path
 from xml.etree import ElementTree
@@ -621,6 +622,16 @@ def main() -> int:
 
     patched = edit.splice(document, edits.replacements, edits.insertions)
     ElementTree.fromstring(patched)  # a document that does not parse is not written out
+
+    # The five edits this script refuses were afterwards made by hand, in Word, in the file
+    # it writes. Running it again would rebuild that file from the editorial office's
+    # original and throw them away -- and the loss would be silent, because the result
+    # still looks like a correctly patched manuscript.
+    if OUTPUT.exists() and "--force" not in sys.argv:
+        raise SystemExit(
+            f"{OUTPUT.name} already exists and has been edited by hand since it was made.\n"
+            "Rebuilding it would discard those edits. Delete it first, or pass --force."
+        )
 
     with zipfile.ZipFile(FORMATTED) as source:
         items = [(item, source.read(item.filename)) for item in source.infolist()]
