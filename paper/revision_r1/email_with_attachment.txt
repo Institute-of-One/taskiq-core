@@ -1,0 +1,23 @@
+Subject: Re: [J. Imaging] Manuscript ID: jimaging-4539482 - Minor Revision - Need Use Journal's Template
+
+Dear Mr Jiang,
+
+Please find the revised manuscript attached, prepared in the preliminarily formatted
+file you sent rather than rebuilt from my own source. The template, the equations and
+the tables are yours, untouched; only the paragraphs the revision changes have been
+edited, and every change is highlighted in yellow.
+
+The content is the same revision described in my previous message and in the
+point-by-point responses already uploaded to each reviewer's reply form, including the
+two corrections I flagged: the abstract's overclaim about the identities transferring
+intact, and the Data Availability Statement, which now names both packages and the half
+of the work each supports.
+
+Thank you again for your patience with the first attempt.
+
+Kind regards,
+
+Shuji Yamamoto
+Institute of One, LISIT Co., Ltd., Tokyo 150-0044, Japan
+ORCID 0000-0001-9211-1071
+yamamoto@lisit.jp
