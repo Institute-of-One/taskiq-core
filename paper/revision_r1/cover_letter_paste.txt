@@ -1,98 +1,44 @@
 Dear Dr Jiang,
 
-Thank you for the decision of minor revision on jimaging-4539482, and please pass my
-thanks to both reviewers. Detailed point-by-point responses have been uploaded to each
-reviewer's reply form. This letter summarises the revision and reports two corrections
-that no comment prompted.
+Thank you for the decision of minor revision on jimaging-4539482, and please pass my thanks to both reviewers. Detailed point-by-point responses have been uploaded to each reviewer's reply form. This letter summarises the revision and reports two corrections that no comment prompted.
 
 WHAT CHANGED, BY REVIEWER
 
 Reviewer 1, five points, all addressed:
 
-(1) A paragraph added at the end of Section 1.2 positioning the internal identities against
-property-based testing, metamorphic testing and verification practice for computational
-science, with three new references, and saying what the paper adds that is not borrowed.
+(1) A paragraph added at the end of Section 1.2 positioning the internal identities against property-based testing, metamorphic testing and verification practice for computational science, with three new references, and saying what the paper adds that is not borrowed.
 
-(2) Figure 4 regenerated: type enlarged throughout, 600 dpi, and panel labels (a) and (b).
-Regenerating it exposed a second problem the comment covers without naming: every detection
-falls between 0.1 and 0.2 on a colour scale running 0 to 1, so colour separated almost
-nothing. Each cell now prints its severity. Figure 5 has panel labels (a) to (d), and the
-Table 2 caption now explains that boldface marks a check that is an internal identity.
+(2) Figure 4 regenerated: type enlarged throughout, 600 dpi, and panel labels (a) and (b). Regenerating it exposed a second problem the comment covers without naming: every detection falls between 0.1 and 0.2 on a colour scale running 0 to 1, so colour separated almost nothing. Each cell now prints its severity. Figure 5 has panel labels (a) to (d), and the Table 2 caption now explains that boldface marks a check that is an internal identity.
 
-(3) The Section 4.2 checklist is relabelled A1 to A4 for the internal identities and B1 to
-B2 for the closed-form references, under separate headings. The cause was a converter
-absorbing the introducing sentence into the preceding list, so the source looked correct
-and the document you read did not; the new grouping cannot be absorbed by any converter.
+(3) The Section 4.2 checklist is relabelled A1 to A4 for the internal identities and B1 to B2 for the closed-form references, under separate headings. The cause was a converter absorbing the introducing sentence into the preceding list, so the source looked correct and the document you read did not; the new grouping cannot be absorbed by any converter.
 
-(4) Section 2.5 now states the severity grid, the 64 noise realisations, the fixed seeds
-and the derivation of each tolerance. On the specific question: yes, 0.1 is the resolution
-limit of the experiment, and the manuscript now says so. Seven of eight detections occur at
-the smallest non-zero severity examined, so the paper claims that detection precedes
-materiality, which the grid resolves, and not that a detection threshold was measured,
-which it does not.
+(4) Section 2.5 now states the severity grid, the 64 noise realisations, the fixed seeds and the derivation of each tolerance. On the specific question: yes, 0.1 is the resolution limit of the experiment, and the manuscript now says so. Seven of eight detections occur at the smallest non-zero severity examined, so the paper claims that detection precedes materiality, which the grid resolves, and not that a detection threshold was measured, which it does not.
 
-(5) The most valuable comment in either report. The abstract claimed the identities
-transferred intact when only three of the four can be evaluated on measured data at all.
-The abstract is corrected, and the reason the fourth is absent now appears in Section 3.8
-and in the caption of Table 4 rather than only in Section 4.6, where the reviewer could not
-be expected to find it.
+(5) The most valuable comment in either report. The abstract claimed the identities transferred intact when only three of the four can be evaluated on measured data at all. The abstract is corrected, and the reason the fourth is absent now appears in Section 3.8 and in the caption of Table 4 rather than only in Section 4.6, where the reviewer could not be expected to find it.
 
-Reviewer 2, nine points, all addressed. Detectability, phantom, synthetic phantom, severity,
-severity dial, edge-spread and line-spread functions are now defined at first use; the
-10^29 and 10^-31 passages explain their mechanisms; the bridge identity is given as two
-displayed integrals in Section 2.2 rather than only named in Table 1; the unclear sentence
-about a prewhitening observer is rewritten; the implementation has a section of its own;
-the grammatical correction is made; and inline mathematics is set inline throughout.
+Reviewer 2, nine points, all addressed. Detectability, phantom, synthetic phantom, severity, severity dial, edge-spread and line-spread functions are now defined at first use; the 10^29 and 10^-31 passages explain their mechanisms; the bridge identity is given as two displayed integrals in Section 2.2 rather than only named in Table 1; the unclear sentence about a prewhitening observer is rewritten; the implementation has a section of its own; the grammatical correction is made; and inline mathematics is set inline throughout.
 
-On the two suggested references: I have taken the photon-counting CT phantom study, which
-is directly relevant and is cited in Section 3.7 where the same coupling between resolution
-and noise is discussed. I have not included the deidentification paper. I read it and could
-not find a place where it would inform this manuscript's argument, and the checklist asks
-that suggested references be assessed rather than added. I would of course include it if
-you see a connection I have missed.
+On the two suggested references: I have taken the photon-counting CT phantom study, which is directly relevant and is cited in Section 3.7 where the same coupling between resolution and noise is discussed. I have not included the deidentification paper. I read it and could not find a place where it would inform this manuscript's argument, and the checklist asks that suggested references be assessed rather than added. I would of course include it if you see a connection I have missed.
 
 TWO CORRECTIONS THAT NO COMMENT PROMPTED
 
-First, the Data Availability Statement was false, and I would rather report it than let it
-pass. It said all the code is at one repository. That is true of the synthetic arm and
-false of the real-scanner arm: Tables 3 and 4, Figure 5 and Sections 2.6 to 3.8 are
-produced by a script in a second package that supplies the DICOM-CT-PD reading, the
-single-slice rebinning and the filtered backprojection. That package was not cited and had
-never been published.
+First, the Data Availability Statement was false, and I would rather report it than let it pass. It said all the code is at one repository. That is true of the synthetic arm and false of the real-scanner arm: Tables 3 and 4, Figure 5 and Sections 2.6 to 3.8 are produced by a script in a second package that supplies the DICOM-CT-PD reading, the single-slice rebinning and the filtered backprojection. That package was not cited and had never been published.
 
-For a paper arguing that a result you cannot re-derive is a result you cannot check, this
-was not a citation slip, and it is fixed at the source rather than in the wording. The
-package is now public at https://github.com/Institute-of-One/ldct-io under the MIT licence,
-with 60 passing tests and its reconstruction validated against closed-form answers rather
-than against a stored output of itself. Five of its example scripts had one machine's data
-path hard-coded, which would have left a reader unable to run any of them; the location now
-comes from an environment variable. Figure 5 in this revision was regenerated end to end
-from the archived projections through the published code. The Data Availability Statement
-now says which half of the work lives where, and states that neither package reproduces the
-atlas alone.
+For a paper arguing that a result you cannot re-derive is a result you cannot check, this was not a citation slip, and it is fixed at the source rather than in the wording. The package is now public at https://github.com/Institute-of-One/ldct-io under the MIT licence, with 60 passing tests and its reconstruction validated against closed-form answers rather than against a stored output of itself. Five of its example scripts had one machine's data path hard-coded, which would have left a reader unable to run any of them; the location now comes from an environment variable. Figure 5 in this revision was regenerated end to end from the archived projections through the published code. The Data Availability Statement now says which half of the work lives where, and states that neither package reproduces the atlas alone.
 
-Second, the affiliation. The submitted manuscript omitted the postal code, and the author
-record in the submission system reads "Institute of one, LISIT, Co., Ltd." The correct and
-consistent form, as carried by my papers in Journal of Imaging 12(8):392 (2026) and
-Tomography 12(9):125 (2026), is:
+Second, the affiliation. The submitted manuscript omitted the postal code, and the author record in the submission system reads "Institute of one, LISIT, Co., Ltd." The correct and consistent form, as carried by my papers in Journal of Imaging 12(8):392 (2026) and Tomography 12(9):125 (2026), is:
 
     Institute of One, LISIT Co., Ltd., Tokyo 150-0044, Japan
 
-The manuscript is corrected. I would be grateful if the author record could be corrected to
-match, as I do not appear to be able to edit it at this stage.
+The manuscript is corrected. I would be grateful if the author record could be corrected to match, as I do not appear to be able to edit it at this stage.
 
 ENGLISH LANGUAGE
 
-Reviewer 1 marked the English as improvable and Reviewer 2 as not requiring improvement. I
-have taken the first at face value. The passages Reviewer 2 identified as confusing were
-the places where the writing was in fact doing the least work, and those are rewritten
-rather than polished; the whole manuscript has been reread for clarity.
+Reviewer 1 marked the English as improvable and Reviewer 2 as not requiring improvement. I have taken the first at face value. The passages Reviewer 2 identified as confusing were the places where the writing was in fact doing the least work, and those are rewritten rather than polished; the whole manuscript has been reread for clarity.
 
 FILES
 
-The revised manuscript is uploaded with all changes highlighted. Forty of its 154
-paragraphs changed, and the highlighting is derived by comparing the revision against the
-submitted version rather than applied by hand, so nothing that changed is unmarked.
+The revised manuscript is uploaded with all changes highlighted. Forty of its 154 paragraphs changed, and the highlighting is derived by comparing the revision against the submitted version rather than applied by hand, so nothing that changed is unmarked.
 
 Thank you both for reviews that improved the paper and, in two places, corrected it.
 

@@ -1,0 +1,19 @@
+Dear Dr Jiang,
+
+Thank you for the decision and for the reviewers' reports, both of which improved the paper. All five points from Reviewer 1 and all nine from Reviewer 2 are addressed, with detailed point-by-point responses uploaded to each reviewer's reply form and a summary in the cover letter. The revised manuscript is uploaded with every change highlighted; the highlighting is derived by comparing the revision against the submitted version rather than applied by hand, so nothing that changed is unmarked. Forty of 154 paragraphs changed.
+
+Two of the comments led to more than they asked for, and I would rather say so than make the minimum change.
+
+Reviewer 1's fifth point found an overclaim in the abstract. It stated that the internal identities transferred intact to measured data when only three of the four can be evaluated there at all. The abstract is corrected and the reason the fourth is absent now appears beside the table rather than several sections later.
+
+Reviewer 2's sixth point asked what "code scaffolding" meant in the AI disclosure, and answering it honestly exposed a fault the reviewers had no way of seeing. The Data Availability Statement said all the code is at one repository. That is true of the synthetic arm and false of the real-scanner arm: Tables 3 and 4, Figure 5 and Sections 2.6 to 3.8 are produced by a script in a second package supplying the DICOM-CT-PD reading, the single-slice rebinning and the filtered backprojection, and that package was neither cited nor published. For a paper arguing that a result you cannot re-derive is a result you cannot check, that was not a citation slip, and it is fixed at the source rather than in the wording: the package is now public at https://github.com/Institute-of-One/ldct-io under the MIT licence, and Figure 5 in this revision was regenerated end to end from the archived projections through the published code. The statement now says which half of the work lives where and that neither package reproduces the atlas alone.
+
+One request. The author record in the submission system reads "Institute of one, LISIT, Co., Ltd., Tokyo, Japan". The correct form, as carried by my papers in Journal of Imaging 12(8):392 (2026) and Tomography 12(9):125 (2026), is
+
+    Institute of One, LISIT Co., Ltd., Tokyo 150-0044, Japan
+
+The manuscript is corrected, but I do not appear to be able to edit the author record at this stage and would be grateful if it could be brought into line.
+
+Yours sincerely,
+
+Shuji Yamamoto
