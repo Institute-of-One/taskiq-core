@@ -141,6 +141,17 @@ def main() -> int:
         )
         lines.append(f"## {number}. {edit['kind'].upper()} — {where}")
         lines.append("")
+
+        # A search string, so the paragraph is found by Ctrl+F rather than by reading.
+        # Taken from the middle of the sentence: the opening words of a paragraph are
+        # often shared with its neighbours, and the closing ones run into the next.
+        locator = edit["old"] or edit["anchor"]
+        if locator:
+            words = locator.split()
+            phrase = " ".join(words[3:11]) if len(words) > 12 else " ".join(words[:8])
+            lines.append(f"**Search for:**  `{phrase}`")
+            lines.append("")
+
         if edit["old"]:
             lines.append("**Find this paragraph:**")
             lines.append("")

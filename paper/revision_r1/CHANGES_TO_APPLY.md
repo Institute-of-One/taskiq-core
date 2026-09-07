@@ -13,6 +13,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 1. REPLACE — near paragraph 4
 
+**Search for:**  `$^{1}$ Institute of One, LISIT Co., Ltd., Tokyo,`
+
 **Find this paragraph:**
 
 > $^{1}$ Institute of One, LISIT Co., Ltd., Tokyo, Japan; yamamoto@lisit.jp; ORCID 0000-0001-9211-1071
@@ -22,6 +24,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > $^{1}$ Institute of One, LISIT Co., Ltd., Tokyo 150-0044, Japan; yamamoto@lisit.jp; ORCID 0000-0001-9211-1071
 
 ## 2. REPLACE — near paragraph 7
+
+**Search for:**  `assessment — the modulation transfer function, the noise`
 
 **Find this paragraph:**
 
@@ -33,6 +37,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 3. INSERT — near paragraph 10
 
+**Search for:**  `judging an imaging system by how well a`
+
 **Find this paragraph:**
 
 > Task-based assessment — judging an imaging system by how well a specified observer performs a specified detection or discrimination task, rather than by a generic fidelity metric — is the accepted framework for evaluating medical imaging systems [1,2]. Its physical ingredients are individually standardised: the modulation transfer function (MTF), classically measured from a slanted edge by the presampled-MTF method formalised in ISO 12233 [3], and the noise power spectrum (NPS) and detective-quantum-efficiency formalism standardised for digital X-ray detectors in IEC 62220-1 [4]. Its observer theory is mature [1,5,7,8], its relation to dose and patient risk has been set out in detail [11], its practice from physical measurement through to model observers has been reviewed for CT [12], and its use in computed tomography has been consolidated in AAPM Task Group 233 [9]. The quantity tying the physics to the task is the noise-equivalent quanta, $\mathrm{NEQ} = \mathrm{MTF}^2/\mathrm{NPS}$, because the ideal-observer detectability of a known signal imaged through a linear system is exactly an integral of NEQ against the signal's power spectrum.
@@ -42,6 +48,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > Detectability here is the index $d'$, the separation between the observer's response to signal-present and signal-absent images divided by the standard deviation of that response. It is dimensionless: $d' = 1$ means the two distributions are one standard deviation apart, and $d' \approx 2$ corresponds to roughly 92% correct in a two-alternative forced choice. For the ideal prewhitening observer it is computed in closed form from the signal and the noise spectrum rather than by simulating decisions.
 
 ## 4. INSERT — near paragraph 10
+
+**Search for:**  `judging an imaging system by how well a`
 
 **Find this paragraph:**
 
@@ -53,6 +61,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 5. REPLACE — near paragraph 15
 
+**Search for:**  `routine locates each edge-profile sample in the bin`
+
 **Find this paragraph:**
 
 > A slanted-edge MTF routine locates each edge-profile sample in the bin it falls into, but uses the bin centre as its position. The mean sample position inside a bin is not the bin centre, and the resulting position jitter biases the estimate. The bias depends on the edge angle, so it is invisible to anyone who tests at one angle. A prewhitening observer weights by $1/\mathrm{NPS}$. Handed a noise model whose power decays below floating-point underflow, it returns a detectability of order $10^{29}$, assembled entirely from frequency bins where the "signal" is rounding error. * A soft-edged disk phantom, blurred by applying a one-dimensional edge profile radially rather than by an exact two-dimensional convolution, gains $\pi\sigma^2$ of area. The detectable signal energy then depends on the blur without any indication that it does, so every conclusion drawn about resolution is contaminated by a change in the signal itself.
@@ -62,6 +72,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > A slanted-edge MTF routine locates each edge-profile sample in the bin it falls into, but uses the bin centre as its position. The mean sample position inside a bin is not the bin centre, and the resulting position jitter biases the estimate. The bias depends on the edge angle, so it is invisible to anyone who tests at one angle. A prewhitening observer weights by $1/\mathrm{NPS}$. Handed a noise model whose power decays below floating-point underflow — that is, where the computed NPS falls below the smallest number the arithmetic can represent and is stored as a denormal or as zero — it weights those bins by $1/\mathrm{NPS}$ and so multiplies them by an enormous factor. The resulting $d'$ is of order $10^{29}$: not a large detectability but an arithmetic artefact, assembled entirely from bins where the "signal" is rounding error. A plausible $d'$ is a number near unity, so this one is at least visibly wrong; the same mechanism at milder decay produces one that is not. * A soft-edged disk phantom, blurred by applying a one-dimensional edge profile radially rather than by an exact two-dimensional convolution, gains $\pi\sigma^2$ of area. The detectable signal energy then depends on the blur without any indication that it does, so every conclusion drawn about resolution is contaminated by a change in the signal itself.
 
 ## 6. INSERT — near paragraph 23
+
+**Search for:**  `hold for algebraic reasons, whatever the data. That`
 
 **Find this paragraph:**
 
@@ -73,6 +85,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 7. INSERT — near paragraph 23
 
+**Search for:**  `hold for algebraic reasons, whatever the data. That`
+
 **Find this paragraph:**
 
 > Internal identities must hold for algebraic reasons, whatever the data. That the integral of the NPS over the frequency plane equals the pixel variance is not an empirical fact about a particular phantom; it is Parseval's theorem. Identities of this kind need no ground truth, and therefore continue to work on measured patient data where no truth exists. Closed-form references compare an estimate to the analytic answer for an object constructed so that the answer is known: an analytically blurred edge whose presampled MTF is exactly $\exp(-2\pi^2\sigma^2 f^2)$, or white noise of known variance whose spectrum is exactly $\sigma^2\,\Delta x\,\Delta y$. These are stronger, and they require a phantom.
@@ -82,6 +96,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > What this paper adds is not the idea but its content for one chain: which relations exist in task-based image quality, what each detects, what it costs, and — the part that cannot be borrowed — the finding that the two families are not interchangeable.
 
 ## 8. REPLACE — near paragraph 34
+
+**Search for:**  `forms the edge-spread function, differentiates to the line-spread`
 
 **Find this paragraph:**
 
@@ -93,6 +109,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 9. REPLACE — near paragraph 62
 
+**Search for:**  `emphasis. First, bridge compares two routes to the`
+
 **Find this paragraph:**
 
 > Two points deserve emphasis. First, bridge compares two routes to the same number — the prewhitening observer applied to the imaged signal, and the integral of NEQ against the object's power spectrum — that share no code path but are, under the discrete conventions used here, the same integral rearranged. It is therefore an exact identity rather than an approximation, and holds to zero on the reference pipeline. It is only an identity when both routes use the same noise model; comparing routes that disagree about the noise tests nothing but that disagreement. Second, dynamic_range excludes the DC bin, which mean-detrending drives to $\sim10^{-31}$ by construction. That is bookkeeping, not a decayed spectrum, and reading it as one causes the check to fire on every field including white noise.
@@ -102,6 +120,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > Two points deserve emphasis. First, the bridge check states that the two routes to ideal-observer detectability agree:
 
 ## 10. INSERT — near paragraph 61
+
+**Search for:**  `chosen for convenience. Each is set from the`
 
 **Find this paragraph:**
 
@@ -113,6 +133,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 11. REPLACE — near paragraph 66
 
+**Search for:**  `applied to the correct pipeline through a severity`
+
 **Find this paragraph:**
 
 > Each defect is applied to the correct pipeline through a severity $\alpha \in [0,1]$ constructed so that $\alpha = 0$ recovers the correct pipeline exactly. Nothing is rewritten to break it; the defect is injected from outside the library.
@@ -122,6 +144,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > Each defect is applied to the correct pipeline through a severity $\alpha \in [0,1]$ constructed so that $\alpha = 0$ recovers the correct pipeline exactly. Severity is an exact parameter of the injection, not an estimate of anything: it is the interpolation weight between the correct implementation and the defective one, defined separately for each defect in the list below and computed rather than measured. A severity dial is that parameter used as a continuous control, which is what makes the experiment possible — a defect that can only be present or absent gives one data point, whereas one that can be turned up from nothing gives a curve, and the curve is where the comparison between detection and materiality lives. Nothing is rewritten to break it; the defect is injected from outside the library.
 
 ## 12. INSERT — near paragraph 76
+
+**Search for:**  `fires only after the answer is already wrong`
 
 **Find this paragraph:**
 
@@ -133,6 +157,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 13. INSERT — near paragraph 76
 
+**Search for:**  `fires only after the answer is already wrong`
+
 **Find this paragraph:**
 
 > A check that fires only after the answer is already wrong is not a guard, so the comparison of these two severities, and not the mere fact of detection, is the endpoint.
@@ -142,6 +168,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > Each tolerance is set from the estimator's own reproducibility on the correct pipeline rather than chosen to make a check succeed: the measured residual over the 64 realisations is taken as the noise floor and the tolerance placed an order of magnitude above it, as listed in Table 1. A tolerance below that floor yields a check that fires on correct code, which is discussed in Section 4.6.
 
 ## 14. REPLACE — near paragraph 78
+
+**Search for:**  `the chain behaves as required outside a synthetic`
 
 **Find this paragraph:**
 
@@ -153,6 +181,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 15. REPLACE — near paragraph 79
 
+**Search for:**  `### 2.7 Use of generative AI`
+
 **Find this paragraph:**
 
 > ### 2.7 Use of generative AI
@@ -162,6 +192,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > ### 2.7 Implementation
 
 ## 16. REPLACE — near paragraph 80
+
+**Search for:**  `refactoring, test drafting, figure and script generation, and`
 
 **Find this paragraph:**
 
@@ -173,6 +205,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 17. INSERT — near paragraph 76
 
+**Search for:**  `fires only after the answer is already wrong`
+
 **Find this paragraph:**
 
 > A check that fires only after the answer is already wrong is not a guard, so the comparison of these two severities, and not the mere fact of detection, is the endpoint.
@@ -182,6 +216,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > ### 2.8 Use of generative AI
 
 ## 18. INSERT — near paragraph 76
+
+**Search for:**  `fires only after the answer is already wrong`
 
 **Find this paragraph:**
 
@@ -193,6 +229,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 19. INSERT — near paragraph 76
 
+**Search for:**  `fires only after the answer is already wrong`
+
 **Find this paragraph:**
 
 > A check that fires only after the answer is already wrong is not a guard, so the comparison of these two severities, and not the mere fact of detection, is the endpoint.
@@ -202,6 +240,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > The relationship between that assistance and this paper's subject is not incidental and is stated plainly here. Three of the six defects studied were not invented for the experiment: they were real errors present in drafted code — the bin-centre position error, the radially-blurred disk, and the missing noise floor — found by the closed-form checks described here and only then turned into a controlled injection. The checks were the means of verifying the assistance, which is the argument of the paper applied to its own production. The author independently re-executed every numerical result reported here and verified all figures, equations and claims against the code. No AI system is an author.
 
 ## 20. REPLACE — near paragraph 91
+
+**Search for:**  `injected defects against seven checks. Detection severity is`
 
 **Find this paragraph:**
 
@@ -213,6 +253,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 21. REPLACE — near paragraph 90
 
+**Search for:**  `each check sees. Left: the injected severity at`
+
 **Find this paragraph:**
 
 > Figure 4. What each check sees. Left: the injected severity at which each check first fires, grey where it never does; the rightmost column is the self-consistency regression test, grey for every defect. The white rules separate internal identities (left) from closed-form references (centre) and from the regression control (right). Right: the relative error each defect produces in a reported $d'$, against the 5% materiality threshold (dashed).
@@ -222,6 +264,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > Figure 4. What each check sees. (a) The injected severity at which each check first fires, printed in the cell and shown by colour, grey where the check never fires; the rightmost column is the self-consistency regression test, grey for every defect. The white rules separate internal identities (left) from closed-form references (centre) and from the regression control (right). (b) The relative error each defect produces in a reported $d'$, against the 5% materiality threshold (dashed).
 
 ## 22. REPLACE — near paragraph 205
+
+**Search for:**  `same chain on measured ACR phantom projections, with`
 
 **Find this paragraph:**
 
@@ -233,6 +277,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 23. REPLACE — near paragraph 206
 
+**Search for:**  `reduces resolution and noise together, as it must.`
+
 **Find this paragraph:**
 
 > Strengthening the apodisation reduces resolution and noise together, as it must. Ideal-observer detectability rises monotonically from 1.87 to 2.57 across the sweep: for this low-contrast task the noise reduction outweighs the resolution loss throughout the range tested. The efficiency of the non-prewhitening eye-filter observer relative to the ideal observer rises threefold over the same sweep, from 0.111 to 0.331 — the inefficient observer benefits from smoothing far more than the efficient one does, because smoothing performs part of the noise-weighting the inefficient observer cannot perform for itself.
@@ -242,6 +288,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > Strengthening the apodisation reduces resolution and noise together, as it must. That the two move together under a change of reconstruction is the ordinary behaviour of the chain, and it is measured the same way on newer detectors: a recent phantom study of ultra-high-resolution photon-counting CT reports noise texture and high-contrast resolution as the paired quantities that a change of pixel size moves [21], which is the same coupling seen here under a change of kernel. The checks in this paper are stated on those quantities rather than on any particular detector, and so apply to that setting unchanged. Ideal-observer detectability rises monotonically from 1.87 to 2.57 across the sweep: for this low-contrast task the noise reduction outweighs the resolution loss throughout the range tested. The efficiency of the non-prewhitening eye-filter observer relative to the ideal observer rises threefold over the same sweep, from 0.111 to 0.331 — the inefficient observer benefits from smoothing far more than the efficient one does, because smoothing performs part of the noise-weighting the inefficient observer cannot perform for itself.
 
 ## 24. REPLACE — near paragraph 209
+
+**Search for:**  `identities that can be evaluated without ground truth`
 
 **Find this paragraph:**
 
@@ -253,6 +301,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 25. REPLACE — near paragraph 210
 
+**Search for:**  `identities evaluated on measured ACR phantom data. The`
+
 **Find this paragraph:**
 
 > Table 4. Internal identities evaluated on measured ACR phantom data. The two closed-form references cannot appear here: neither the true MTF nor the true NPS of a clinical scanner is known analytically.
@@ -262,6 +312,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > Table 4. Internal identities evaluated on measured ACR phantom data. Three of the four appear here. The two closed-form references cannot: neither the true MTF nor the true NPS of a clinical scanner is known analytically. The fourth identity, bridge, cannot either, because its two routes stop sharing a noise model once the noise is measured rather than specified (Sections 3.8 and 4.6).
 
 ## 26. REPLACE — near paragraph 231
+
+**Search for:**  `identities are cheap, need no phantom, and can`
 
 **Find this paragraph:**
 
@@ -273,6 +325,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 27. REPLACE — location not found automatically
 
+**Search for:**  `equals the pixel variance of the data the`
+
 **Find this paragraph:**
 
 > 1. $\int \mathrm{NPS}(f)\,df$ equals the pixel variance of the data the NPS was estimated from, to floating-point tolerance. 2. Ideal-observer $d'$ computed through NEQ equals $d'$ computed by the prewhitening observer, when both use the same noise model. 3. The integral of a blurred signal equals the integral of the unblurred signal. 4. The NPS dynamic range, excluding DC, stays within the range where $1/\mathrm{NPS}$ is meaningful; a prewhitening observer should refuse rather than return a number when it does not. Section 3.8 shows this is not a theoretical precaution: strong apodisation on a real scanner approaches the threshold closely enough that the check decides real cases.
@@ -282,6 +336,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > Family A — the four internal identities. Cheap, needing no phantom, and assertable inside any implementation of this chain:
 
 ## 28. REPLACE — near paragraph 236
+
+**Search for:**  `references require a phantom and catch what the`
 
 **Find this paragraph:**
 
@@ -293,6 +349,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 29. REPLACE — near paragraph 237
 
+**Search for:**  `MTF of an analytically blurred edge equals $\exp(-2\pi^2\sigma^2f^2)$.`
+
 **Find this paragraph:**
 
 > 5. The presampled MTF of an analytically blurred edge equals $\exp(-2\pi^2\sigma^2f^2)$. 6. The NPS of white noise of known variance equals $\sigma^2\,\Delta x\,\Delta y$.
@@ -302,6 +360,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > A2. Ideal-observer $d'$ computed through NEQ equals $d'$ computed by the prewhitening observer, when both use the same noise model.
 
 ## 30. REPLACE — near paragraph 239
+
+**Search for:**  `adds two methodological items to these six. Check`
 
 **Find this paragraph:**
 
@@ -313,6 +373,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 31. INSERT — near paragraph 229
 
+**Search for:**  `claim that published detectability values are commonly wrong;`
+
 **Find this paragraph:**
 
 > We do not claim that published detectability values are commonly wrong; we have not surveyed them and this study cannot support such a claim. What it does support is narrower and still uncomfortable: for six defects of a kind that occur in practice, the standard apparatus provides zero detection power, and the errors they produce in a reported $d'$ reach 90%.
@@ -322,6 +384,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > A4. The NPS dynamic range, excluding DC, stays within the range where $1/\mathrm{NPS}$ is meaningful; a prewhitening observer should refuse rather than return a number when it does not. Section 3.8 shows this is not a theoretical precaution: strong apodisation on a real scanner approaches the threshold closely enough that the check decides real cases.
 
 ## 32. INSERT — near paragraph 229
+
+**Search for:**  `claim that published detectability values are commonly wrong;`
 
 **Find this paragraph:**
 
@@ -333,6 +397,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 33. INSERT — near paragraph 229
 
+**Search for:**  `claim that published detectability values are commonly wrong;`
+
 **Find this paragraph:**
 
 > We do not claim that published detectability values are commonly wrong; we have not surveyed them and this study cannot support such a claim. What it does support is narrower and still uncomfortable: for six defects of a kind that occur in practice, the standard apparatus provides zero detection power, and the errors they produce in a reported $d'$ reach 90%.
@@ -342,6 +408,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > B1. The presampled MTF of an analytically blurred edge equals $\exp(-2\pi^2\sigma^2f^2)$.
 
 ## 34. INSERT — near paragraph 229
+
+**Search for:**  `claim that published detectability values are commonly wrong;`
 
 **Find this paragraph:**
 
@@ -353,6 +421,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 35. INSERT — near paragraph 229
 
+**Search for:**  `claim that published detectability values are commonly wrong;`
+
 **Find this paragraph:**
 
 > We do not claim that published detectability values are commonly wrong; we have not surveyed them and this study cannot support such a claim. What it does support is narrower and still uncomfortable: for six defects of a kind that occur in practice, the standard apparatus provides zero detection power, and the errors they produce in a reported $d'$ reach 90%.
@@ -362,6 +432,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > The injection study adds two methodological requirements to these six checks. Check B1 must be evaluated over a sweep of edge angles, not one, because the bias it detects is not monotone in angle and can be an order of magnitude larger between two angles half a degree apart. And every tolerance must be set from the estimator's measured reproducibility in the configuration actually in use: too loose and it misses the defect, too tight and it fires on correct code, and the correct value differs by four orders of magnitude between synthetic and measured data for the same identity.
 
 ## 36. REPLACE — location not found automatically
+
+**Search for:**  `the phantom generators, the physical and observer estimators,`
 
 **Find this paragraph:**
 
@@ -373,6 +445,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 37. INSERT — location not found automatically
 
+**Search for:**  `Not applicable.`
+
 **Find this paragraph:**
 
 > Not applicable.
@@ -383,6 +457,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 
 ## 38. REPLACE — near paragraph 254
 
+**Search for:**  `Anthropic) was used as a tool for code`
+
 **Find this paragraph:**
 
 > Generative AI (Claude, Anthropic) was used as a tool for code scaffolding, test drafting, figure generation and manuscript drafting, as disclosed in Section 2.7. The author is solely accountable for the content and independently verified every result. No AI system is an author. This disclosure follows ICMJE and COPE guidance.
@@ -392,6 +468,8 @@ Highlight each replacement in yellow so the reviewers can see what changed.
 > Generative AI (Claude, Anthropic) was used as a tool for code scaffolding, test drafting, figure generation and manuscript drafting, as disclosed in Section 2.8. The author is solely accountable for the content and independently verified every result. No AI system is an author. This disclosure follows ICMJE and COPE guidance.
 
 ## 39. REPLACE — near paragraph 257
+
+**Search for:**  `Myers KJ. Foundations of Image Science. Hoboken, NJ:`
 
 **Find this paragraph:**
 

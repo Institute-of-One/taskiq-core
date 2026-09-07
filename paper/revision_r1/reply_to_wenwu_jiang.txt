@@ -1,0 +1,28 @@
+Subject: Re: [J. Imaging] Manuscript ID: jimaging-4539482 - Minor Revision - Need Use Journal's Template
+
+Dear Mr Jiang,
+
+Thank you for catching this, and for attaching the preliminarily formatted file. The fault was mine: I rebuilt the manuscript from my own source rather than working in the version you had already formatted, which discarded the template.
+
+I am applying the revisions into your formatted file now and will email it back to you. Everything else is unchanged from the resubmission of 7 September: the same thirty-nine edits, the same figures, and the point-by-point responses already uploaded to each reviewer's reply form.
+
+Two things in the revision are worth flagging to you directly, since both change what the paper says rather than how it looks.
+
+The abstract contained an overclaim, found by Reviewer 1. It stated that the internal identities transferred intact to measured data when only three of the four can be evaluated there at all. The abstract is corrected and the reason the fourth is absent now appears beside the relevant table.
+
+The Data Availability Statement was incorrect. It said all the code is at one repository, which is true of the synthetic part of the study and false of the real-scanner part: Tables 3 and 4, Figure 5 and Sections 2.6 to 3.8 are produced by a second package that supplies the DICOM-CT-PD reading, the rebinning and the reconstruction, and that package was neither cited nor publicly available. It is now public at https://github.com/Institute-of-One/ldct-io under the MIT licence, Figure 5 was regenerated through it from the archived projections, and the statement now says which half of the work lives where.
+
+One request, if it is within your power at this stage. The author record in the system reads "Institute of one, LISIT, Co., Ltd., Tokyo, Japan". The correct form, as carried by my papers in Journal of Imaging 12(8):392 (2026) and Tomography 12(9):125 (2026), is:
+
+    Institute of One, LISIT Co., Ltd., Tokyo 150-0044, Japan
+
+The manuscript now carries it, but I could not edit the author record myself.
+
+I will send the formatted manuscript shortly. Thank you again for your patience.
+
+Kind regards,
+
+Shuji Yamamoto
+Institute of One, LISIT Co., Ltd., Tokyo 150-0044, Japan
+ORCID 0000-0001-9211-1071
+yamamoto@lisit.jp
