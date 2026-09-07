@@ -136,7 +136,7 @@ For each defect the *detection severity* is the smallest $\alpha$ at which any c
 
 A check that fires only after the answer is already wrong is not a guard, so the comparison of these two severities, and not the mere fact of detection, is the endpoint.
 
-**The grid, and what it can and cannot resolve.** Every defect is evaluated on the same eleven-point grid, $lpha \in \{0, 0.1, 0.2, \ldots, 1.0\}$, with 64 noise realisations at each point and the random streams fixed by seed so that a rerun reproduces the table exactly. Seven of the eight detections in Table 2 occur at $lpha = 0.1$, which is the smallest non-zero severity examined. **That is a property of the grid as much as of the checks**: these checks fire at or below a tenth of full severity, and this experiment cannot say how much below, because it never looked. The claim made here is therefore that detection precedes materiality, which the grid does resolve, and not that any particular detection threshold has been measured, which it does not.
+**The grid, and what it can and cannot resolve.** Every defect is evaluated on the same eleven-point grid, $\alpha \in \{0, 0.1, 0.2, \ldots, 1.0\}$, with 64 noise realisations at each point and the random streams fixed by seed so that a rerun reproduces the table exactly. Seven of the eight detections in Table 2 occur at $\alpha = 0.1$, which is the smallest non-zero severity examined. **That is a property of the grid as much as of the checks**: these checks fire at or below a tenth of full severity, and this experiment cannot say how much below, because it never looked. The claim made here is therefore that detection precedes materiality, which the grid does resolve, and not that any particular detection threshold has been measured, which it does not.
 
 Each tolerance is set from the estimator's own reproducibility on the correct pipeline rather than chosen to make a check succeed: the measured residual over the 64 realisations is taken as the noise floor and the tolerance placed an order of magnitude above it, as listed in Table 1. A tolerance below that floor yields a check that fires on correct code, which is discussed in Section 4.6.
 
@@ -341,14 +341,25 @@ Not applicable.
 
 ## Data Availability Statement
 
-All code — the phantom generators, the physical and observer estimators, the injection
-study (`paper/make_injection_study.py`) and the test suite — is openly available at
-<https://github.com/Institute-of-One/taskiq-core> under the MIT licence and archived on
-Zenodo (version DOI [10.5281/zenodo.21422924](https://doi.org/10.5281/zenodo.21422924) for v0.4.0, the archived snapshot behind every number here; concept DOI 10.5281/zenodo.21422923 resolves to the latest version).
-Every number in this article is written to `paper/figures/injection.json` and
-`paper/results/acr_atlas.json` by the scripts that produce the figures, so the text and
-the figures cannot diverge. The real-scanner projections are the ACR_Phantom series of
-LDCT-and-Projection-data [10], available from The Cancer Imaging Archive under CC BY 4.0.
+The synthetic arm — the phantom generators, the physical and observer estimators, the
+injection study (`paper/make_injection_study.py`) and the test suite — is openly
+available at <https://github.com/Institute-of-One/taskiq-core> under the MIT licence and
+archived on Zenodo (version DOI [10.5281/zenodo.21422924](https://doi.org/10.5281/zenodo.21422924) for v0.4.0, the
+archived snapshot behind every synthetic number here; concept DOI
+10.5281/zenodo.21422923 resolves to the latest version). Every number in that arm is
+written to `paper/figures/injection.json` by the script that produces Figure 4, so the
+text and the figure cannot diverge.
+
+**The real-scanner arm requires a second package, and neither reproduces it alone.**
+Reading DICOM-CT-PD projections, restoring acquisition order from headers, single-slice
+rebinning and filtered backprojection with selectable apodisation are in `ldct-io`
+(<https://github.com/Institute-of-One/ldct-io>, MIT); the NPS, NEQ and observer
+estimators applied to those reconstructions are in `taskiq-core`. Tables 3 and 4 and
+Figure 5 are written to `results/acr_atlas.json` by `examples/acr_atlas.py` in `ldct-io`,
+which requires both packages in one environment. The projections themselves are the
+ACR_Phantom series of LDCT-and-Projection-data [10], available from The Cancer Imaging
+Archive under CC BY 4.0 and not redistributed here; the path to a local copy is supplied
+through the `LDCT_IO_DATA` environment variable.
 
 ## Acknowledgments
 
