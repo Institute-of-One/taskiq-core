@@ -73,6 +73,16 @@ def revised_blocks() -> list[str]:
     return [b.strip() for b in re.split(r"\n\s*\n", text) if b.strip()]
 
 
+def best_match(needle: str, haystack: list[str]) -> tuple[float, int]:
+    """How closely the paragraph matches the nearest thing in the document, and which."""
+    best, where = 0.0, -1
+    for index, candidate in enumerate(haystack):
+        ratio = difflib.SequenceMatcher(None, needle, candidate).ratio()
+        if ratio > best:
+            best, where = ratio, index
+    return best, where
+
+
 def contains(needle: str, haystack: list[str], threshold: float = 0.82) -> bool:
     """Whether the paragraph is present, allowing for maths rendered as objects, not text."""
     if not needle:
@@ -112,6 +122,9 @@ def main() -> int:
             failures.append(f"{was - now} {label} lost")
 
     # --- 2. every changed paragraph arrived ---------------------------------------------
+    # Compared whole, not by opening words. Most of these edits change a clause in the
+    # middle of a long paragraph and leave its first sentence alone, so a check that reads
+    # only the opening cannot tell an applied edit from an unapplied one.
     print("\n=== the revision's changed paragraphs")
     before, after = submitted_blocks(), revised_blocks()
     matcher = difflib.SequenceMatcher(None, before, after, autojunk=False)
@@ -122,12 +135,21 @@ def main() -> int:
         for block in after[n0:n1]:
             if block.startswith(("|", "!", "$$", "#")):
                 continue
-            needle = plain(block)
-            if len(needle.split()) < 4:
-                continue
-            expected += 1
-            if not contains(needle, texts):
-                missing.append(needle[:90])
+            # A markdown list is one block but several Word paragraphs, so its items are
+            # checked one at a time. Compared whole, a list can never match anything and
+            # reports as missing however faithfully it was applied.
+            items = [
+                re.sub(r"^\s*([-*+]|\d+\.)\s+", "", line)
+                for line in block.splitlines()
+                if re.match(r"\s*([-*+]|\d+\.)\s", line)
+            ]
+            for piece in items or [block]:
+                needle = plain(piece)
+                if len(needle.split()) < 8:
+                    continue
+                expected += 1
+                if best_match(needle, texts)[0] < 0.93:
+                    missing.append(needle[:90])
     print(f"  {expected - len(missing)} of {expected} present")
     for item in missing:
         print(f"  MISSING  {item}...")
@@ -146,6 +168,27 @@ def main() -> int:
         print(f"  {'STILL THERE' if present else 'ok         '}  {description}")
         if present:
             failures.append(f"stale text remains: {description}")
+
+    # --- 3b. no superseded paragraph is still in the document ---------------------------
+    # The named strings above are the ones known to matter. This is the general form: any
+    # paragraph the revision rewrote should have left the document with its replacement.
+    # A paragraph that is edited but not replaced leaves both versions in the file, which
+    # reads as a repetition rather than as an error, and is the failure a human proofreader
+    # is least likely to catch.
+    print("\n=== superseded paragraphs")
+    revised_plain = [plain(block) for block in after]
+    survivors = []
+    for block in before:
+        was = plain(block)
+        if len(was.split()) < 8 or was in revised_plain:
+            continue
+        score, where = best_match(was, texts)
+        if score >= 0.97 and best_match(texts[where], revised_plain)[0] < score:
+            survivors.append(was[:80])
+    print(f"  {len(survivors)} of the revision's superseded paragraphs are still present")
+    for item in survivors:
+        print(f"  STILL THERE  {item}...")
+        failures.append(f"superseded paragraph still present: {item[:50]}")
 
     # --- 4. the things that must be exactly right ---------------------------------------
     print("\n=== exact strings")
