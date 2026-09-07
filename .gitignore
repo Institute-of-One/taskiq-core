@@ -45,3 +45,7 @@ paper/*.bak
 # built submission artefacts: regenerate with pandoc
 paper/taskiq-core_jimaging.docx
 paper/susy_step2_fields.txt
+
+# Word writes these beside an open document and they are not part of the paper
+~$*
+~WRL*.tmp
