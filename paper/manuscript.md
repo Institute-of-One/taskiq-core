@@ -30,7 +30,7 @@ or submit as free-format (all required sections are present).
 
 **Author:** Shuji Yamamoto $^{1,*}$
 
-$^{1}$ Institute of One, LISIT Co., Ltd., Tokyo, Japan; yamamoto@lisit.jp; ORCID 0000-0001-9211-1071
+$^{1}$ Institute of One, LISIT Co., Ltd., Tokyo 150-0044, Japan; yamamoto@lisit.jp; ORCID 0000-0001-9211-1071
 
 $^{*}$ Correspondence: yamamoto@lisit.jp
 
@@ -38,7 +38,7 @@ $^{*}$ Correspondence: yamamoto@lisit.jp
 
 ## Abstract
 
-Task-based image quality assessment — the modulation transfer function, the noise power spectrum, the noise-equivalent quanta and model observers — fails by returning a plausible wrong number rather than an error, and the regression test most implementations carry cannot tell a plausible right answer from a plausible wrong one, because the stored reference was recorded from the defective code. We injected six defects into a validated implementation of that chain through a severity dial that recovers the correct pipeline exactly at zero. A self-consistency regression test detected none of the six. Four internal identities, which need no ground truth, and two closed-form references, which need a phantom whose answer is known, together detected all six, in every case at or before the severity at which the reported detectability index $d'$ became wrong by more than 5%. Neither family sufficed alone: each detected three of six, and peak errors in a reported $d'$ reached 90%. Run unmodified on measured ACR phantom projections across seven reconstruction kernels, the identities transferred intact — Parseval held to $4\times10^{-16}$ — but their tolerances did not, and the strongest apodisation drove the noise dynamic range to within 0.6% of the threshold beyond which a prewhitening observer must refuse to answer.
+Task-based image quality assessment — the modulation transfer function, the noise power spectrum, the noise-equivalent quanta and model observers — fails by returning a plausible wrong number rather than an error, and the regression test most implementations carry cannot tell a plausible right answer from a plausible wrong one, because the stored reference was recorded from the defective code. We injected six defects into a validated implementation of that chain through a severity dial that recovers the correct pipeline exactly at zero. A self-consistency regression test detected none of the six. Four internal identities, which need no ground truth, and two closed-form references, which need a phantom whose answer is known, together detected all six, in every case at or before the severity at which the reported detectability index $d'$ became wrong by more than 5%. Neither family sufficed alone: each detected three of six, and peak errors in a reported $d'$ reached 90%. Run unmodified on measured ACR phantom projections across seven reconstruction kernels, the three identities that can be evaluated without ground truth transferred intact — Parseval held to $4\times10^{-16}$ — but their tolerances did not, and the strongest apodisation drove the noise dynamic range to within 0.6% of the threshold beyond which a prewhitening observer must refuse to answer.
 
 ## Keywords
 
@@ -249,9 +249,9 @@ The regression of $d'^2_{\text{ideal}}$ on the NEQ integral returns $R^2 = 0.84$
 
 ### 3.8 Which checks survive the move to measured data
 
-The three internal identities that can be evaluated without ground truth were run on all seven real-scanner reconstructions (Table 4).
+Three of the four internal identities were run on all seven real-scanner reconstructions (Table 4). The fourth, `bridge`, is absent for a reason specific to measured data rather than by omission: it compares a prewhitening observer using the measured noise spectrum against an NEQ route that requires an analytic noise scalar, and on a physical scanner those two routes no longer share a noise model. What it then measures is that disagreement, not the correctness of the pipeline, and Section 4.6 gives the residual it produces. The claim of transfer in this paper is therefore made for three identities, not four.
 
-**Table 4.** Internal identities evaluated on measured ACR phantom data. The two closed-form references cannot appear here: neither the true MTF nor the true NPS of a clinical scanner is known analytically.
+**Table 4.** Internal identities evaluated on measured ACR phantom data. Three of the four appear here. The two closed-form references cannot: neither the true MTF nor the true NPS of a clinical scanner is known analytically. The fourth identity, `bridge`, cannot either, because its two routes stop sharing a noise model once the noise is measured rather than specified (Sections 3.8 and 4.6).
 
 | kernel | Parseval residual | NPS dynamic range | signal-area residual |
 |---|---|---|---|
