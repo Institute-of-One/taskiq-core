@@ -95,8 +95,16 @@ def test_the_manuscript_binds_each_doi_to_the_label_it_belongs_to(manuscript: st
     for label, doi in expected.items():
         found = False
         for phrase in re.finditer(rf"{label} DOI", manuscript, flags=re.IGNORECASE):
-            line_end = manuscript.find("\n", phrase.end())
-            after = manuscript[phrase.end() : line_end if line_end != -1 else None]
+            # Same line and the one after it. Hard-wrapped prose puts a label at the end of
+            # one line and its number at the start of the next, which a same-line scope
+            # reads as "no DOI here" -- that is what this test reported when the
+            # data-availability statement was rewritten, and it is a wrapping artefact
+            # rather than a mislabelling. Two lines is the scope the sibling checker in
+            # IoO already uses.
+            first_break = manuscript.find("\n", phrase.end())
+            second_break = manuscript.find("\n", first_break + 1) if first_break != -1 else -1
+            end = second_break if second_break != -1 else None
+            after = manuscript[phrase.end() : end]
             match = DOI.search(after)
             assert match, f"the manuscript says {label!r} DOI but names no DOI on that line"
             assert match.group(0) == doi, (
