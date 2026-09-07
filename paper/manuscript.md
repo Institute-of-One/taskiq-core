@@ -38,7 +38,7 @@ $^{*}$ Correspondence: yamamoto@lisit.jp
 
 ## Abstract
 
-Task-based image quality assessment — the modulation transfer function, the noise power spectrum, the noise-equivalent quanta and model observers — fails by returning a plausible wrong number rather than an error, and the regression test most implementations carry cannot tell a plausible right answer from a plausible wrong one, because the stored reference was recorded from the defective code. We injected six defects into a validated implementation of that chain through a severity dial that recovers the correct pipeline exactly at zero. A self-consistency regression test detected none of the six. Four internal identities, which need no ground truth, and two closed-form references, which need a phantom whose answer is known, together detected all six, in every case at or before the severity at which the reported detectability index $d'$ became wrong by more than 5%. Neither family sufficed alone: each detected three of six, and peak errors in a reported $d'$ reached 90%. Run unmodified on measured ACR phantom projections across seven reconstruction kernels, the three identities that can be evaluated without ground truth transferred intact — Parseval held to $4\times10^{-16}$ — but their tolerances did not, and the strongest apodisation drove the noise dynamic range to within 0.6% of the threshold beyond which a prewhitening observer must refuse to answer.
+Task-based image quality assessment — the modulation transfer function, the noise power spectrum, the noise-equivalent quanta and model observers — fails by returning a plausible wrong number rather than an error, and the regression test most implementations carry cannot tell a plausible right answer from a plausible wrong one, because the stored reference was recorded from the defective code. We injected six defects into a validated implementation of that chain through a severity dial that recovers the correct pipeline exactly at zero. A self-consistency regression test detected none of the six. Four internal identities, which need no ground truth, and two closed-form references, which need a phantom whose answer is known, together detected all six, in every case at or before the severity at which the reported detectability index $d'$ became wrong by more than 5%. Neither family sufficed alone: each detected three of six, and peak errors in a reported $d'$ reached 90%. Run unmodified on measured ACR phantom projections across seven reconstruction kernels, the three identities that can be evaluated without ground truth transferred intact — Parseval held to $4\times10^{-16}$ — but their tolerances did not, and the strongest apodisation drove the noise dynamic range to within 0.6% of the threshold beyond which a prewhitening observer should return no value at all rather than a computed one, because $1/\mathrm{NPS}$ has ceased to be numerically meaningful.
 
 ## Keywords
 
@@ -50,6 +50,10 @@ task-based image quality; model observer; MTF; NPS; NEQ; detectability; error in
 
 Task-based assessment — judging an imaging system by how well a specified observer performs a specified detection or discrimination task, rather than by a generic fidelity metric — is the accepted framework for evaluating medical imaging systems [1,2]. Its physical ingredients are individually standardised: the modulation transfer function (MTF), classically measured from a slanted edge by the presampled-MTF method formalised in ISO 12233 [3], and the noise power spectrum (NPS) and detective-quantum-efficiency formalism standardised for digital X-ray detectors in IEC 62220-1 [4]. Its observer theory is mature [1,5,7,8], its relation to dose and patient risk has been set out in detail [11], its practice from physical measurement through to model observers has been reviewed for CT [12], and its use in computed tomography has been consolidated in AAPM Task Group 233 [9]. The quantity tying the physics to the task is the noise-equivalent quanta, $\mathrm{NEQ} = \mathrm{MTF}^2/\mathrm{NPS}$, because the ideal-observer detectability of a known signal imaged through a linear system is exactly an integral of NEQ against the signal's power spectrum.
 
+*Detectability* here is the index $d'$, the separation between the observer's response to signal-present and signal-absent images divided by the standard deviation of that response. It is dimensionless: $d' = 1$ means the two distributions are one standard deviation apart, and $d' \approx 2$ corresponds to roughly 92% correct in a two-alternative forced choice. For the ideal prewhitening observer it is computed in closed form from the signal and the noise spectrum rather than by simulating decisions.
+
+A *phantom* is an object of known composition imaged in place of a patient; a *synthetic phantom* is one that exists only as an array of numbers, generated rather than scanned, so that the answer the estimator should return is known analytically. The distinction matters throughout this paper: a synthetic phantom supplies ground truth, and a physical one does not.
+
 The theory is settled. The implementations are not, and this paper is about the gap between them. The object of study is therefore the chain itself — any implementation of it — rather than a particular program: each defect examined below is a step the standard formulation requires, applied to one instance so that its cost can be measured, and the checks proposed against them are stated so that they can be asserted inside any implementation.
 
 ### 1.1 The characteristic failure is a plausible number
@@ -59,7 +63,7 @@ A pipeline assembling this chain fails in a specific and inconvenient way. It do
 Three concrete examples, all found in the pipeline studied here during its development:
 
 * A slanted-edge MTF routine locates each edge-profile sample in the bin it falls into, but uses the bin *centre* as its position. The mean sample position inside a bin is not the bin centre, and the resulting position jitter biases the estimate. The bias depends on the edge angle, so it is invisible to anyone who tests at one angle.
-* A prewhitening observer weights by $1/\mathrm{NPS}$. Handed a noise model whose power decays below floating-point underflow, it returns a detectability of order $10^{29}$, assembled entirely from frequency bins where the "signal" is rounding error.
+* A prewhitening observer weights by $1/\mathrm{NPS}$. Handed a noise model whose power decays below floating-point underflow — that is, where the computed NPS falls below the smallest number the arithmetic can represent and is stored as a denormal or as zero — it weights those bins by $1/\mathrm{NPS}$ and so multiplies them by an enormous factor. The resulting $d'$ is of order $10^{29}$: not a large detectability but an arithmetic artefact, assembled entirely from bins where the "signal" is rounding error. A plausible $d'$ is a number near unity, so this one is at least visibly wrong; the same mechanism at milder decay produces one that is not.
 * A soft-edged disk phantom, blurred by applying a one-dimensional edge profile radially rather than by an exact two-dimensional convolution, gains $\pi\sigma^2$ of area. The detectable signal energy then depends on the blur without any indication that it does, so every conclusion drawn about resolution is contaminated by a change in the signal itself.
 
 None of these announce themselves. Each produces a number a reviewer would accept.
@@ -74,6 +78,21 @@ What can catch such defects is a check whose reference comes from outside the co
 
 * **Internal identities** must hold for algebraic reasons, whatever the data. That the integral of the NPS over the frequency plane equals the pixel variance is not an empirical fact about a particular phantom; it is Parseval's theorem. Identities of this kind need no ground truth, and therefore continue to work on measured patient data where no truth exists.
 * **Closed-form references** compare an estimate to the analytic answer for an object constructed so that the answer is known: an analytically blurred edge whose presampled MTF is exactly $\exp(-2\pi^2\sigma^2 f^2)$, or white noise of known variance whose spectrum is exactly $\sigma^2\,\Delta x\,\Delta y$. These are stronger, and they require a phantom.
+
+Neither idea is new to software engineering, and it is worth naming what they are. A check
+that must hold whatever the input is a *property* in the sense of property-based testing
+[18], where properties are asserted over generated inputs rather than over stored
+examples; the internal identities here are properties of that kind, with the algebra of the
+imaging chain supplying the property instead of a programmer's intuition. A check comparing
+two routes to the same quantity, or the same computation under a transformation that should
+leave the answer predictable, is a *metamorphic relation* [19], the standard response to
+the oracle problem — the situation, exactly this paper's situation, where correct output
+cannot be recognised by inspection. Verification practice for computational science has
+made the same argument from the scientific side [20].
+
+What this paper adds is not the idea but its content for one chain: which relations exist
+in task-based image quality, what each detects, what it costs, and — the part that cannot
+be borrowed — the finding that the two families are not interchangeable.
 
 Whether the second kind is worth its cost — whether a synthetic phantom earns its place in a workflow whose object is real images — is an empirical question that this paper answers.
 
@@ -90,7 +109,7 @@ Whether the second kind is worth its cost — whether a synthetic phantom earns 
 
 All experiments use one pure-Python implementation of the chain (`taskiq-core`), which computes the slanted-edge MTF, the two-dimensional and radially averaged NPS, the unnormalised $\mathrm{NEQ} = \mathrm{MTF}^2/\mathrm{NPS}$, and model-observer detectability. Observers are the non-prewhitening matched filter with an optional eye filter (NPW/NPWE) [6], the prewhitening matched filter, which coincides with the ideal linear observer for stationary Gaussian noise, and the channelised Hotelling observer [5]. Task performance is summarised by $d'$, the area under the ROC curve computed distribution-free from the Mann–Whitney statistic, and two-alternative-forced-choice percent correct.
 
-The MTF estimator forms the edge-spread function, differentiates to the line-spread function, and transforms, analytically dividing out the two transfer functions the estimator itself introduces: the bin-average boxcar, $\mathrm{sinc}(fh)$, and the central-difference derivative, $\mathrm{sinc}(2fh)$, where $h$ is the ESF bin width. It additionally corrects each bin from its measured mean sample position to the bin centre. The NPS estimator detrends each region of interest and normalises so that the integral of the NPS over the frequency plane equals the pixel variance as an exact identity.
+The MTF estimator forms the edge-spread function — the ESF, the mean profile across the edge obtained by projecting every pixel onto the edge normal and binning far below the pixel pitch, which is what the edge's tilt buys — differentiates it to the line-spread function, the LSF, by a central difference between adjacent bins, and transforms the LSF, analytically dividing out the two transfer functions the estimator itself introduces: the bin-average boxcar, $\mathrm{sinc}(fh)$, and the central-difference derivative, $\mathrm{sinc}(2fh)$, where $h$ is the ESF bin width. It additionally corrects each bin from its measured mean sample position to the bin centre. The NPS estimator detrends each region of interest and normalises so that the integral of the NPS over the frequency plane equals the pixel variance as an exact identity.
 
 Unless stated otherwise the reference configuration is: pixel pitch $\Delta x = 0.1$ mm, system blur $\sigma = 0.15$ mm, a $256 \times 256$ edge phantom at 5°, a $64 \times 64$ noise region over 64 realisations at noise standard deviation 20 units, and a disk signal of radius 0.8 mm and contrast 6 units. The reference pipeline returns $d' = 3.5745$ from the prewhitening observer and $d' = 3.5719$ through the NEQ route.
 
@@ -111,7 +130,11 @@ Six checks were implemented, four internal identities and two closed-form refere
 
 Tolerances are not chosen for convenience. Each is set from the estimator's own measured reproducibility on the correct pipeline, with an order of magnitude of margin: the residual of `mtf_closed_form` on a correct run is $4.9\times10^{-6}$, so its tolerance is $5\times10^{-5}$; the residual of `nps_closed_form` is $3.6\times10^{-2}$ against a tolerance of $0.25$; `parseval` and `bridge` hold to $2.2\times10^{-16}$ and exactly zero respectively. A tolerance set tighter than the estimator's reproducibility produces a check that fires on correct code, which is not a sensitive guard but a broken one — a failure mode we encountered and discuss in Section 4.6.
 
-Two points deserve emphasis. First, `bridge` compares two routes to the same number — the prewhitening observer applied to the imaged signal, and the integral of NEQ against the object's power spectrum — that share no code path but are, under the discrete conventions used here, the same integral rearranged. It is therefore an exact identity rather than an approximation, and holds to zero on the reference pipeline. It is only an identity when both routes use the same noise model; comparing routes that disagree about the noise tests nothing but that disagreement. Second, `dynamic_range` excludes the DC bin, which mean-detrending drives to $\sim10^{-31}$ by construction. That is bookkeeping, not a decayed spectrum, and reading it as one causes the check to fire on every field including white noise.
+Two points deserve emphasis. First, the `bridge` check states that the two routes to ideal-observer detectability agree:
+
+$$ d'^2_{\text{NEQ}} = \int \mathrm{NEQ}(f)\,|S(f)|^2\,df \quad\text{and}\quad d'^2_{\text{PW}} = \int \frac{|S(f)|^2}{\mathrm{NPS}(f)}\,|\mathrm{MTF}(f)|^2\,df, $$
+
+where $S(f)$ is the Fourier transform of the signal, and the check is the relative difference $|d'^2_{\text{NEQ}} - d'^2_{\text{PW}}| / d'^2_{\text{PW}}$. With $\mathrm{NEQ} = \mathrm{MTF}^2/\mathrm{NPS}$ the two integrands are the same expression rearranged, which is why the check is an identity rather than an approximation. It compares two routes to the same number — the prewhitening observer applied to the imaged signal, and the integral of NEQ against the object's power spectrum — that share no code path but are, under the discrete conventions used here, the same integral rearranged. It is therefore an exact identity rather than an approximation, and holds to zero on the reference pipeline. It is only an identity when both routes use the same noise model; comparing routes that disagree about the noise tests nothing but that disagreement. Second, `dynamic_range` excludes the DC bin. Subtracting the mean from each region of interest sets the zero-frequency component to zero up to rounding, so the DC bin holds a value of order $10^{-31}$ — the residue of that subtraction, not a measurement. Including it would make the ratio of largest to smallest NPS value enormous for *any* field, white noise included, and the check would fire on correct code every time. The exclusion is bookkeeping about how the estimator works, not a claim about the spectrum.
 
 ### 2.3 The self-consistency control
 
@@ -119,7 +142,7 @@ The control is the test most implementations actually have. The pipeline is run 
 
 ### 2.4 The six defects
 
-Each defect is applied to the correct pipeline through a severity $\alpha \in [0,1]$ constructed so that $\alpha = 0$ recovers the correct pipeline exactly. Nothing is rewritten to break it; the defect is injected from outside the library.
+Each defect is applied to the correct pipeline through a *severity* $\alpha \in [0,1]$ constructed so that $\alpha = 0$ recovers the correct pipeline exactly. Severity is an exact parameter of the injection, not an estimate of anything: it is the interpolation weight between the correct implementation and the defective one, defined separately for each defect in the list below and computed rather than measured. A *severity dial* is that parameter used as a continuous control, which is what makes the experiment possible — a defect that can only be present or absent gives one data point, whereas one that can be turned up from nothing gives a curve, and the curve is where the comparison between detection and materiality lives. Nothing is rewritten to break it; the defect is injected from outside the library.
 
 1. **`sinc`** — the bin-average and central-difference transfer functions left in the MTF estimate, at severity $\alpha$: $\mathrm{MTF}_\alpha = \mathrm{MTF} \cdot [\mathrm{sinc}(fh)\,\mathrm{sinc}(2fh)]^{\alpha}$. Evaluated at an ESF bin of $\Delta x/4$.
 2. **`jitter`** — the bin-centre correction omitted, with severity indexing the edge angle over eleven values from 2° to 20°.
@@ -142,14 +165,38 @@ Each tolerance is set from the estimator's own reproducibility on the correct pi
 
 ### 2.6 The real-scanner arm
 
-To establish that the chain behaves as required outside a synthetic model, the same code was run on measured ACR phantom projections from LDCT-and-Projection-data [10]. The ACR accreditation phantom is an established vehicle for measuring MTF and NPS on a clinical scanner [16], which is why it was chosen (The Cancer Imaging Archive, CC BY 4.0). Nothing about the acquisition is simulated: one set of measured projections was reconstructed seven times with progressively stronger apodisation — a bare ramp, then Hann windows at cutoffs 1.00, 0.80, 0.60, 0.45, 0.35 and 0.25 — which moves the MTF and the NPS together exactly as changing a scanner's reconstruction kernel does. The MTF, NPS, NEQ and model-observer detectabilities were then read off with the same estimators used throughout.
+To establish that the chain behaves as required outside a synthetic model, the same code was run on measured ACR phantom projections from LDCT-and-Projection-data [10]. The ACR accreditation phantom is an established vehicle for measuring MTF and NPS on a clinical scanner [16], which is why it was chosen (The Cancer Imaging Archive, CC BY 4.0). Nothing about the acquisition is simulated: one set of measured projections was reconstructed seven times with progressively stronger apodisation — a bare ramp, then Hann windows at cutoffs 1.00, 0.80, 0.60, 0.45, 0.35 and 0.25 — which moves the MTF and the NPS together exactly as changing a scanner's reconstruction kernel does. The MTF, NPS, NEQ and model-observer detectabilities were then read off with the same estimators used throughout the study.
 
-### 2.7 Use of generative AI
+### 2.7 Implementation
 
-Code scaffolding and refactoring, test drafting, figure and script generation, and
-manuscript drafting were assisted by a large language model (Claude, Anthropic). The
-author independently re-executed every numerical result reported here and verified all
-figures, equations and claims against the code. No AI system is an author.
+The estimators, the phantoms and the observers are `taskiq-core`, a pure-Python package
+depending only on NumPy and SciPy, with Matplotlib for figures. It contains no DICOM
+handling and no patient data by design, which is what allows every quantity in it to be
+checked against a closed form. The MTF, NPS, NEQ and observer routines are the ones named
+in Section 2.2; the injection study is a single script, `paper/make_injection_study.py`,
+that imports them unmodified and applies each defect through the severity dial rather than
+by editing the library. Reconstruction from real projection data is not in that package
+but in `ldct-io`, for the same reason: the archive, its private tags and its geometry have
+no business inside a library whose correctness is established analytically. The test suite
+runs on Python 3.10 to 3.12 in continuous integration, and asserts the identities of
+Section 4.2 on the correct pipeline as well as the study's own preconditions.
+
+### 2.8 Use of generative AI
+
+A large language model (Claude, Anthropic) was used as a tool. Concretely: it drafted
+initial versions of the estimator and phantom routines and of the test suite, wrote the
+figure and study scripts, refactored code the author had written, and drafted and edited
+manuscript text. It did not choose which defects to inject, did not set any tolerance, and
+did not decide what the results mean.
+
+The relationship between that assistance and this paper's subject is not incidental and is
+stated plainly here. Three of the six defects studied were not invented for the experiment:
+they were real errors present in drafted code — the bin-centre position error, the
+radially-blurred disk, and the missing noise floor — found by the closed-form checks
+described here and only then turned into a controlled injection. The checks were the means
+of verifying the assistance, which is the argument of the paper applied to its own
+production. The author independently re-executed every numerical result reported here and
+verified all figures, equations and claims against the code. No AI system is an author.
 
 ## 3. Results
 
@@ -175,7 +222,7 @@ These establish that the pipeline is correct in the region a closed form can rea
 
 Table 2 and Figure 4 give the outcome. No check fires at $\alpha = 0$ for any defect.
 
-**Table 2.** Six injected defects against seven checks. Detection severity is the smallest $\alpha$ at which a check fires; material severity is the smallest at which the reported $d'$ is wrong by more than 5%. The seventh check, the self-consistency regression test, fired on none of the six and so appears nowhere in the *caught by* column.
+**Table 2.** Six injected defects against seven checks. Detection severity is the smallest $\alpha$ at which a check fires; material severity is the smallest at which the reported $d'$ is wrong by more than 5%. The seventh check, the self-consistency regression test, fired on none of the six and so appears nowhere in the *caught by* column. **Boldface in that column marks a check that is an internal identity** — one needing no phantom and no ground truth, and therefore still available on measured patient data. A defect whose entry carries no bold was caught only against an object whose answer was known in advance.
 
 | defect | origin | caught by | detection $\alpha$ | material $\alpha$ | worst error in $d'$ |
 |---|---|---|---|---|---|
@@ -188,7 +235,7 @@ Table 2 and Figure 4 give the outcome. No check fires at $\alpha = 0$ for any de
 
 ![](figures/fig4_injection.png){width=100%}
 
-**Figure 4.** What each check sees. Left: the injected severity at which each check first fires, grey where it never does; the rightmost column is the self-consistency regression test, grey for every defect. The white rules separate internal identities (left) from closed-form references (centre) and from the regression control (right). Right: the relative error each defect produces in a reported $d'$, against the 5% materiality threshold (dashed).
+**Figure 4.** What each check sees. **(a)** The injected severity at which each check first fires, printed in the cell and shown by colour, grey where the check never fires; the rightmost column is the self-consistency regression test, grey for every defect. The white rules separate internal identities (left) from closed-form references (centre) and from the regression control (right). **(b)** The relative error each defect produces in a reported $d'$, against the 5% materiality threshold (dashed).
 
 Every defect was caught, and every defect was caught at or before the severity at which it corrupted the answer. Three of the six never made $d'$ materially wrong at any severity tried, and were nonetheless detected at the first severity step — which is the desired asymmetry: the checks are more sensitive than the endpoint they protect.
 
@@ -245,9 +292,9 @@ Run without modification on measured ACR phantom projections, the chain behaved 
 
 ![](figures/fig5_acr_atlas.png){width=95%}
 
-**Figure 5.** The same chain on measured ACR phantom projections, with the reconstruction kernel swept from a bare ramp through Hann apodisation at cutoffs 1.00 to 0.25. Nothing about the acquisition is simulated; the same projections are reconstructed seven ways.
+**Figure 5.** The same chain on measured ACR phantom projections, with the reconstruction kernel swept from a bare ramp through Hann apodisation at cutoffs 1.00 to 0.25. **(a)** measured MTF; **(b)** measured NPS; **(c)** NEQ; **(d)** detectability for the ideal and the non-prewhitening eye-filter observer against MTF$_{50}$. Nothing about the acquisition is simulated; the same projections are reconstructed seven ways.
 
-Strengthening the apodisation reduces resolution and noise together, as it must. Ideal-observer detectability rises monotonically from 1.87 to 2.57 across the sweep: for this low-contrast task the noise reduction outweighs the resolution loss throughout the range tested. The efficiency of the non-prewhitening eye-filter observer relative to the ideal observer rises threefold over the same sweep, from 0.111 to 0.331 — the inefficient observer benefits from smoothing far more than the efficient one does, because smoothing performs part of the noise-weighting the inefficient observer cannot perform for itself.
+Strengthening the apodisation reduces resolution and noise together, as it must. That the two move together under a change of reconstruction is the ordinary behaviour of the chain, and it is measured the same way on newer detectors: a recent phantom study of ultra-high-resolution photon-counting CT reports noise texture and high-contrast resolution as the paired quantities that a change of pixel size moves [21], which is the same coupling seen here under a change of kernel. The checks in this paper are stated on those quantities rather than on any particular detector, and so apply to that setting unchanged. Ideal-observer detectability rises monotonically from 1.87 to 2.57 across the sweep: for this low-contrast task the noise reduction outweighs the resolution loss throughout the range tested. The efficiency of the non-prewhitening eye-filter observer relative to the ideal observer rises threefold over the same sweep, from 0.111 to 0.331 — the inefficient observer benefits from smoothing far more than the efficient one does, because smoothing performs part of the noise-weighting the inefficient observer cannot perform for itself.
 
 The regression of $d'^2_{\text{ideal}}$ on the NEQ integral returns $R^2 = 0.84$ here, against a coefficient numerically equal to 1 on synthetic data. The gap is instructive: at the two strongest apodisations the measured MTF band has collapsed to 0.25 and 0.17 mm$^{-1}$, so the NEQ integral is taken over a truncated band and no longer summarises the same quantity. Over the five kernels whose measured band is intact the NEQ integral varies by a coefficient of variation of 4.9% and $d'_{\text{ideal}}$ by 5.0%, while the noise standard deviation varies by a factor of 7.3.
 
@@ -285,19 +332,25 @@ We do not claim that published detectability values are commonly wrong; we have 
 
 ### 4.2 A checklist
 
-The four internal identities are cheap, need no phantom, and can be asserted inside any implementation of this chain:
+Six checks, in two families. Nothing else in this list is a check.
 
-1. $\int \mathrm{NPS}(f)\,df$ equals the pixel variance of the data the NPS was estimated from, to floating-point tolerance.
-2. Ideal-observer $d'$ computed through NEQ equals $d'$ computed by the prewhitening observer, when both use the same noise model.
-3. The integral of a blurred signal equals the integral of the unblurred signal.
-4. The NPS dynamic range, excluding DC, stays within the range where $1/\mathrm{NPS}$ is meaningful; a prewhitening observer should refuse rather than return a number when it does not. Section 3.8 shows this is not a theoretical precaution: strong apodisation on a real scanner approaches the threshold closely enough that the check decides real cases.
+**Family A — the four internal identities.** Cheap, needing no phantom, and assertable inside any implementation of this chain:
 
-The two closed-form references require a phantom and catch what the identities cannot:
+**A1.** $\int \mathrm{NPS}(f)\,df$ equals the pixel variance of the data the NPS was estimated from, to floating-point tolerance.
 
-5. The presampled MTF of an analytically blurred edge equals $\exp(-2\pi^2\sigma^2f^2)$.
-6. The NPS of white noise of known variance equals $\sigma^2\,\Delta x\,\Delta y$.
+**A2.** Ideal-observer $d'$ computed through NEQ equals $d'$ computed by the prewhitening observer, when both use the same noise model.
 
-The injection study adds two methodological items to these six. Check 5 must be evaluated over a *sweep* of edge angles, not one, because the bias it detects is not monotone in angle and can be an order of magnitude larger between two angles half a degree apart. And every tolerance must be set from the estimator's measured reproducibility in the configuration actually in use: too loose and it misses the defect, too tight and it fires on correct code, and the correct value differs by four orders of magnitude between synthetic and measured data for the same identity.
+**A3.** The integral of a blurred signal equals the integral of the unblurred signal.
+
+**A4.** The NPS dynamic range, excluding DC, stays within the range where $1/\mathrm{NPS}$ is meaningful; a prewhitening observer should refuse rather than return a number when it does not. Section 3.8 shows this is not a theoretical precaution: strong apodisation on a real scanner approaches the threshold closely enough that the check decides real cases.
+
+**Family B — the two closed-form references.** These require a phantom, and catch what the identities cannot:
+
+**B1.** The presampled MTF of an analytically blurred edge equals $\exp(-2\pi^2\sigma^2f^2)$.
+
+**B2.** The NPS of white noise of known variance equals $\sigma^2\,\Delta x\,\Delta y$.
+
+The injection study adds two methodological requirements to these six checks. Check **B1** must be evaluated over a *sweep* of edge angles, not one, because the bias it detects is not monotone in angle and can be an order of magnitude larger between two angles half a degree apart. And every tolerance must be set from the estimator's measured reproducibility in the configuration actually in use: too loose and it misses the defect, too tight and it fires on correct code, and the correct value differs by four orders of magnitude between synthetic and measured data for the same identity.
 
 ### 4.3 Relation to previous work
 
@@ -364,7 +417,7 @@ through the `LDCT_IO_DATA` environment variable.
 ## Acknowledgments
 
 Generative AI (Claude, Anthropic) was used as a tool for code scaffolding, test drafting,
-figure generation and manuscript drafting, as disclosed in Section 2.7. The author is
+figure generation and manuscript drafting, as disclosed in Section 2.8. The author is
 solely accountable for the content and independently verified every result. No AI system
 is an author. This disclosure follows ICMJE and COPE guidance.
 
@@ -398,3 +451,7 @@ to publish the results.
 15. Merali Z. Computational science: ...Error. *Nature.* 2010;467(7317):775–777. doi:10.1038/467775a.
 16. Friedman SN, Fung GSK, Siewerdsen JH, et al. A simple approach to measure computed tomography (CT) modulation transfer function (MTF) and noise-power spectrum (NPS) using the American College of Radiology (ACR) accreditation phantom. *Med Phys.* 2013;40(5):051907. doi:10.1118/1.4800795.
 17. Jia Y, Harman M. An analysis and survey of the development of mutation testing. *IEEE Trans Softw Eng.* 2011;37(5):649–678. doi:10.1109/TSE.2010.62.
+18. Claessen K, Hughes J. QuickCheck: a lightweight tool for random testing of Haskell programs. *Proc. ACM SIGPLAN Int. Conf. Functional Programming (ICFP).* 2000:268–279. doi:10.1145/351240.351266.
+19. Chen TY, Kuo FC, Liu H, et al. Metamorphic testing: a review of challenges and opportunities. *ACM Comput Surv.* 2018;51(1):4. doi:10.1145/3143561.
+20. Oberkampf WL, Roy CJ. *Verification and Validation in Scientific Computing.* Cambridge: Cambridge University Press; 2010.
+21. Song K-H, Shan C, Xu G, et al. Phantom evaluation of small-pixel effect in ultra-high-resolution photon-counting CT: noise texture and high-contrast spatial resolution. *J Appl Clin Med Phys.* 2026;27:e70776. doi:10.1002/acm2.70776.
