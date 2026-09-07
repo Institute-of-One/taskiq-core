@@ -51,7 +51,7 @@ from taskiq_core import (  # noqa: E402
 
 OUT = Path(__file__).resolve().parent / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
-plt.rcParams.update({"font.size": 11, "axes.titlesize": 11, "figure.dpi": 300})
+plt.rcParams.update({"font.size": 13, "axes.titlesize": 13, "figure.dpi": 600})
 
 SPACING = 0.1  # mm
 SIZE = 64  # signal / noise ROI, pixels
@@ -621,25 +621,36 @@ def _figure(rows: list[dict]) -> None:
             matrix[r, c] = np.nan if a is None else a
         matrix[r, -1] = np.nan  # never fires, by construction
 
-    fig, (axL, axR) = plt.subplots(2, 1, figsize=(7.2, 8.8))
+    fig, (axL, axR) = plt.subplots(2, 1, figsize=(7.2, 9.6))
 
     cmap = plt.get_cmap("viridis_r").copy()
     cmap.set_bad("#eeeeee")
-    im = axL.imshow(np.ma.masked_invalid(matrix), cmap=cmap, vmin=0, vmax=1, aspect="auto")
+    detected = matrix[~np.isnan(matrix)]
+    im = axL.imshow(np.ma.masked_invalid(matrix), cmap=cmap, vmin=0,
+                    vmax=float(detected.max()) if detected.size else 1.0,
+                    aspect="auto")
     axL.set_xticks(range(len(labels)))
-    axL.set_xticklabels(labels, rotation=30, ha="right", fontsize=9.5)
+    axL.set_xticklabels(labels, rotation=30, ha="right", fontsize=12)
     axL.set_yticks(range(len(rows)))
-    axL.set_yticklabels([r["key"] for r in rows], fontsize=9.5)
+    axL.set_yticklabels([r["key"] for r in rows], fontsize=12)
+    # Every detection in this experiment lands between 0.1 and 0.3 of a 0-1 colour scale,
+    # so colour alone separates almost nothing -- which is what a reviewer saw. Printing
+    # the severity in the cell makes the panel exact instead of approximate, and answers
+    # in passing whether 0.1 is a real first detection or the grid's resolution limit.
     for r in range(len(rows)):
         for c in range(len(cols)):
             if np.isnan(matrix[r, c]):
-                axL.text(c, r, "-", ha="center", va="center", fontsize=10, color="#aaa")
+                axL.text(c, r, "-", ha="center", va="center", fontsize=13, color="#888")
+            else:
+                value = matrix[r, c]
+                axL.text(c, r, f"{value:.1f}", ha="center", va="center", fontsize=12,
+                         color="white" if value > 0.55 else "black")
     axL.axvline(3.5, color="white", lw=2)
     axL.axvline(5.5, color="white", lw=2)
-    axL.set_title("severity at first detection (grey: never)", fontsize=10)
+    axL.set_title("severity at first detection (grey: never)", fontsize=13)
     cb = fig.colorbar(im, ax=axL, fraction=0.030, pad=0.02)
-    cb.set_label("severity", fontsize=10)
-    cb.ax.tick_params(labelsize=9)
+    cb.set_label("severity", fontsize=12)
+    cb.ax.tick_params(labelsize=11)
 
     for row in rows:
         pts = [
@@ -648,7 +659,7 @@ def _figure(rows: list[dict]) -> None:
             if c["reported_error"] is not None and c["reported_error"] > 0
         ]
         if pts:
-            axR.plot(*zip(*pts, strict=True), marker="o", ms=3, lw=1.3, label=row["key"])
+            axR.plot(*zip(*pts, strict=True), marker="o", ms=4.5, lw=1.8, label=row["key"])
     # The threshold goes in the legend, not floating over the axes: a text label
     # positioned in data coordinates overflows whenever the data range shifts.
     axR.axhline(MATERIAL, color="#d62728", ls="--", lw=1.1, label="5 % error in a reported $d'$")
@@ -657,9 +668,9 @@ def _figure(rows: list[dict]) -> None:
     # whose errors are the smallest and so occupy exactly the corner a legend wants.
     lo, hi = axR.get_ylim()
     axR.set_ylim(lo / 60.0, hi)
-    axR.set_xlabel("injected severity", fontsize=11)
-    axR.set_ylabel("relative error in a reported $d'$", fontsize=11)
-    axR.set_title("what the defect does to the answer", fontsize=10)
+    axR.set_xlabel("injected severity", fontsize=13)
+    axR.set_ylabel("relative error in a reported $d'$", fontsize=13)
+    axR.set_title("what the defect does to the answer", fontsize=13)
     handles, labels = axR.get_legend_handles_labels()
     order = [labels.index("5 % error in a reported $d'$")] + [
         i for i, lab in enumerate(labels) if lab != "5 % error in a reported $d'$"
@@ -668,12 +679,18 @@ def _figure(rows: list[dict]) -> None:
         [handles[i] for i in order],
         [labels[i] for i in order],
         frameon=False,
-        fontsize=8.5,
+        fontsize=11,
         ncol=2,
         loc="lower center",
     )
-    axR.tick_params(labelsize=10)
+    axR.tick_params(labelsize=12)
     axR.spines[["top", "right"]].set_visible(False)
+
+    # Panel labels, requested at review. Placed in axes coordinates just outside the
+    # top-left corner so they do not move when the data range changes.
+    for axis, letter in ((axL, "(a)"), (axR, "(b)")):
+        axis.text(-0.08, 1.04, letter, transform=axis.transAxes,
+                  fontsize=15, fontweight="bold", va="bottom", ha="left")
 
     fig.tight_layout()
     fig.savefig(OUT / "fig4_injection.png", bbox_inches="tight")
