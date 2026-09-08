@@ -1,24 +1,39 @@
-Subject: Re: [J. Imaging] Manuscript ID: jimaging-4539482 - Article Processing Charge Confirmation Reminder
+Gmail draft, created 2026-09-08 as a reply on the thread
+"[J. Imaging] Manuscript ID: jimaging-4539482 - Acknowledgement - Article Processing
+Charge Confirmation Received" (thread 1a07ebb975a6fce8).
+
+To:  jimaging@mdpi.com
+Cc:  claus.xu@mdpi.com, nizu@mdpi.com
+
+That thread is the right place for all three requests because it is the message that
+asks "If any of the above information is incorrect, please let us know as soon as
+possible", it already carries the billing contact, and it warns that changes to the
+invoice are impossible after acceptance. One reply on one thread; the office routes it.
+
+---
 
 Dear Editorial Office,
 
-Thank you for the reminder. I have confirmed the Article Processing Charge of 1800 CHF
-and the invoice address through the link provided.
+Thank you for the acknowledgement. Three small things, the first of which is the
+invoice detail you asked me to check.
 
-One correction to the invoice, please. The charge is borne by the company, not by me
-personally, so the invoice should be addressed to:
+1. The invoice.
+
+The charge is borne by the company rather than by me personally, so please issue the
+invoice to:
 
     LISIT Co., Ltd.
     6-7 Maruyama-cho, Amflat 1F, Shibuya-ku
     Tokyo 150-0044, Japan
 
-The confirmation form carries my own name in the "Name" field, taken from my SuSy
-profile, which has no field for a billing entity. Payment will be by card.
+The confirmation form carried my own name in the "Name" field, taken from my SuSy
+profile, which has no field for a billing entity. Everything else in the address you
+quoted is correct. Payment will be by card.
 
-A second request, which I raised earlier with Mr Jiang and would like to make sure is
-not lost. The author record in the system reads "Institute of one, LISIT, Co., Ltd., Tokyo,
-Japan". The correct form, as registered at Crossref for both of my papers in your group
-of journals, is:
+2. The author record.
+
+It reads "Institute of one, LISIT, Co., Ltd., Tokyo, Japan". The correct form, as
+Crossref carries it for both of my papers with MDPI, is:
 
     Institute of One, LISIT Co., Ltd., Tokyo 150-0044, Japan
 
@@ -26,36 +41,33 @@ It appears in that form on Journal of Imaging 12(8), 392 (2026),
 doi:10.3390/jimaging12080392, and on Tomography 12(9), 125 (2026),
 doi:10.3390/tomography12090125. Consistency of this string across my papers matters for
 affiliation matching, so I would be grateful if the record could be corrected before
-production.
+production. I raised this with Mr Jiang earlier and mention it again only so that it is
+not lost.
 
-Third, the abstract held in the submission system is still the version submitted in
-August, and it contains the two sentences the revision was made to correct. I can find no
-way to edit it from my account at this stage. The final sentence currently reads:
+3. The abstract stored in the submission system.
 
-    Run unmodified on measured ACR phantom projections across seven reconstruction
-    kernels, the identities transferred intact - Parseval held to 4x10-16 - but their
+It is still the version submitted in August, and its final sentence contains the two
+things the revision was made to correct. I can find no way to edit it from my account at
+this stage. It currently ends:
+
+    ... the identities transferred intact - Parseval held to 4x10-16 - but their
     tolerances did not, and the strongest apodisation drove the noise dynamic range to
     within 0.6% of the threshold beyond which a prewhitening observer must refuse to
     answer.
 
-and in the revised manuscript it reads:
+In the revised manuscript it ends:
 
-    Run unmodified on measured ACR phantom projections across seven reconstruction
-    kernels, the three identities that can be evaluated without ground truth transferred
+    ... the three identities that can be evaluated without ground truth transferred
     intact - Parseval held to 4x10-16 - but their tolerances did not, and the strongest
     apodisation drove the noise dynamic range to within 0.6% of the threshold beyond
     which a prewhitening observer should return no value at all rather than a computed
     one, because 1/NPS has ceased to be numerically meaningful.
 
-The rest of the abstract is unchanged. The two differences are the corrections the
-reviewers asked for: only three of the four internal identities can be evaluated on
-measured data, so "the identities transferred intact" overstated the result, and
-"must refuse to answer" was the wording Reviewer 2 found unclear. Could the stored
-abstract be updated to match the manuscript, so that the published metadata does not
-carry the claim the revision removed?
-
-The revised manuscript, prepared in the formatted file your office sent and with every
-change highlighted, was returned to Mr Jiang by email.
+The rest of the abstract is unchanged. Only three of the four internal identities can be
+evaluated on measured data, so "the identities transferred intact" overstated the
+result, and "must refuse to answer" was the wording Reviewer 2 found unclear. Could the
+stored abstract be updated to match the manuscript, so that the published metadata does
+not carry the claim the revision removed?
 
 Kind regards,
 
