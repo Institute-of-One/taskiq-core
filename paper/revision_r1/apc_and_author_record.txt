@@ -28,6 +28,32 @@ doi:10.3390/tomography12090125. Consistency of this string across my papers matt
 affiliation matching, so I would be grateful if the record could be corrected before
 production.
 
+Third, the abstract held in the submission system is still the version submitted in
+August, and it contains the two sentences the revision was made to correct. I can find no
+way to edit it from my account at this stage. The final sentence currently reads:
+
+    Run unmodified on measured ACR phantom projections across seven reconstruction
+    kernels, the identities transferred intact - Parseval held to 4x10-16 - but their
+    tolerances did not, and the strongest apodisation drove the noise dynamic range to
+    within 0.6% of the threshold beyond which a prewhitening observer must refuse to
+    answer.
+
+and in the revised manuscript it reads:
+
+    Run unmodified on measured ACR phantom projections across seven reconstruction
+    kernels, the three identities that can be evaluated without ground truth transferred
+    intact - Parseval held to 4x10-16 - but their tolerances did not, and the strongest
+    apodisation drove the noise dynamic range to within 0.6% of the threshold beyond
+    which a prewhitening observer should return no value at all rather than a computed
+    one, because 1/NPS has ceased to be numerically meaningful.
+
+The rest of the abstract is unchanged. The two differences are the corrections the
+reviewers asked for: only three of the four internal identities can be evaluated on
+measured data, so "the identities transferred intact" overstated the result, and
+"must refuse to answer" was the wording Reviewer 2 found unclear. Could the stored
+abstract be updated to match the manuscript, so that the published metadata does not
+carry the claim the revision removed?
+
 The revised manuscript, prepared in the formatted file your office sent and with every
 change highlighted, was returned to Mr Jiang by email.
 
