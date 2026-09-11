@@ -2,8 +2,8 @@
 
 ## What production left in the file
 
-- tracked insertions: **3**  (authors: ['Shuji Yamamoto'])
-- tracked deletions: **3**  (authors: ['Shuji Yamamoto'])
+- tracked insertions: **14**  (authors: ['Shuji Yamamoto'])
+- tracked deletions: **14**  (authors: ['Shuji Yamamoto'])
 - formatting changes: **0**
 - comments: **1**
 
@@ -35,7 +35,7 @@
 
 ## Comments from production
 
-### Comment 0 — Shuji Yamamoto
+### Comment 16 — Shuji Yamamoto
 
 > Restored to "disk" in the three places where it is the name of a defect rather than the English word: this entry, the row label in Table 2, and the Results sentence listing what the internal identities caught. The defect is called "disk" in the released code (paper/make_injection_study.py and taskiq_core/phantoms.py, kind="disk"), alongside sinc, jitter, nps_area, detrend and no_floor, so a reader looking up the Table 2 row in the repository needs the same spelling. Everywhere the word means the shape - disc phantom, disc signal, blurred disc - the British spelling you introduced is right and has been kept.
 
@@ -43,12 +43,33 @@ Anchored on: *disk*
 
 ## Tracked changes, paragraph by paragraph
 
+- **in:** `Task-based image quality assessment—the modulation transfer function, the noise power spectrum (NPS), the nois`
+  - deleted: `the noise power spectrum, the noise-equivalent quanta | measured ACR phantom projections across seven`
+  - inserted: `the noise power spectrum (NPS), the noise-equivalent quanta | measured American College of Radiology (ACR) phantom projections across seven`
+- **in:** `Task-based assessment—judging an imaging system by how well a specified observer performs a specified detectio`
+  - deleted: `formalised in ISO 12233 | standardised for digital X-ray detectors in IEC 62220-1 | reviewed for CT [12], and its use in computed tomography has been consolidat`
+  - inserted: `formalised by the International Organization for Standardization (ISO) in ISO 12233 | standardised for digital X-ray detectors by the International Electrotechn`
+- **in:** `All experiments use one pure-Python implementation of the chain (taskiq-core), which computes the slanted-edge`
+  - deleted: `the area under the ROC curve`
+  - inserted: `the area under the receiver operating characteristic (ROC) curve`
+- **in:** `where is the Fourier transform of the signal, and the check is the relative difference . With the two integran`
+  - deleted: `excludes the DC bin | Subtracting the mean from each region of interest sets`
+  - inserted: `excludes the zero-frequency (DC) bin | Subtracting the mean from each region of interest (ROI) sets`
 - **in:** `disk—the signal built by interpolating between the exact two-dimensional blurred disc and the one obtained by `
   - deleted: `disc`
   - inserted: `disk`
 - **in:** `disk`
   - deleted: `disc`
   - inserted: `disk`
+- **in:** `To establish that the chain behaves as required outside a synthetic model, the same code was run on measured A`
+  - deleted: `run on measured ACR phantom projections from`
+  - inserted: `run on measured American College of Radiology (ACR) phantom projections from`
+- **in:** `The estimators, the phantoms and the observers are taskiq-core, a pure-Python package depending only on NumPy `
+  - deleted: `It contains no DICOM handling`
+  - inserted: `It contains no Digital Imaging and Communications in Medicine (DICOM) handling`
+- **in:** `2.8. Use of Generative Artificial Intelligence (AI)`
+  - deleted: `Use of Generative AI`
+  - inserted: `Use of Generative Artificial Intelligence (AI)`
 - **in:** `Internal identities caught nps_area (Parseval), disk (conserved signal area) and no_floor (NPS dynamic range)—`
   - deleted: `disc`
   - inserted: `disk`
@@ -57,9 +78,9 @@ Anchored on: *disk*
 
 - *replace* — {+Academic+} {+Editors:+} {+Zheyun+} {+Qin+} {+and+} {+Yanyan+} {+Wang+} {+/+} {+Received:+} {+18+} {+August+} {+2026+} {+/+} {+Revised:+} {+07+} {+September+} {+2026+} {+/+} {+Accepted:+} {+10+} {+September+} {+2026+} {+/+} {+Published:+} {+date+} {+/+} {+Copyright:+} {+©+} {+2026+} {+by+} {+the+} {+authors.+} {+Submitted+} {+for+} {+possible+} {+open+} {+access+} {+publication+} {+under+} {+the+} {+terms+} {+and+} {+conditions+} {+of+} {+the+} {+Creative+} {+Commons+} {+Attribution+} {+(CC+} {+BY)+} {+license.+} {+/+} Shuji Yamamoto [-1,*-] / [-1-] Institute of One, LISIT Co., Ltd., Tokyo 15
 
-- *replace* — Task-based image quality [-assessment-] {+assessment—the+} [-—-] [-the-] modulation transfer function, the noise power spectrum, the noise-equivalent quanta and model [-observers-] {+observers—fails+} [-—-] [-fails-] by returning a plausible wrong number rather than an error, and the regression test most implementations carry cannot tell a plausible right answer from a plausible wrong one, because the stored reference was recorded from the defective code. We injected six defects into a validated implementation of that chain through a severity dial that recovers the correct pipeline exactly at 
+- *replace* — Task-based image quality [-assessment-] {+assessment—the+} [-—-] [-the-] modulation transfer function, the noise power [-spectrum,-] {+spectrum+} {+(NPS),+} the noise-equivalent quanta and model [-observers-] {+observers—fails+} [-—-] [-fails-] by returning a plausible wrong number rather than an error, and the regression test most implementations carry cannot tell a plausible right answer from a plausible wrong one, because the stored reference was recorded from the defective code. We injected six defects into a validated implementation of that chain through a severity dial that recovers the 
 
-- *replace* — Task-based {+assessment—judging+} [-assessment-] [-—-] [-judging-] an imaging system by how well a specified observer performs a specified detection or discrimination task, rather than by a generic fidelity [-metric-] {+metric—is+} [-—-] [-is-] the accepted framework for evaluating medical imaging systems [1,2]. Its physical ingredients are individually standardised: the modulation transfer function (MTF), classically measured from a slanted edge by the presampled-MTF method formalised in ISO 12233 [3], and the noise power spectrum (NPS) and detective-quantum-efficiency formalism standardised 
+- *replace* — Task-based {+assessment—judging+} [-assessment-] [-—-] [-judging-] an imaging system by how well a specified observer performs a specified detection or discrimination task, rather than by a generic fidelity [-metric-] {+metric—is+} [-—-] [-is-] the accepted framework for evaluating medical imaging systems [1,2]. Its physical ingredients are individually standardised: the modulation transfer function (MTF), classically measured from a slanted edge by the presampled-MTF method formalised {+by+} {+the+} {+International+} {+Organization+} {+for+} {+Standardization+} {+(ISO)+} in ISO 12233 [3], and
 
 - *replace* — The theory is settled. The implementations are not, and this paper is about the gap between them. The object of study is therefore the chain [-itself-] {+itself—any+} [-—-] [-any-] implementation of [-it-] [-—-] [-rather-] {+it—rather+} than a particular [-program:-] {+programme:+} each defect examined below is a step the standard formulation requires, applied to one instance so that its cost can be measured, and the checks proposed against them are stated so that they can be asserted inside any implementation. / 1.1. The Characteristic Failure [-is-] {+Is+} a Plausible Number / A pipeline ass
 
@@ -73,7 +94,7 @@ Anchored on: *disk*
 
 - *replace* — The finding that the two check families are complementary and individually insufficient, and in [-particular-] {+particular,+} that half of these defects are undetectable without a phantom of known truth. / Two corrected magnitudes for defects previously reported only qualitatively: the angular structure of the bin-centre jitter [-bias,-] {+bias+} and the dependence of the omitted-sinc bias on a free implementation parameter.
 
-- *replace* — The MTF estimator forms the edge-spread [-function-] {+function—the+} [-—-] [-the-] ESF, the mean profile across the edge obtained by projecting every pixel onto the edge normal and binning far below the pixel pitch, which is what the [-edge's-] {+edge’s+} tilt [-buys-] [-—-] [-differentiates-] {+buys—differentiates+} it to the line-spread function, the LSF, by a central difference between adjacent bins, and transforms the LSF, analytically dividing out the two transfer functions the estimator itself introduces: the bin-average boxcar, , and the central-difference derivative, , where is the ES
+- *replace* — All experiments use one pure-Python implementation of the chain (taskiq-core), which computes the slanted-edge MTF, the two-dimensional and radially averaged NPS, the unnormalised , and model-observer detectability. Observers are the non-prewhitening matched filter with an optional eye filter (NPW/NPWE) [6], the prewhitening matched filter, which coincides with the ideal linear observer for stationary Gaussian noise, and the channelised Hotelling observer [5]. Task performance is summarised by , the area under the {+receiver+} {+operating+} {+characteristic+} [-ROC-] {+(ROC)+} curve computed d
 
 - *replace* — Six checks were [-implemented,-] {+implemented:+} four internal identities and two closed-form references (Table 1). Each returns a scalar violation magnitude; a check fires when that magnitude exceeds its tolerance.
 
@@ -134,30 +155,3 @@ Anchored on: *disk*
 ## Verdict
 
 - equations: 148 -> 146
-## Resolved after reading the output
-
-- **equations 148 -> 146 is not a loss.** Production rewrote the Table 3 column header
-  `MTF50 (mm-1)` from two inline equations into ordinary subscript and superscript text,
-  and turned the hyphen into a true minus. The header reads correctly; the count fell by
-  exactly those two. The other differences in the equation census are zero-width spaces
-  (U+200B) that production stripped from inside equations that are otherwise identical.
-- **The two things known to be wrong upstream are right in the proof.** The abstract is
-  the corrected one and neither removed claim survives; the affiliation matches Crossref
-  character for character.
-- **Moved, not changed.** Table 2 and Figure 5 were moved to follow their first citation,
-  which carries "Each tolerance is set" and the Figure 5 caption with them. The prose order
-  is intact and the caption text is identical.
-- **All 16 reference DOIs survived** the conversion to MDPI's reference style.
-- **Accepted as production's style:** closed em dashes, curly apostrophes, British
-  spellings (programme, biassed, disc), comma changes, title case in 4.1, and the
-  Institutional Review Board statement shortened to "Not applicable." -- the facts it
-  dropped are stated in the Methods and the Data Availability Statement.
-- **Corrected, with tracked changes and a comment:** "disc" back to "disk" in the three
-  places it names the defect -- the defect list entry, the Table 2 row label and the
-  Results sentence -- because that is the defect's name in the released code
-  (`paper/make_injection_study.py`, `taskiq_core/phantoms.py`). The five places where the
-  word means the shape keep production's "disc".
-
-Output verified in `manuscript.v7-corrected.docx`, not taken from the script's log: three
-insertions and three deletions, all by Shuji Yamamoto, one comment, 329 paragraphs of
-which exactly three differ from the proof as sent, and Word opens it without repair.

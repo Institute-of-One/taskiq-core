@@ -1,7 +1,16 @@
-Thank you for the careful editing. I accept all of the production changes, with one exception, which is made in the file with tracked changes and explained in a comment beside it.
+Dear Mr Jiang,
 
-"disk" is restored in the three places where it is the name of a defect rather than the English word: the defect list entry, the row label in Table 2, and the Results sentence listing what the internal identities caught. The defect is called "disk" in the released code, alongside sinc, jitter, nps_area, detrend and no_floor, so a reader looking up that row in the repository needs the same spelling. Wherever the word means the shape, the British spelling "disc" has been kept.
+Thank you for the careful editing. I accept all of the production changes. The corrections below are made in the file with tracked changes.
 
-One request about the metadata rather than the file. The abstract in this proof is the corrected one. The abstract stored in the submission system was still the August version when the paper was accepted, and its last sentence carries the two claims the revision removed ("the identities transferred intact" and "must refuse to answer"). Please make sure the published metadata is taken from this proof and not from that stored field.
+Abbreviations, following the English Editor's note: each is now defined at its first use in the abstract and in the main text. In the abstract, ACR and NPS; in the main text, CT, AAPM, ISO, IEC, ROC, ROI, DC, ACR, DICOM and AI. CT was the one that mattered most, since it was used before "computed tomography" was written out. LDCT is left as it stands, because there it is part of the name of the dataset, LDCT-and-Projection-data.
+
+"disk" is restored in the three places where it is the name of a defect rather than the English word: the defect list entry, the row label in Table 2, and the Results sentence. It is the defect's name in the released code, so the table has to match the repository. Wherever the word means the shape, your "disc" is kept. A comment in the file says the same.
+
+The affiliation on the system record is wrong, and this page has no field in which I can correct it. It reads "Institute of one, LISIT, Co., Ltd., Tokyo, Japan". The correct form, which the manuscript already carries and which Crossref holds for both of my published MDPI papers (doi:10.3390/jimaging12080392 and doi:10.3390/tomography12090125), is "Institute of One, LISIT Co., Ltd., Tokyo 150-0044, Japan". Please take the affiliation from the manuscript, not from the system record, so that all three papers carry the same string.
+
+The abstract in this proof is the corrected one. The abstract stored in the submission system was still the August version when the paper was accepted, and it carries the two claims the revision removed ("the identities transferred intact" and "must refuse to answer"). Please make sure the published metadata is taken from this proof and not from that stored field.
 
 I confirm Open Peer Review.
+
+Kind regards,
+Shuji Yamamoto

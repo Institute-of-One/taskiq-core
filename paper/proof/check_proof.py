@@ -37,8 +37,12 @@ AFFILIATION = "Institute of One, LISIT Co., Ltd., Tokyo 150-0044, Japan"
 
 # The two sentences the revision corrected, and what replaced them.
 MUST_BE_PRESENT = {
-    "abstract: the three identities, not all four": "the three identities that can be evaluated without ground truth",
-    "abstract: return no value, not refuse": "should return no value at all rather than a computed one",
+    "abstract: the three identities, not all four": (
+        "the three identities that can be evaluated without ground truth"
+    ),
+    "abstract: return no value, not refuse": (
+        "should return no value at all rather than a computed one"
+    ),
     "affiliation, exactly": AFFILIATION,
     "funding statement": "This research received no external funding",
     "generative AI declared": "Claude",
@@ -47,7 +51,7 @@ MUST_BE_PRESENT = {
     "checklist relabelled A1": "A1.",
     "checklist relabelled B2": "B2.",
     "section 2.7 Implementation": "Implementation",
-    "section 2.8 generative AI": "Use of Generative AI",
+    "section 2.8 generative AI": "Use of Generative Artificial Intelligence",
 }
 MUST_BE_ABSENT = {
     "abstract overclaim": "the identities transferred intact",
@@ -146,9 +150,12 @@ def main() -> int:
         for cid in [c[0] for c in comments]:
             m = re.search(
                 rf'<w:commentRangeStart w:id="{cid}"/>(.*?)<w:commentRangeEnd w:id="{cid}"/>',
-                doc_p, re.S,
+                doc_p,
+                re.S,
             )
-            anchors[cid] = re.sub(r"\s+", " ", "".join(TEXT.findall(m.group(1)))).strip() if m else ""
+            anchors[cid] = (
+                re.sub(r"\s+", " ", "".join(TEXT.findall(m.group(1)))).strip() if m else ""
+            )
         for cid, author, body in comments:
             text = re.sub(r"\s+", " ", " ".join(TEXT.findall(body))).strip()
             lines += [
@@ -192,13 +199,20 @@ def main() -> int:
         new = " / ".join(pp[j1:j2])
         words = difflib.ndiff(old.split(), new.split())
         diff = " ".join(
-            f"[-{w[2:]}-]" if w.startswith("- ") else f"{{+{w[2:]}+}}" if w.startswith("+ ") else w[2:]
-            for w in words if not w.startswith("? ")
+            f"[-{w[2:]}-]"
+            if w.startswith("- ")
+            else f"{{+{w[2:]}+}}"
+            if w.startswith("+ ")
+            else w[2:]
+            for w in words
+            if not w.startswith("? ")
         )
         lines += [f"- *{tag}* — {diff[:600]}", ""]
 
     lines += ["## Verdict", ""]
-    lines += [f"- {p}" for p in problems] or ["- no problems in the decisive strings or the structure"]
+    lines += [f"- {p}" for p in problems] or [
+        "- no problems in the decisive strings or the structure"
+    ]
     REPORT.write_text("\n".join(lines), encoding="utf-8", newline="\n")
 
     print(f"proof: {proof_path.name}")
