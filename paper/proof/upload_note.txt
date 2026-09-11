@@ -1,0 +1,7 @@
+Thank you for the careful editing. I accept all of the production changes, with one exception, which is made in the file with tracked changes and explained in a comment beside it.
+
+"disk" is restored in the three places where it is the name of a defect rather than the English word: the defect list entry, the row label in Table 2, and the Results sentence listing what the internal identities caught. The defect is called "disk" in the released code, alongside sinc, jitter, nps_area, detrend and no_floor, so a reader looking up that row in the repository needs the same spelling. Wherever the word means the shape, the British spelling "disc" has been kept.
+
+One request about the metadata rather than the file. The abstract in this proof is the corrected one. The abstract stored in the submission system was still the August version when the paper was accepted, and its last sentence carries the two claims the revision removed ("the identities transferred intact" and "must refuse to answer"). Please make sure the published metadata is taken from this proof and not from that stored field.
+
+I confirm Open Peer Review.
