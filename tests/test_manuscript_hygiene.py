@@ -45,9 +45,7 @@ def test_no_latex_command_lost_its_backslash():
     text = _text()
     for command in ("alpha", "times", "mathrm", "sigma", "int"):
         broken = re.findall(rf"\$[^$\n]*(?<![\\A-Za-z]){command}\b", text)
-        assert not broken, (
-            f"'{command}' appears inside math without its backslash: {broken[:3]}"
-        )
+        assert not broken, f"'{command}' appears inside math without its backslash: {broken[:3]}"
 
 
 def test_the_affiliation_is_the_one_crossref_carries():
@@ -68,7 +66,8 @@ def test_every_figure_referenced_is_present():
     """A figure the text names and the repository lacks is a hole a reader falls into."""
     text = _text()
     missing = [
-        name for name in re.findall(r"!\[\]\(figures/([^)]+)\)", text)
+        name
+        for name in re.findall(r"!\[\]\(figures/([^)]+)\)", text)
         if not (REPO / "paper" / "figures" / name).is_file()
     ]
     assert not missing, f"referenced but absent: {missing}"

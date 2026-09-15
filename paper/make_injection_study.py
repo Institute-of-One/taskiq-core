@@ -626,9 +626,13 @@ def _figure(rows: list[dict]) -> None:
     cmap = plt.get_cmap("viridis_r").copy()
     cmap.set_bad("#eeeeee")
     detected = matrix[~np.isnan(matrix)]
-    im = axL.imshow(np.ma.masked_invalid(matrix), cmap=cmap, vmin=0,
-                    vmax=float(detected.max()) if detected.size else 1.0,
-                    aspect="auto")
+    im = axL.imshow(
+        np.ma.masked_invalid(matrix),
+        cmap=cmap,
+        vmin=0,
+        vmax=float(detected.max()) if detected.size else 1.0,
+        aspect="auto",
+    )
     axL.set_xticks(range(len(labels)))
     axL.set_xticklabels(labels, rotation=30, ha="right", fontsize=12)
     axL.set_yticks(range(len(rows)))
@@ -643,8 +647,15 @@ def _figure(rows: list[dict]) -> None:
                 axL.text(c, r, "-", ha="center", va="center", fontsize=13, color="#888")
             else:
                 value = matrix[r, c]
-                axL.text(c, r, f"{value:.1f}", ha="center", va="center", fontsize=12,
-                         color="white" if value > 0.55 else "black")
+                axL.text(
+                    c,
+                    r,
+                    f"{value:.1f}",
+                    ha="center",
+                    va="center",
+                    fontsize=12,
+                    color="white" if value > 0.55 else "black",
+                )
     axL.axvline(3.5, color="white", lw=2)
     axL.axvline(5.5, color="white", lw=2)
     axL.set_title("severity at first detection (grey: never)", fontsize=13)
@@ -689,8 +700,16 @@ def _figure(rows: list[dict]) -> None:
     # Panel labels, requested at review. Placed in axes coordinates just outside the
     # top-left corner so they do not move when the data range changes.
     for axis, letter in ((axL, "(a)"), (axR, "(b)")):
-        axis.text(-0.08, 1.04, letter, transform=axis.transAxes,
-                  fontsize=15, fontweight="bold", va="bottom", ha="left")
+        axis.text(
+            -0.08,
+            1.04,
+            letter,
+            transform=axis.transAxes,
+            fontsize=15,
+            fontweight="bold",
+            va="bottom",
+            ha="left",
+        )
 
     fig.tight_layout()
     fig.savefig(OUT / "fig4_injection.png", bbox_inches="tight")
