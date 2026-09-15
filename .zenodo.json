@@ -23,5 +23,13 @@
     "synthetic phantom",
     "reproducible research"
   ],
-  "access_right": "open"
+  "access_right": "open",
+  "related_identifiers": [
+    {
+      "identifier": "10.3390/jimaging12090443",
+      "relation": "isSupplementTo",
+      "resource_type": "publication-article",
+      "scheme": "doi"
+    }
+  ]
 }
